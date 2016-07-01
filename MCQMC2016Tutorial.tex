@@ -1,0 +1,725 @@
+%MCQMC, August 14, 2016
+%Requires graphics files
+%  
+
+%%%%%%%%%%%%%%%% Springer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[graybox]{svmult}
+
+\smartqed
+\usepackage{mathptmx}       % selects Times Roman as basic font
+\usepackage{helvet}         % selects Helvetica as sans-serif font
+\usepackage{courier}        % selects Courier as typewriter fon=
+\usepackage{type1cm}        % activate if the above 3 fonts are
+                            % not available on your system
+\usepackage{graphicx}       % standard LaTeX graphics tool
+                            % when including figure files
+
+\usepackage{array,colortbl}
+\usepackage{amsmath,amsfonts,amssymb,bm} % no amsthm, Springer defines Theorem, Lemma, etc themselves
+%\usepackage[mathx]{mathabx}
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}      {0}{mathx}{"71}
+
+% Note that Springer defines the following already:
+%
+% \D upright d for differential d
+% \I upright i for imaginary unit
+% \E upright e for exponential function
+% \tens depicts tensors as sans serif upright
+% \vec depicts vectors as boldface characters instead of the arrow accent
+%
+% Additionally we throw in the following common used macro's:
+\newcommand{\Z}{\mathbb{Z}} % integers
+\newcommand{\C}{\mathbb{C}} % complex numbers
+\newcommand{\R}{\mathbb{R}} % reals
+\newcommand{\N}{\mathbb{N}} % natural numbers {1, 2, ...}
+\newcommand{\Q}{\mathbb{Q}} % rationals
+\newcommand{\F}{\mathbb{F}} % field, finite field
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor} % floor
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}    % ceil
+\newcommand{\rd}{\,\mathrm{d}} % differential symbol for use in integrals
+% vectors as boldsymbols:
+\newcommand{\bszero}{\boldsymbol{0}} % vector of zeros
+\newcommand{\bsone}{\boldsymbol{1}}  % vector of ones
+\newcommand{\bst}{\boldsymbol{t}}    % vector t
+\newcommand{\bsu}{\boldsymbol{u}}    % vector u
+\newcommand{\bsv}{\boldsymbol{v}}    % vector v
+\newcommand{\bsw}{\boldsymbol{w}}    % vector w
+\newcommand{\bsx}{\boldsymbol{x}}    % vector x
+\newcommand{\bsy}{\boldsymbol{y}}    % vector y
+\newcommand{\bsz}{\boldsymbol{z}}    % vector z
+\newcommand{\bsDelta}{\boldsymbol{\Delta}}    % vector \Delta
+% sets as Euler fraks:
+\newcommand{\setu}{\mathfrak{u}}
+\newcommand{\setv}{\mathfrak{v}}
+% indicator boldface 1:
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+\newcommand{\ind}{\mathbbold{1}}
+\newcommand{\mC}{\mathsf{C}}
+
+
+
+\usepackage{microtype} % good font tricks
+
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\urlstyle{same}
+\usepackage{bookmark}
+\pdfstringdefDisableCommands{\def\and{, }}
+\makeatletter % to avoid hyperref warnings:
+  \providecommand*{\toclevel@author}{999}
+  \providecommand*{\toclevel@title}{0}
+\makeatother
+
+%Fred's additions
+%
+\usepackage{mathtools,xspace,bbm}
+\usepackage{cleveref}
+\crefformat{equation}{(#2#1#3)}
+
+\DeclareMathOperator{\ok}{ok}
+\DeclareMathOperator{\std}{std}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\algn}{ALN}
+\DeclareMathOperator{\disc}{DSC}
+\DeclareMathOperator{\Var}{VAR}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\GP}{\cg\!\!\cp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\newcommand{\Ex}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\spnewtheorem{algo}{Algorithm}{\bf}{\rm}
+\newcommand{\bsc}{\boldsymbol{c}}    % vector i
+\newcommand{\bsi}{\boldsymbol{i}}    % vector i
+\newcommand{\bsk}{\boldsymbol{k}}    % vector k
+\newcommand{\bsl}{\boldsymbol{l}}    % vector l
+\newcommand{\bsr}{\boldsymbol{r}}    % vector r
+\newcommand{\bsnu}{\boldsymbol{\nu}}    % vector l
+\newcommand{\bsX}{\boldsymbol{X}}    % vector l
+\newcommand{\cc}{\mathcal{C}}
+\newcommand{\cf}{\mathcal{F}}
+\newcommand{\cl}{\mathcal{L}}
+\newcommand{\cn}{\mathcal{N}}
+\newcommand{\Order}{\mathcal{O}}
+\newcommand{\cm}{\mathcal{M}}
+\newcommand{\cg}{\mathcal{G}}
+\newcommand{\cp}{\mathcal{P}}
+\newcommand{\cu}{\mathcal{U}}
+\newcommand{\cx}{\mathcal{X}}
+\newcommand{\cy}{\mathcal{Y}}
+\newcommand{\cz}{\mathcal{Z}}
+\newcommand{\natm}{\N_{0,m}}
+\newcommand{\cube}{[0,1)^d}
+\newcommand{\hf}{\hat{f}}
+\newcommand{\rf}{\mathring{f}}
+\newcommand{\tf}{\tilde{f}}
+\newcommand{\hg}{\hat{g}}
+\newcommand{\hmu}{\widehat{\mu}}
+\newcommand{\hI}{\hat{I}}
+\newcommand{\tvk}{\tilde{\bsk}}
+\newcommand{\hS}{\widehat{S}}
+\newcommand{\tS}{\widetilde{S}}
+\newcommand{\wcS}{\widecheck{S}}
+\newcommand{\rnu}{\mathring{\nu}}
+\newcommand{\tnu}{\widetilde{\nu}}
+\newcommand{\hnu}{\widehat{\nu}}
+\newcommand{\homega}{\widehat{\omega}}
+\newcommand{\wcomega}{\mathring{\omega}}
+\newcommand{\fC}{\mathfrak{C}}
+\newcommand{\nodes}{\{\bsz_i\}_{i=0}^{\infty}}
+\newcommand{\nodesn}{\{\bsz_i\}_{i=0}^{n-1}}
+\newcommand{\norm}[1]{\ensuremath{\left \lVert #1 \right \rVert}} 
+\newcommand{\snorm}[1]{\ensuremath{\left \lVert #1 \right \rVert}} 
+\newcommand{\bignorm}[1]{\ensuremath{\bigl \lVert #1 \bigr \rVert}}
+\newcommand{\Bignorm}[1]{\ensuremath{\Bigl \lVert #1 \Bigr \rVert}}
+\newcommand{\abs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
+\newcommand{\bigabs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
+\newcommand{\Bigabs}[1]{\ensuremath{\Bigl \lvert #1 \Bigr \rvert}}
+\newcommand{\biggabs}[1]{\ensuremath{\biggl \lvert #1 \biggr \rvert}}
+\newcommand{\Biggabs}[1]{\ensuremath{\Biggl \lvert #1 \Biggr \rvert}}
+\newcommand{\ip}[3][{}]{\ensuremath{\left \langle #2, #3 \right \rangle_{#1}}}
+\newcommand{\bbone}{\mathbbm{1}}
+\newcommand{\err}{\textrm{err}}
+\newcommand{\tbsone}{\tilde{\bsone}}
+\newcommand{\tvarrho}{\tilde{\varrho}}
+\newcommand{\rvarrho}{\mathring{\varrho}}
+\newcommand{\tc}{\tilde{c}}
+\newcommand{\tbsc}{\tilde{\bsc}}
+\newcommand{\tbsy}{\tilde{\bsy}}
+\newcommand{\tmC}{\widetilde{\mC}}
+\newcommand{\tz}{\tilde{z}}
+\newcommand{\tbsz}{\tilde{\bsz}}
+
+\allowdisplaybreaks
+
+
+\title*{Error Analysis of Quasi-Monte Carlo Methods}
+\author{Fred J. Hickernell}
+\institute{Fred J. Hickernell
+\at Department of Applied Mathematics,  Illinois Institute of Technology, 10 W. 32$^{\text{nd}}$ Street, RE 208, Chicago, IL 60616, USA 
+\email{hickernell@iit.edu}}
+\maketitle
+
+\abstract{.} 
+
+\section{Introduction}
+Monte Carlo methods are used to approximate multivariate integrals that cannot be evaluated analytically, i.e.,  integrals of the form
+\begin{equation}
+\mu = \int_{\cx} f(\bsx) \, \nu(\D \bsx), \label{INT} \tag{INT}
+\end{equation}
+where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a \emph{probability} measure.  Here, $\mu$ is the mean of $f(\bsX)$, where the random variable $\bsX$ has probability measure $\nu$.  Monte Carlo methods approximate $\mu$ by a weighted average of values of $f$ at a finite number of data sites, $\bsx_1, \ldots, \bsx_n$:
+\begin{equation} \label{AppxINT} \tag{MC}
+\hmu = \sum_{i=1}^n f(\bsx_i) w_i = \int_{\cx} f(\bsx) \, \hnu(\D \bsx), \qquad \sum_{i=1}^n  w_i = \hnu(\cx) = 1.
+\end{equation}
+The sampling measure, $\hnu$, assigns a weight $w_i$ to the function value at the $i^{\text{th}}$ data site, and may be written as $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$, where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$.  For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the weights may be deterministic or random.  Later, we impose further constraints.
+
+This tutorial describes how to characterize and analyze the error, $\mu - \hmu$.  Specifically, we ask
+\emph{
+\begin{list}{}{\setlength\leftmargin{7ex}\setlength\labelwidth{5ex}}
+\item[Q1.] How do good sampling schemes, $\hnu$, make the error, $\mu - \hmu$, smaller?
+\item[Q2.] How can the error be decreased by re-casting the problem, say with a different $f$ or $\nu$?
+\item[Q3.] How many samples, $n$, are required to meet a specified error tolerance?
+\end{list}}
+\noindent The aim is to summarize some known---but perhaps not widely known---results and illustrate them by examples.  This tutorial is not comprehensive, but reflects the author's views of what is important, interesting, and familiar.
+
+\subsection{Examples}
+Integration \eqref{INT} arises in a variety of contexts.  Here are some examples.
+
+\begin{example}[Big Data]  \label{bigdataA} Suppose that you need the mean of some characteristic, $f$, of a large, finite population: $\mu = N^{-1} \sum_{j=1}^N f(j)$.  That is, $\cx = \{1, \ldots, N\}$, and $\nu$ is the uniform measure.  You may use the (unweighted) sample mean, $\hmu$, taken over $\{x_1, \ldots, x_n\} \subset \cx$---sampling without replacement.  Xiaoli Meng \cite{} posed and answered the question of whether a large, non-random sample---such as a web survey---is better or worse than a small simple random sample.  We derive his answer below in Example \ref{bigdataB}.
+\end{example}
+
+\begin{example}[Multivariate Probabilities] \label{MultivarProbA} If $g$ is the probability density function of some random variable $Y$ with sample space $\cy$, and $\cz \subset \cy$, then 
+\[
+\Prob(Y \in \cz) = \int_{\cz} g(\bsy) \, \D \bsy.
+\]
+This integral may be put in the form of \cref{INT}---perhaps via a change of variables.  For example (normal probability)
+\end{example}
+
+\begin{example}[Option Pricing]
+\end{example}
+
+\begin{example}[Sensitvity Analysis]
+\end{example}
+
+\subsection{Quasi-Monte Carlo Methods}
+
+The phrase ``quasi-Monte Carlo'' has two popular meanings: 
+\begin{enumerate}
+\renewcommand{\labelenumi}{\roman{enumi})}
+\item  a more careful choice of data sites than independent and identically distributed (IID) so that $\hnu$ better matches $\nu$, and 
+\item an equally weighted rule, i.e., $w_1 = \cdots = w_n = 1/n$ in \cref{AppxINT}.  
+\end{enumerate}
+This tutorial considers both meanings.   For the first meaning, when $\cx = [0,1]^d$ and $\nu$ is the uniform measure, $\{x_1, \ldots, x_n\}$ is often chosen as 
+\begin{itemize} 
+\item a digital net \cite{DicPil10a}, such as that proposed by Sobol' \cite{}, Faure\cite{}, Niederreiter \cite{} or Niederreiter and Xing \cite{}, 
+\item a node set of an integration lattice \cite{SloJoe94}, or 
+\item a Halton set.  
+\end{itemize}
+These points are more evenly distributed than IID $\cu[0,1]^d$ points (see Fig.\ ???), which often yields smaller cubature errors, $\abs{\mu - \hmu}$.  For details on the constructions of such sets, see the references above and Pierre L'Ecuyer's tutorial \cite{}.  Cubature methods based on these evenly distributed points are often called quasi-Monte Carlo methods.  When $\cx \ne [0,1]^d$ and/or $\nu$ is not the uniform measure, then one often resorts to transforming the integration variables or transforming the original points (see ??).
+
+\section{The Trio Cubature Error Identity}
+The \emph{trio identity}, first introduced by  \cite{Meng}, can describe various characterizations of the cubature error:
+\begin{equation}
+\mu - \hmu = \algn(f,\nu - \hnu) \disc(\nu - \hnu)  \Var(f). \label{trio}\tag{TRIO}
+\end{equation}
+This section derives various versions of this identity.  Here,
+\begin{itemize}
+\item $\algn(f,\nu - \hnu)$ measures the \emph{alignment} of the integrand with the difference between the measure defining the integral and the sampling measure,
+\item $\disc(\eta)$ is the size of the measure $\eta$, so $\disc(\nu - \hnu)$ measures the \emph{discrepancy} of the sampling measure from the probability measure defining the integral, or equivalently,  and 
+\item $\Var(f)$ measures the \emph{variation} of of the integrand from a constant value.
+\end{itemize}
+In general, we prefer these quantities to small, which keeps the cubature error small.  Better sampling schemes decrease the discrepancy.  A reformulation of the problem may yield an integrand with smaller variation.  The alignment is essentially scale invariant, while the discrepancy and variation are positively homogeneous.  For all $c_1, c_2, \in \R$,
+\begin{gather*}
+\algn(c_1f,c_2(\nu - \hnu)) =  \sign(c_1 c_2) \algn(f,\nu - \hnu) \\
+\disc(c_2(\nu-\hnu))  = \abs{c_2} \disc(\nu-\hnu), \qquad  \Var(c_1f) =  \abs{c_1}\Var(f).
+\end{gather*}
+
+One may view the sampling scheme and integrand and as \emph{deterministic}.  Alternatively, one may also consider \emph{randomized} sampling schemes and/or take a \emph{Bayesian} view of the integrand as a sample of a stochastic process.  All possible combinations lead to variations of \cref{trio}.  Here we use more general concepts of the discrepancy and the variation than are common.  The goal is to unify the presentation of the error analysis.
+
+
+
+\subsection{The Deterministic Trio  Identity}
+
+
+To analyze the cubature error, $\mu - \hmu$, certain assumptions must be made about the integrand, $f$.  These may be based on the known smoothness, periodicity, or other properties of the integrand in the actual problem of interest.  Or, they may be made to facilitate the analysis.
+
+Suppose that the integrand lies in some Banach space of functions, $(\cf,\norm{\cdot}_{\cf})$, where function evaluation at any point  in $\cx$ is a bounded, linear functional.  This means that $\sup_{f \in \cf} \abs{f(\bst)}/\norm{f}_{\cf} < \infty$ for all $\bst \in \cx$ and that $\int_{\cx} f(\bsx) \, \delta_{\bst}(\D\bsx) =f(\bst)$ for all $f \in \cf, \ \bst \in \cx$, where $\delta_{\bst}$ denotes the Dirac measure concentrated at $\bst$.  
+
+Let $\cm$ denote the vector space of signed measures for which integrands in $\cf$ have finite integrals:
+\begin{equation}
+\cm : = \biggl \{\text{signed measures } \eta : \int_{\cx} f(\bsx) \, \eta(\D\bsx) < \infty \ \ \forall f \in \cf \biggr \}.
+\end{equation}
+Since function evaluation is bounded, $\cm$ includes the Dirac measures and also any sampling measure, $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$.  A semi-norm on $\cm$ is induced by the norm on $\cf$ as follows:
+\begin{equation}
+\snorm{\eta}_{\cm}  : =\sup_{f \in \cf : f \ne 0} \frac{\displaystyle \biggabs{\int_{\cx} f(\bsx) \, \eta(\D \bsx)}}{\norm{f}_{\cf}}.
+\end{equation}
+
+\begin{theorem}[Deterministic Trio Error Identity]  Let $L :\cf \to \R$ be some bounded linear functional, and suppose that either $\cf$ contains constant functions or $L(f)=0$ for all $f \in \cf$.
+Define the variation, discrepancy, and alignment as follows:
+\begin{gather*}
+\Var(f) := \norm{f- L(f)}_{\cf}, \qquad \disc(\nu - \hnu) : = \norm{\nu - \hnu}_{\cm}, \\
+\algn(f,\nu - \hnu): =  \begin{cases} \displaystyle 
+\frac{\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D \bsx)}{\snorm{f-L(f)}_{\cf}\snorm{\nu - \hnu}_{\cm}},  & \snorm{f-L(f)}_{\cf}\snorm{\nu - \hnu}_{\cm} \ne 0, \\[2ex]
+0 & \text{otherwise},
+\end{cases}
+\end{gather*}
+Then the trio identity \cref{trio} holds and $\abs{\algn(f,\nu - \hnu)} \le 1$ for all $f \in \cf$, all $\nu \in \cm$, and all sampling measures $\hnu$. 
+\end{theorem}
+\begin{proof}  The proof of this identity follows directly from the definitions above, by noting that 
+\[
+\mu - \hmu  =  \int_{\cx} f(\bsx) \, (\nu - \hnu)(\D \bsx) = \int_{\cx} [f(\bsx) - L(f)] \, (\nu - \hnu)(\D \bsx)
+\]
+via \eqref{INT} and \cref{AppxINT}, and by noting that 
+\[
+ \int_{\cx} L(f)\, (\nu - \hnu)(\D \bsx) =  L(f) [\nu(\cx) - \hnu(\cx)] = 0. \qquad \qquad \qed
+\]
+Also note that $\mu - \hmu = 0$ if either $f - L(f) = 0$ or $\nu - \hnu = 0$
+\end{proof}
+
+This trio identity extends an identity of \cite{Meng}.  Note that the sampling scheme is completely arbitrary.  The data sites, the weights, and the sample size may be chosen according to some fixed deterministic process.  They may be a specific instance of a random sampling scheme.   They may be chosen adaptively.
+
+\begin{example}[Big Data, revisited]  \label{bigdataB} Let $\cf$ be the space of all real-valued functions on $\cx = \{1, \ldots, N\}$ with scaled $\ell^2$ norm $\norm{f}_{\cf} := N^{-1/2} \Bignorm{\bigl(f(i)\bigr)_{j=1}^N}_2$, and let $L(f) := N^{-1}\sum_{j=1}^N f(j) = \mu $ be the population mean of $f$. For this choice of function space the variation of the integrand, $f$, is its standard deviation:
+\[
+\norm{f - \mu}_{\cf} = \sqrt{\frac 1N \sum_{j=1}^N [f(j) - \mu]^2} =: \std(f).
+\]
+The corresponding space of measures is $\cm := \bigl \{ \sum_{i=1}^N v_j \delta_{j} : (v_1, \ldots, v_N) \in \R^N \bigr \}$, and $\bignorm{\sum_{i=1}^N v_i \delta_{i}}_{\cm} : = \sqrt{N} \Bignorm{\bigl(v_i\bigr)_{i=1}^N}_2$.   The discrepancy is proportional to the standard deviation of the characteristic function $\bbone_{\{x_i\}_{i=1}^n} \in \cf$:
+\begin{align*}
+\norm{\nu- \hnu}_{\cm} & = \sqrt{ N \sum_{j=1}^N \left[\frac{\bbone_{\{x_i\}_{i=1}^n}(j)}{n} - \frac 1N\right]^2}  =  \frac {N} {n}\sqrt{\frac{1}{N} \sum_{j=1}^N \left[\bbone_{\{x_i\}_{i=1}^n}(j) - \frac nN\right]^2} \\
+& =: \frac {N} {n} \std(\bbone_{\{x_i\}_{i=1}^n}) =  \sqrt{\frac{1 - n/N}{n/N}}
+\end{align*}
+Moreover, the cosine is minus the correlation of the integrand with  $\bbone_{\{x_i\}_{i=1}^n}$:
+\begin{align*}
+\algn(f-\mu,\nu - \hnu) & = \frac{\displaystyle \int_{\cx} [f(x) - \mu] (\nu - \hnu)(\D x)}{ \norm{f - \mu}_{\cf} \norm{\nu- \hnu}_{\cm}}  \\
+& = \frac{\displaystyle \sum_{j=1}^N \left\{[f(j) - \mu]\left[\frac 1N - \frac{\bbone_{\{x_i\}_{i=1}^n}(j)}{n} \right] \right\} }{ \displaystyle \std(f) \frac {N} {n} \std(\bbone_{\{x_i\}_{i=1}^n}) } \\
+& = \frac{\displaystyle - \frac{1}{N}\sum_{j=1}^N \left\{[f(j) - \mu]\left[\bbone_{\{x_i\}_{i=1}^n}(j) - \frac nN \right] \right\}  }{ \std(f)  \std(\bbone_{\{x_i\}_{i=1}^n}) } \\
+& = \frac{- \cov(f, \bbone_{\{x_i\}_{i=1}^n})}{ \std(f)  \std(\bbone_{\{x_i\}_{i=1}^n}) } = -  \corr(f, \bbone_{\{x_i\}_{i=1}^n}),
+\end{align*}
+Thus, the error in approximating the mean for a huge, finite population by the sample mean equals the correlation of $f$ with the sampling design times the standard deviation of $f$ times a function of $n/N$, the fraction of the population being sampled:
+\begin{align*}
+\mu - \hmu &= \algn(f,\nu - \hnu)  \norm{\nu - \hnu}_{\cm} \norm{f- L(f)}_{\cf}\\
+& = -\sqrt{\frac{1 - n/N}{n/N}}  \corr(f, \bbone_{\{x_i\}_{i=1}^n}) \std(f).
+\end{align*}
+
+For non-IID sampling, such as a web survey, the error may be rather large if the  correlation between those who choose to complete the survey and the value of $f$  is non-negligible.  For IID sampling, the root mean square of $\corr(f, \bbone_{\{x_i\}_{i=1}^n}) $ is ???.  Thus, a small, well randomized sample, may provide a better estimate of $\mu$ than a much larger non-IID sample.
+\end{example}
+
+The left side of the cubature error trio identity depends only on $f$, $\nu$, and $\hnu$, whereas the right side also depends on the space of integrands, $\cf$.  Changing $\cf$ generally changes all three terms in the right side of the trio identity---the variation, discrepancy, and cosine---because the definition of $\cm$ and its norm depends on $\cf$.  However, their product, which does not depend on $\cf$, remains the same.  Thus
+
+\subsection{Reproducing Kernel Hilbert Spaces}
+When $\cf$ is a Hilbert space with reproducing kernel $K$, the discrepancy takes a simple, explicit form in terms of $K$.  The reproducing kernel is the unique function, $K: \cx \times \cx \to \R$ satisfying these two properties:
+\begin{equation}
+K(\cdot,\bst) \in \cf \quad \forall \bst \in \cx, \qquad f(\bst) = \ip[\cf]{K(\cdot,\bst)}{f} \quad \forall f \in \cf, \ \bst \in \cx.
+\end{equation}
+The Riesz Representation Theorem allows one to write the representer of cubature error as 
+\begin{equation}
+\eta_{\err}(\bst) = \ip[\cf]{K(\cdot,\bst)}{\eta_{\err}} = \int_{\cx} K(\bsx,\bst) \, (\nu - \hnu)(\D\bsx).
+\end{equation}
+Thus, 
+
+\subsection{The Koksma-Hlawka Error Bound Inequality}
+The example above is an example o
+
+\subsection{The Randomized Trio Error Identity}
+
+\subsection{Bayesian Versions of the Trio Error Identity}
+
+\subsection{Change of Variables}
+
+
+\section{Minimizing the Discrepancy of the Sampling Scheme, $\norm{\nu - \hnu}_{\cm}$}
+
+Tractability
+
+\section{Minimizing the Variation of the Integrand, $\norm{f - L(f)}_{\cf}$}
+
+\section{Minimizing the Cosine, $\algn(f - L(f),\nu - \hnu)$}
+
+\section{Adaptive Cubature}
+Via Bayesian approach
+
+Via our approach
+
+Various ideas
+\begin{itemize}
+\item series spaces
+\item complexity bounds
+\item tractability
+\item multilevel methods
+\item multivariate decomposition method, new Frances paper
+\end{itemize}
+
+\bibliographystyle{spmpsci}
+\bibliography{FJH23,FJHown23}
+
+\appendix
+\section{Appendix}
+\subsection{Gaussian Processes}
+Suppose that $f:\cx \to \R$ is a Gaussian process with mean $m$ and covariance kernel $C(\cdot,\cdot)$, i.e., $f \sim \GP(m,C)$.  For fixed $\{\bsx_i\}_{i=1}^n$, the joint probability density function of $\bigl(f(\bsx_i)\bigr)_{i=1}^n$ is $\varrho$, defined as 
+\begin{equation*}
+\varrho (\bsy) = \frac{\exp\bigl(-\frac 12 (\bsy - m \bsone)^T \mC^{-1} (\bsy - m \bsone) \bigr)}{\sqrt{(2 \pi)^n \det(\mC)}}, \quad \bsy \in \R^n, \qquad \mC = \bigl(C(\bsx_i,\bsx_j)\bigr)_{i,j=1}^n.
+\end{equation*}
+Furthermore, the joint probability density function of $\bigl(\int_{\cx} f(\bsx) \, (\nu -\hnu)(\D \bsx), f(\bsx_1), \ldots, f(\bsx_n)\bigr)$ is $\tvarrho$, defined as 
+\begin{align*}
+\tvarrho (\tbsy) &= \frac{\exp\bigl(-\frac 12 (\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m t\bsone) \bigr)}{\sqrt{(2 \pi)^{n+1} \det(\tmC)}}, \quad \tbsy = (y_i)_{i=0}^n \in \R^{n+1}, \\
+ \tmC &= \begin{pmatrix} c_0 & \bsc^T \\ \bsc & \mC \end{pmatrix}, \qquad \tbsone = \bigl(1 - \bsone^T\bsw,  1, \ldots, 1 \bigr)^T, \\
+ c_0 &= \int_{\cx^2} C(\bsx,\bst) \, (\nu -\hnu)(\D\bsx)(\nu -\hnu)(\D\bst) \\ 
+ & = \int_{\cx^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst) - 2 \sum_{i=1}^n w_i \int_{\cx} C(\bsx_i,\bsx) \, \nu (\D\bsx) +  \sum_{i,j=1}^n w_i w_j C(\bsx_i,\bsx_j)\\
+ & = \tc_0 -2 \tbsc^T \bsw + \bsw^T \mC \bsw,\\
+ & \qquad \qquad   \tc_0 = \int_{\cx^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst), \qquad 
+ \tbsc = \biggl( \int_{\cx} C(\bsx_i,\bsx) \, \nu (\D\bsx)\biggr)_{i=1}^n \\
+ \bsc &= \biggl( \int_{\cx} C(\bsx,\bsx_i) \, (\nu -\hnu)(\D \bsx)\biggr)_{i=1}^n 
+ =  \tbsc - \mC \bsw.
+\end{align*}
+Then the conditional probability density function of $\int_{\cx} f(\bsx) \,  (\nu -\hnu)(\D \bsx)$ given $\{f(\bsx_i )= y_i\}_{i=1}^n$ is $\rvarrho$, given by
+\begin{equation*}
+\rvarrho(y_0)  = \frac{\tvarrho(\tbsy)}{\varrho(\bsy)}  = \frac{\exp\bigl(-\frac 12 (\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m \tbsone) + \frac 12 (\bsy - m \bsone)^T \mC^{-1} (\bsy - m \bsone)\bigr)}{\sqrt{2 \pi \det(\tmC)/\det(\mC)}}
+\end{equation*}
+
+To simplify the expression for $\rvarrho(y_0)$, we define
+\[
+\bsz = \mC^{-1} (\bsy - m \bsone), \qquad 
+\begin{pmatrix} \tz_0 \\ \tbsz \end{pmatrix} = \tmC^{-1} (\tbsy - m \tbsone) 
+= \begin{pmatrix} c_0 & \bsc^T \\ \bsc & \mC \end{pmatrix}^{-1} \begin{pmatrix} y_0 - m \\ \bsy - m \bsone \end{pmatrix}
+\]
+So,
+\begin{gather*}
+\begin{pmatrix} c_0 & \bsc^T \\ \bsc & \mC \end{pmatrix} \begin{pmatrix} \tz_0 \\ \tbsz \end{pmatrix} 
+= \begin{pmatrix} y_0 - m(1 - \bsone^T\bsw) \\ \bsy - m \bsone \end{pmatrix} \\
+\tbsz = \mC^{-1}[-\tz_0 \bsc + (\bsy - m \bsone )] \\
+c_0 \tz_0 =y_0 - m(1 - \bsone^T\bsw)  - \bsc^T\tbsz =  y_0 - m(1 - \bsone^T\bsw)  - \bsc^T\mC^{-1}[-\tz_0 \bsc + (\bsy - m \bsone )] \\
+(c_0 - \bsc^T\mC^{-1} \bsc) \tz_0 = y_0 - m(1 - \bsone^T\bsw)  - \bsc^T\mC^{-1}(\bsy - m \bsone )
+\end{gather*}
+\begin{align*}
+\MoveEqLeft(\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m \tbsone) - (\bsy - m \bsone)^T \mC^{-1} (\bsy - m \bsone) \\
+& = [y_0 - m(1 - \bsone^T\bsw)] \tz_0 + (\bsy - m \bsone)^T \tbsz - (\bsy - m \bsone)^T \mC^{-1} (\bsy - m \bsone) \\
+& = \tz_0 [y_0 - m(1 - \bsone^T\bsw)  -  (\bsy - m \bsone)^T \mC^{-1} \bsc ] \\
+& = \frac{[y_0 - m(1 - \bsone^T\bsw)  -  (\bsy - m \bsone)^T \mC^{-1} \bsc ]^2}{c_0 - \bsc^T\mC^{-1} \bsc}
+\end{align*}
+Using the formulas above we get
+\begin{align*}
+y_0 - m(1 - \bsone^T\bsw)  -  (\bsy - m \bsone)^T \mC^{-1} \bsc & = y_0 - m(1 - \bsone^T\bsw)  -  (\bsy - m \bsone)^T \mC^{-1}(\tbsc - \mC \bsw) \\
+& = y_0 - m(1 - \mC^{-1}\tbsc) -  \bsy^T (\mC^{-1}\tbsc - \bsw) \\
+c_0 - \bsc^T\mC^{-1} \bsc & = \tc_0 -2 \tbsc^T \bsw + \bsw^T \mC \bsw - (\tbsc - \mC \bsw)^T \mC^{-1} (\tbsc - \mC \bsw) \\
+& =  \tc_0 - \tbsc ^T \mC^{-1} \tbsc
+\end{align*}
+
+So we may summarize as follows
+\begin{align*}
+\mu - \hmu \big \vert \{f(\bsx_i )= y_i\}_{i=1}^n &\sim \cn \bigl(m(1 - \mC^{-1}\tbsc) +  \bsy^T (\mC^{-1}\tbsc - \bsw), \tc_0 - \tbsc ^T \mC^{-1} \tbsc \bigr)
+\end{align*}
+
+\end{document}
+
+Hi Fred,
+
+I’ll send a note to the steering committee and also the program committee.
+
+I’ve already asked some of them to come to mcqmc 2016, and I’ll encourage them some more.  Nicolas Chopin is one of our plenary speakers and he is involved with that work.
+
+I like your idea about messaging for cross-pollination, though I’m not sure when the optimal time for it would be.
+
+-Art
+
+
+
+From: Fred Hickernell <hickernell@iit.edu>
+Date: Friday, December 18, 2015 at 3:13 PM
+To: mcqmc2016 <mcqmc2016@stanford.edu>
+Cc: Pierre L'Ecuyer <lecuyer@iro.umontreal.ca>
+Subject: Re: mcqmc 2016 tutorials
+
+Hi Art,
+
+I am actually on a family vacation sitting about 370 miles southeast of you in Arcadia, CA.  It is great to chat via email, and I hope that Pierre does not mind too much us including him on this.
+
+Your thoughts below are quite helpful and provide a challenge to me to include in a gracious way the contributions from various corners.  Please both you and Pierre feel free to feed me ideas or articles that I should be aware of as I prepare my tutorial.  I want to be as fair as possible to everyone.
+
+Yes, we need to encourage others from different perspectives and a variety of career levels to interact or be a part of MCQMC in a healthy way.  Erich Novak’s recent revamping of the editorial board of the Journal of Complexity took aim at the old age problem, even if it may not of addressed the breadth of perspectives.  Yes, please share your ideas with the steering committee.  We did not have IBC or tractability at the beginning of MCQMC, so there is precedent for new ideas.  Should we ask someone to organize a probabilistic numerics special session?  As the chief organizer of MCQMC 2016, your opening remarks might mention your hope for more cross-pollination of ideas, your observation that the same thing may have different names in different contexts, and your encouragement to the audience to be kind in their questions. 
+
+Best regards,
+Fred
+
+
+Fred J. Hickernell, Professor and Chair
+Department of Applied Mathematics, Illinois Institute of Technology
+RE Bldg Rm 208, 10 West 32nd Street, Chicago, IL 60616
+hickernell@iit.edu, www.iit.edu/~hickernell
+Office: 1 312 567 8983   Cell: 1 630 696 8124
+
+On Dec 18, 2015, at 2:56 PM, mcqmc2016 <mcqmc2016@stanford.edu> wrote:
+
+Dan’s email is below.  He was very prompt and helpful in his response. I saw his comment on Andrew Gelman’s blog, right here http://andrewgelman.com/2015/12/07/28279/
+
+Daniel.Simpson@math.ntnu.no
+
+My thoughts on that group (and us) are as follows. Please do not share them.  They are young and energetic and quite smart. I think they don’t know so much about the work that has gone before, and these factors will combine to get them to reinvent or rename many things. But I also expect they will eventually push our field forward in a positive way and bring new problem areas to our attention. At Banff I saw some young speakers get fairly harsh questioning. I hope that doesn’t happen to the probabilistic numerics people. The risk is that they will not feel welcome, and then they’ll just ignore/go around our field.  The MCQMC crowd is skewed towards older people compared to computer science and even (I think) compared to statistics.  I think it is healthiest to have people from the full range of career levels, and I’m very happy to see them taking an interest in the problems we study, but from a different point of view.  [If you think I ought to share these ideas with somebody else, such as the steering committee, let me know, and I’ll draft a version for them.]
+
+-Art
+
+
+From: Fred Hickernell <hickernell@iit.edu>
+Date: Friday, December 18, 2015 at 2:37 PM
+To: mcqmc2016 <mcqmc2016@stanford.edu>
+Cc: Pierre L'Ecuyer <lecuyer@iro.umontreal.ca>
+Subject: Re: mcqmc 2016 tutorials
+
+Thanks Art,
+
+Your remarks, and that of Dan’s are something that I am aware of through connections with Greg Fasshauer and his friends, but I will need to refresh my memory of them.  So this closes the circle a bit.  Can you give me Dan Simpson’s contact info in case I would like to contact him?  Any thoughts on the website http://probabilistic-numerics.org or the people behind it?
+
+Best regards,
+Fred
+
+
+Fred J. Hickernell, Professor and Chair
+Department of Applied Mathematics, Illinois Institute of Technology
+RE Bldg Rm 208, 10 West 32nd Street, Chicago, IL 60616
+hickernell@iit.edu, www.iit.edu/~hickernell
+Office: 1 312 567 8983   Cell: 1 630 696 8124
+
+On Dec 18, 2015, at 1:59 PM, mcqmc2016 <mcqmc2016@stanford.edu> wrote:
+
+Hi Fred,
+
+I remember Persi’s article.  He showed that you can get the midpoint rule from some Gaussian prior and I think other priors would lead to Simpson’s rule.  If I recall correctly, Poincare may have said some related things.
+
+You’re right that they assume a lot of smoothness.  Some of the methods require O(n^3) computation so you have to attain a very good rate of convergence to beat an O(1) computation method.  There are also numerical limits.  Exponentially fast convergence happens with exponentially worsening condition number and that loses accuracy.  The description below is copy/pasted from an email I got from Dan Simpson.
+
+I’ve encouraged the probabilistic numerics people to come to mcqmc.  I think that they have something to offer to the uncertainty quantification people. Their functions may take 12 hours to run and so n^3 for them is still cheaper than one function evaluation.
+
+-Art
+
+============================================================
+
+Hi Art,
+
+I actually mis-remembered the result (it's still bad, but there are smoothness assumptions!).  I learnt about all of this from the Radial Basis Function literature, that usually uses infinitely smooth functions, so exponentially large condition numbers occur.  It's only polynomial (with a power depending on dimension) if you use a Matérn Kernel.  So, by the usual rule-of-thumb, a Matern with smoothness nu will have lose up to O(d*log_{10}(1/h)) digits accuracy, while an squared-exponential covariance function will lose up to O(d^2/h^2) digits.  (Here d is the dimension and h is the minimum distance between two points in the interpolation set.)
+
+The classic paper on this is by Robert Schaback (who gave the world compactly supported RBFs!), and I've got the bibtex ref below.  He basically proves an uncertainty principle that says that the higher the accuracy, the worse the conditioning.  The argument (in stats language) hinges on the idea that the covariance matrix approximates in a well understood way the covariance operator for the GP, which has known spectrum.  Then it comes down to how quickly a point-set resolves the high-frequency features.   It's a really nice piece of work.
+
+Link that may not work:  http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.45.8132&rep=rep1&type=pdf
+
+
+The story doesn't end there.  There's some more recent work that suggests that things aren't completely terrible, you just need to use a different basis for the finite dimensional vector space.  In particular, you can get that the Lebesgue constant (the sup-norm condition number of the interpolation process) grows like N^{1/2} as for Matérn-like kernels if the function is interpolated at quasi-uniform points.  It's also possible to build an orthogonal basis for the interpolation space, which would probably decrease the condition number.
+
+Theory: http://num.math.uni-goettingen.de/schaback/research/papers/SoKBI.pdf
+Construction: http://www.math.unipd.it/~demarchi/papers/FCoOB.pdf
+
+
+Hope this helps,
+
+Dan
+
+
+
+
+@article{schaback1995error,
+  title={Error estimates and condition numbers for radial basis function interpolation},
+  author={Schaback, Robert},
+  journal={Advances in Computational Mathematics},
+  volume={3},
+  number={3},
+  pages={251--264},
+  year={1995},
+  publisher={Springer}
+}
+
+
+From: Fred Hickernell <hickernell@iit.edu>
+Date: Friday, December 18, 2015 at 1:06 PM
+To: mcqmc2016 <mcqmc2016@stanford.edu>
+Cc: Art Owen <owen@stanford.edu>, Pierre L'Ecuyer <lecuyer@iro.umontreal.ca>
+Subject: Re: mcqmc 2016 tutorials
+
+Dear Art,
+
+Thanks for pointing out this work.  I need to be aware of the ideas in the community outside traditional MCQMC so that I can mention them and put them into context with the traditional MCQMC work that I am more familiar with.
+
+According to my understanding Persi Diaconis introduced the idea of probabilistic numerics many years back, but that it was actually around earlier via the IBC folks.  I was not aware of the Frank-Wolfe ideas that were mentioned in the paper that Christian Robert talked about.  My guess is that the wonderful convergence rates that they are talking about assume derivatives of all orders.  I need to study this paper.  Anything else from the NIPS 2015 conference that I should look at?
+
+Best regards,
+Fred
+
+
+Fred J. Hickernell, Professor and Chair
+Department of Applied Mathematics, Illinois Institute of Technology
+RE Bldg Rm 208, 10 West 32nd Street, Chicago, IL 60616
+hickernell@iit.edu, www.iit.edu/~hickernell
+Office: 1 312 567 8983   Cell: 1 630 696 8124
+
+On Dec 17, 2015, at 6:48 PM, mcqmc2016 <mcqmc2016@stanford.edu> wrote:
+
+Hi Fred,
+
+There was a `probabilistic numerics’ session at NIPS in Montreal.
+Those are the people starting to get into RKHS from a machine
+Learning background.  They also call It Bayesian numerical analysis.
+Christian Robert has been blogging about it recently too.
+
+It seems to me that they are kriging in an RKHS context.  I think they will migrate to sensitivity analysis. At least I nudged them in that direction.
+
+I’m also going to ask Andrew Gelman to come to MCQMC and talk about Stan. I hope that some of his people will want to learn about QMC.
+
+Mainly I think that the North American researchers skew heavily to MCMC and other MC things that are not QMC.
+
+-Art
+
+
+From: Fred Hickernell <hickernell@iit.edu>
+Date: Thursday, December 17, 2015 at 5:27 PM
+To: Art Owen <owen@stanford.edu>
+Cc: Pierre L'Ecuyer <lecuyer@iro.umontreal.ca>, mcqmc2016 <mcqmc2016@stanford.edu>
+Subject: Re: mcqmc 2016 tutorials
+
+Dear Art (and Pierre),
+
+Yes, I am willing to give a tutorial, and I like the idea of our two tutorials being parts of a whole.  We can exchange notes as we plan our talks.  
+
+Art, please enlighten me about what would appeal to MCMC and machine learning folks about RKHS.  In my mind RKHS is familiar to a lot of machine learning folk, e.g., support vector machines, but perhaps I am missing something.
+
+
+
+
+
+
+
+Best regards,
+Fred
+
+
+Fred J. Hickernell, Professor and Chair
+Department of Applied Mathematics, Illinois Institute of Technology
+RE Bldg Rm 208, 10 West 32nd Street, Chicago, IL 60616
+hickernell@iit.edu, www.iit.edu/~hickernell
+Office: 1 312 567 8983   Cell: 1 630 696 8124
+
+On Dec 16, 2015, at 1:51 PM, Art B Owen <owen@stanford.edu> wrote:
+
+
+I think it makes sense to treat it as a 
+two part tutorial.  I agree that one hour
+is short for the material.  But multiple
+hours can be hard for the speaker and
+audience.
+
+The idea is to reach people from MCMC
+or machine learning or other areas who
+are new to QMC.  Some of them want
+Hilbert spaces and some don't.
+
+Adding a bit of cutting edge material would
+also be welcome because you will probably
+have some QMC-regulars listening in to pick
+up insights.
+
+-Art
+
+
+From: Pierre Lecuyer <lecuyer@iro.umontreal.ca>
+Sent: Wednesday, December 16, 2015 8:05 AM
+To: Fred Hickernell; mcqmc2016
+Subject: Re: mcqmc 2016 tutorials
+ 
+Fred:
+
+Thanks for your thoughts.  I think we can synchronize between ourselves when time comes and exchange our slides.  I can avoid discussing and even mentioning RKHS. Multilevel combined with RQMC: I may give one concrete example of that (showing that applying multilevel can sometimes makes the function much less RQMC-friendly), but no theory on multilevel.  Ok?
+
+-- Pierre
+
+On 16/12/2015 10:47 AM, Fred Hickernell wrote:
+Dear Art,
+
+Thank you for the kind invitation.  It sounds like a great opportunity and challenge.
+
+It would good to synchronize our thoughts.  Although a tutorial as you describe need not focus only on recent work, my recent attention has been on the Fourier exponential/Walsh series representations of the integrand that I use to derive data-based cubature error bounds.  Would that be a part of Pierre’s tutorial or could it be a part of mine?  There is a connection between RKHS and the series representations if you decompose the kernel or look at (digital) shift invariant kernels.  Would there be mention of multi-level methods and their errors?
+
+Best regards,
+Fred
+
+
+Fred J. Hickernell, Professor and Chair
+Department of Applied Mathematics, Illinois Institute of Technology
+RE Bldg Rm 208, 10 West 32nd Street, Chicago, IL 60616
+hickernell@iit.edu, www.iit.edu/~hickernell
+Office: 1 312 567 8983   Cell: 1 630 696 8124
+
+On Dec 14, 2015, at 6:13 PM, MCQMC 2016 <mcqmc2016@stanford.edu> wrote:
+
+What I have in mind is one hour
+on QMC and discrepancy and RQMC
+showing nets and lattices, but aimed
+at people from machine learning and
+the MCMC world and maybe the particle
+people too.
+
+Then the second hour would be on
+reproducing kernel Hilbert spaces,
+Sobolev spaces, tractability and so
+on.  Again aimed at people who are
+new to QMC.
+
+-Art
+
+... I would be interested to know what
+the WSC highlights were.
+
+
+On 12/14/15 4:13 PM, Pierre Lecuyer wrote:
+Art:
+
+Thank you for this kind invitation.  If you think I am good enough to give a tutorial on QMC + RQMC, I can do that.  This would give me pressure to get up to date with all the latest stuff!
+
+What level do you have in mind?   How long? Parallel tutorials like we had in Montreal, or shorter ones in series?
+
+P.S.  Just back from L.A. hours ago; was the WSC Conference.  Then Joshua Tree Nat Park.   Fabulous!
+
+-- Pierre
+
+
+On 14/12/2015 3:33 PM, MCQMC 2016 wrote:
+Dear Fred and Pierre,
+
+Are you interested in giving a tutorial
+at mcqmc 2016?
+
+What I have in mind is a tutorial from
+Pierre on QMC in general followed by a
+tutorial from Fred on RKHS.  Then maybe
+a third tutorial on a different topic.  With
+short refreshment breaks in between.
+
+The format is 1 hour and the time is
+Sunday mid-afternoon.
+
+I can waive registration charges and if
+expenses are a problem, I can help with
+those too.
+
+Best regards,
+
+-Art
+
+
+
+
+
+
+
+
+
+-- 
+Pierre L'Ecuyer, Professeur Titulaire
+Chaire du Canada en Simulation et Optimisation Stochastique
+CIRRELT, GERAD, and DIRO, Université de Montréal, Canada
+http://www.iro.umontreal.ca/~lecuyer
+

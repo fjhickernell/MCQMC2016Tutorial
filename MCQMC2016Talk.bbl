@@ -1,0 +1,104 @@
+\def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
+% \bib, bibdiv, biblist are defined by the amsrefs package.
+\begin{bibdiv}
+\begin{biblist}
+
+\bib{Dia88a}{incollection}{
+      author={Diaconis, P.},
+       title={{B}ayesian numerical analysis},
+        date={1988},
+   booktitle={Statistical decision theory and related topics iv, papers from
+  the 4th purdue symp., west lafayette/indiana 1986},
+      editor={Gupta, S.~S.},
+      editor={Berger, J.~O.},
+      volume={1},
+   publisher={Springer-Verlag, New York},
+       pages={163\ndash 175},
+}
+
+\bib{Gen93}{article}{
+      author={Genz, A.},
+       title={Comparison of methods for the computation of multivariate normal
+  probabilities},
+        date={1993},
+     journal={Computing Science and Statistics},
+      volume={25},
+       pages={400\ndash 405},
+}
+
+\bib{HeiHicYue02a}{article}{
+      author={Heinrich, S.},
+      author={\HickernellFJ, F.~J.},
+      author={Yue, R.~X.},
+       title={Optimal quadrature for {H}aar wavelet spaces},
+        date={2004},
+     journal={Math.\ Comp.},
+      volume={73},
+       pages={259\ndash 277},
+}
+
+\bib{Hic97a}{article}{
+      author={\HickernellFJ, F.~J.},
+       title={A generalized discrepancy and quadrature error bound},
+        date={1998},
+     journal={Math.\ Comp.},
+      volume={67},
+       pages={299\ndash 322},
+}
+
+\bib{Hic99a}{article}{
+      author={\HickernellFJ, F.~J.},
+       title={Goodness-of-fit statistics, discrepancies and robust designs},
+        date={1999},
+     journal={Statist.\ Probab.\ Lett.},
+      volume={44},
+       pages={73\ndash 78},
+}
+
+\bib{HicYue00}{article}{
+      author={\HickernellFJ, F.~J.},
+      author={Yue, R.~X.},
+       title={The mean square discrepancy of scrambled $(t,s)$-sequences},
+        date={2000},
+     journal={SIAM J. Numer.\ Anal.},
+      volume={38},
+       pages={1089\ndash 1112},
+}
+
+\bib{Men16a}{misc}{
+      author={Meng, X.},
+       title={Statistical paradises and paradoxes in big data},
+        date={2016+},
+        note={in preparation},
+}
+
+\bib{Nie92}{book}{
+      author={Niederreiter, H.},
+       title={Random number generation and quasi-{M}onte {C}arlo methods},
+      series={CBMS-NSF Regional Conference Series in Applied Mathematics},
+   publisher={SIAM},
+     address={Philadelphia},
+        date={1992},
+}
+
+\bib{Owe97}{article}{
+      author={Owen, A.~B.},
+       title={Scrambled net variance for integrals of smooth functions},
+        date={1997},
+     journal={Ann.\ Stat.},
+      volume={25},
+       pages={1541\ndash 1562},
+}
+
+\bib{Rit00a}{book}{
+      author={Ritter, K.},
+       title={Average-case analysis of numerical problems},
+      series={Lecture Notes in Mathematics},
+   publisher={Springer-Verlag},
+     address={Berlin},
+        date={2000},
+      volume={1733},
+}
+
+\end{biblist}
+\end{bibdiv}

@@ -1,0 +1,19 @@
+\def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{DicPil10a}
+Dick, J., Pillichshammer, F.: Digital Nets and Sequences: Discrepancy Theory
+  and Quasi-{M}onte {C}arlo Integration.
+\newblock Cambridge University Press, Cambridge (2010)
+
+\bibitem{SloJoe94}
+Sloan, I.H., Joe, S.: Lattice Methods for Multiple Integration.
+\newblock Oxford University Press, Oxford (1994)
+
+\end{thebibliography}
