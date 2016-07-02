@@ -153,6 +153,25 @@ classdef multivarGauss < handle
                end
                temp = cumsum(obj.f(x),1);
                prob = temp(obj.n)./obj.n(:);
+            elseif strcmp(obj.cubMeth,'SobolOpt')
+               if dim - redDim >= 1
+                  x = net(scramble(sobolset(dim-redDim), ...
+                     'MatousekAffineOwen'),nmax);
+                  %acosx = acos(1-2*x)/pi;
+                  nn = numel(obj.n);
+                  prob(nn,1) = 0;
+                  temp = obj.f(x);
+%                  temp = obj.f(acosx);
+                  for ii = 1:nn
+                     nii = obj.n(ii);
+                     [K,kvec] = kernelFun(x(1:nii,:));
+%                     [K,kvec] = kernelFun(acosx(1:nii,:));
+                     w = pinv(K)*kvec;
+                     prob(ii) = w'*temp(1:nii);
+                  end               
+               else
+                  prob = obj.f(0)*ones(size(obj.n));
+               end
             end
          elseif strcmp(obj.errMeth,'g')
             if strcmp(obj.cubMeth,'IID')
@@ -165,7 +184,7 @@ classdef multivarGauss < handle
             end
           end
       end
-         
+               
    end
    
 end

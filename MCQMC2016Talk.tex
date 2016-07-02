@@ -79,6 +79,9 @@ Supported by NSF-DMS-1522687}}
 \DeclareMathOperator{\disc}{DSC}
 \DeclareMathOperator{\Var}{VAR}
 \DeclareMathOperator{\GP}{\cg\cp}
+\newcommand{\Dt}{\text{D}}
+\newcommand{\Rn}{\text{R}}
+\newcommand{\Ba}{\text{B}}
 
 \newcommand{\redroundmathbox}[1]{\parbox{\widthof{$#1$\hspace{1em}}}
 	{\begin{mdframed}[style=redshade]\centering $#1$ \end{mdframed}}}
@@ -189,12 +192,12 @@ Supported by NSF-DMS-1522687}}
 	& \qquad  \norm[\cm]{\lambda} := \sup_{\substack{f \in \cf \\ f \ne 0= L(f)}} \frac{\abs{\int_{\cx} f(\vx) \, \lambda(\dif\vx)}}{\norm[\cf]{f}} = \text{norm of } f \mapsto \int_{\cx} f(\vx) \, \lambda(\dif\vx)\\
 	\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 	& =  \redroundmathbox{%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[\cm]{\nu - \hnu} \norm[\cf]{f-L(f)}}}_{\textstyle \algn(f,\nu - \hnu)} \, \underbrace{\norm[\cm]{\nu - \hnu}}_{\textstyle\disc(\nu - \hnu)} \, \underbrace{\norm[\cf]{f-L(f)}}_{\textstyle\Var(f)}}}
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[\cm]{\nu - \hnu} \norm[\cf]{f-L(f)}}}_{\textstyle \algn^\Dt(f,\nu - \hnu)} \, \underbrace{\norm[\cm]{\nu - \hnu}}_{\textstyle\disc^\Dt(\nu - \hnu)} \, \underbrace{\norm[\cf]{f-L(f)}}_{\textstyle\Var^\Dt(f)}}}
 	\end{align*}
 	\vspace{-4ex}
 	\uncover<2->{\begin{itemize}
-			\item $\abs{\algn(f,\nu - \hnu)}   \le 1$  by the definitions of $\norm[\cf]{\cdot}, \norm[\cm]{\cdot}$
-			\item Ignoring $\algn(f,\nu - \hnu)$ yields a generalized Koksma-Hlawka inequality \cites{Nie92,Hic97a,Hic99a}
+			\item $\abs{\algn^\Dt(f,\nu - \hnu)}   \le 1$  by the definitions of $\norm[\cf]{\cdot}, \norm[\cm]{\cdot}$
+			\item Ignoring $\algn^\Dt(f,\nu - \hnu)$ yields a generalized Koksma-Hlawka inequality \cites{Nie92,Hic97a,Hic99a}
 		\end{itemize}.}
 \end{frame}
 
@@ -214,9 +217,9 @@ Supported by NSF-DMS-1522687}}
 	\vspace{-4ex}
 	\[L(f)  = \frac 1N \sum_{j=1}^N f(j) = \mu, \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - L(f)][g(j) - L(g)]\]
 	\centerline{\redroundmathbox{\mu - \hmu  = 
-			\underbrace{-\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)}_{\textstyle\algn(f,\nu - \hnu)}
-			\underbrace{ \sqrt{\frac{1-n/N}{\alert{n/N}}}}_{\textstyle\disc(\nu - \hnu)}
-			\underbrace{ \std(f)}_{\textstyle\Var(f)} }}
+			\underbrace{-\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)}_{\textstyle\algn^\Dt(f,\nu - \hnu)}
+			\underbrace{ \sqrt{\frac{1-n/N}{\alert{n/N}}}}_{\textstyle\disc^\Dt(\nu - \hnu)}
+			\underbrace{ \std(f)}_{\textstyle\Var^\Dt(f)} }}
 		\vspace{-2ex}
 		\begin{itemize}
 			\item Discrepancy depends on the \alert{sample fraction}, not merely the sample size.  
@@ -237,7 +240,7 @@ Supported by NSF-DMS-1522687}}
 	& \qquad \qquad + \sum_{i,j=1}^n w_i w_j K(\vx_i, \vx_j) \\
 	\algn(f,\nu - \hnu)  &= \cos\biggl(f,\underbrace{\int_{\cx} K(\cdot, \vt) \, \nu(\dif \vt) + \sum_{j=1}^n w_j K(\cdot, \vx_j)}_{\textstyle\text{cubature error representer}}\biggr), \\ & \qquad \qquad \cos(f,g) : = \frac{\ip[\cf]{f}{g}}{\norm[\cf]{f} \norm[\cf]{g}}
 	\end{align*}
-	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc(\nu - \hnu) \norm[\cf]{f-L(f)}}
+	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-L(f)}}
 	}
 \end{frame}
 
@@ -246,9 +249,9 @@ Supported by NSF-DMS-1522687}}
 	\vspace{-8ex}
 	\begin{align*}
 	\cx &= [0,1]^d, \qquad  \nu = \text{Lebesgue}, \qquad K(\vx,\vt) =\prod_{k = 1}^d [2 - \max(x_k,t_k)] \\
-	\Var(f) & = \norm[\cf]{f-f(\vone)} = \Bigl \lVert \bigl ( \norm[L^2]{\partial^\fu f}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 , \qquad 
+	\Var^\Dt(f) & = \norm[\cf]{f-f(\vone)} = \Bigl \lVert \bigl ( \norm[L^2]{\partial^\fu f}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 , \qquad 
 	\partial^\fu f : = \frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \biggr \rvert_{\textstyle \vx_{\widebar{\fu}} = \vone} \\
-	[\disc(\nu - \hnu)]^2 &  =  \frac 43 - 2 \sum_{i=1}^n w_i \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \sum_{i,j=1}^n w_i w_j \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] \\
+	[\disc^\Dt(\nu - \hnu)]^2 &  =  \frac 43 - 2 \sum_{i=1}^n w_i \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \sum_{i,j=1}^n w_i w_j \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] \\
 	& = \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 
 	\end{align*}
 	\only<1>{\begin{tabular}{>{\flushright}m{5cm}>{\centering}m{6cm}}
@@ -259,11 +262,11 @@ Supported by NSF-DMS-1522687}}
 			\end{multline*}&
 			\includegraphics[width = 5cm]{ProgramsImages/LocalDiscrep.eps}
 		\end{tabular}}
-\only<2>{	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
+\only<2>{	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
 	\vspace{-4ex}
 	\begin{itemize}
-		\item $\disc(\nu - \hnu)$ requires $\Order(dn^2)$ operations to evaluate
-		\item $\disc(\nu - \hnu) \begin{cases} =  \Order(n^{-1/2}) \text{ for IID Monte Carlo} \\
+		\item $\disc^\Dt(\nu - \hnu)$ requires $\Order(dn^2)$ operations to evaluate
+		\item $\disc^\Dt(\nu - \hnu) \begin{cases} =  \Order(n^{-1/2}) \text{ for IID Monte Carlo} \\
 		= \Order( n^{\alert{-1} + \epsilon}) \text{ for digital nets, integration lattices, \ldots} \\
 		\ge \Order(n^{\alert{-1} + \epsilon}) \text{ because of the limited smoothness of } f \in \cf\end{cases}$
 	\end{itemize}
@@ -284,12 +287,12 @@ Supported by NSF-DMS-1522687}}
 	\end{tabular}
 	\vspace{-4ex}
 	
-		\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
+		\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
 		
 		\vspace{-2ex}
 \begin{tabular}{m{4.5cm}m{7cm}}
 	\vspace{-4ex}
-\[\begin{aligned}\MoveEqLeft \disc(\nu - \hnu) \\
+\[\begin{aligned}\MoveEqLeft \disc^\Dt(\nu - \hnu) \\
 & \begin{cases} =  \Order(n^{-1/2}) \text{ for IID MC}\\
 		= \Order( n^{\alert{-1} + \epsilon}) \text{ for Sobol'}
 		\end{cases}
@@ -321,15 +324,15 @@ Supported by NSF-DMS-1522687}}
 		& \qquad  \RMSE(f,\nu - \hnu) := \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } < \infty \quad \forall f \in \cf \\
 		\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 			& =  \redroundmathbox{\displaystyle%
-				\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn(f,\nu - \hnu)} \, 
-				\underbrace{\sup_{\substack{f \in \cf \\ f \ne 0= L(f)}}  \frac{\RMSE(f, \nu - \hnu)}{\norm[\cf]{f}}}_{\textstyle\disc(\nu - \hnu)} \, \underbrace{\norm[\cf]{f-L(f)}}_{\textstyle\Var(f)}} }
+				\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
+				\underbrace{\sup_{\substack{f \in \cf \\ f \ne 0= L(f)}}  \frac{\RMSE(f, \nu - \hnu)}{\norm[\cf]{f}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[\cf]{f-L(f)}}_{\textstyle\Var^\Dt(f)}} }
 		\end{align*}
 		\vspace{-3ex}
 		\uncover<2->{
 			\begin{itemize}
-				\item $\Ex\abs{\algn(f,\nu - \hnu)}^2  \le 1$ by the definitions of $\disc(\nu - \hnu), \Var(f)$
+				\item $\Ex\abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$ by the definitions of $\disc^\Rn(\nu - \hnu), \Var^\Dt(f)$
 				
-				\item $\disc^{\text R}(\nu - \hnu)  \le \sqrt{\Ex\abs{\disc^{\text D}(\nu - \hnu)}^2}$
+				\item $\disc^\Rn(\nu - \hnu)  \le \sqrt{\Ex\abs{\disc^\Dt(\nu - \hnu)}^2}$
 			\end{itemize}
 		}
 		
@@ -345,10 +348,10 @@ Supported by NSF-DMS-1522687}}
    % \RMSE(f,\nu - \hnu) &= \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } = \frac{\norm[L^2(\cx),\nu]{f - \mu}}{\sqrt{n}} \\
 \redroundmathbox{\mu - \hmu} 
 		& =  \redroundmathbox{\displaystyle%
-			\underbrace{\frac{ \sqrt{n}\int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[L^2]{f - \mu}}}_{\textstyle \algn(f,\nu - \hnu)} \, 
-			\underbrace{\frac{1}{\sqrt{n}}}_{\textstyle\disc(\nu - \hnu)} \, \underbrace{\norm[L^2]{f - \mu}}_{\textstyle\Var(f)}}  \\
-		& \qquad \Ex[\algn(f,\nu - \hnu)]  = 0, \qquad \hmu \text{ is unbiased} \\
-	& \qquad \var\bigl(\algn(f,\nu - \hnu) \bigr)  = 1
+			\underbrace{\frac{ \sqrt{n}\int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[L^2]{f - \mu}}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
+			\underbrace{\frac{1}{\sqrt{n}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[L^2]{f - \mu}}_{\textstyle\Var^\Dt(f)}}  \\
+		& \qquad \algn^\Rn(f,\nu - \hnu) \sim (0,1), \qquad \hmu \text{ is unbiased} \\
+	& \qquad \phantom{\algn^\Rn(f,\nu - \hnu) } \approx \cn(0,1) \text{ for large } n \text{ by the Central Limit Theorem}
 	\end{align*}
 	
 \end{frame}
@@ -431,8 +434,8 @@ Supported by NSF-DMS-1522687}}
 	\vspace{-3ex}
 	
 	\centerline{\redroundmathbox{\mu - \hmu = 
-    \begin{Bmatrix} \cos(f,\text{error rep}) & \disc^{\text{D}}(\nu - \hnu) \\
-				\algn^{\text{R}}(f,\nu - \hnu) &  \disc^{\text{R}}(\nu - \hnu) \end{Bmatrix} \Var(f) }  }
+    \begin{Bmatrix} \cos(f,\text{error rep}) & \disc^\Dt(\nu - \hnu) \\
+				\algn^\Rn(f,\nu - \hnu) &  \disc^\Rn(\nu - \hnu) \end{Bmatrix} \Var(f) }  }
 	
 	\vspace{-2ex}
 	\begin{tabular}{m{4.5cm}m{7cm}}
@@ -442,8 +445,8 @@ Supported by NSF-DMS-1522687}}
 		\vspace{-3.5ex}
 		\[
 		\begin{aligned}
-		\disc^{\text{D}}(\nu - \hnu) & = \Order(n^{-1 + \epsilon})\\
-		\disc^{\text{R}}(\nu - \hnu) & = \Order(n^{\alert{-3/2} + \epsilon})
+		\disc^\Dt(\nu - \hnu) & = \Order(n^{-1 + \epsilon})\\
+		\disc^\Rn(\nu - \hnu) & = \Order(n^{\alert{-3/2} + \epsilon})
 		\end{aligned}\]
 		\vspace{-2.5ex}
 		
@@ -466,29 +469,55 @@ Supported by NSF-DMS-1522687}}
 	
 \end{frame}
 
-
 \begin{frame}
 	\frametitle{Bayesian Trio Identity}
 	\vspace*{-4ex}
 	Error analysis assuming a random $f$ has been pursued by \cite{Dia88a}, \cite{Rit00a}  and others.
-	Suppose that $f$ is a Gaussian stochastic process in the sample space $\cf$ with zero mean and covariance kernel $C:\cx \times \cx \to \reals$, i.e., $f \in \GP (0, s^2C)$.  Let $S : \cf \to \reals$ be linear with
+	Suppose that $f \sim \GP (0, s^2C)$,  a Gaussian process in the sample space $\cf$ with zero mean and covariance kernel $C:\cx \times \cx \to \reals$.  Let $S : \cf \to \reals$ be linear with
 	$ \var_{f}\bigl(S(f)\bigr)= s^2$, $S^{\cdot}S^{\cdot\cdot}C(\cdot,\cdot\cdot) =  1$.
-	Then
+	Then 
+	\vspace{-1ex}
 	\begin{align*}
-	 \mu - \hmu & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn \bigl( \vy^T (\mC^{-1}\vc - \vw), s^2(c_0 - \vc ^T \mC^{-1} \vc) \bigr) \\
-	 c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
-	 \mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n,  \quad \vone^T \vw \text{ may be } \ne 1\\
-	 \redroundmathbox{\mu - \hmu} 
-	 & =  \redroundmathbox{\displaystyle%
-	 	\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn(f,\nu - \hnu)} \, 
-	 	\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var(f)}}\\
-	 & \qquad \Ex_f[\algn(f,\nu - \hnu)] = 1, \qquad 
+	%\mu - \hmu & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn \bigl( \vy^T (\mC^{-1}\vc - \vw), s^2(c_0 - \vc ^T \mC^{-1} \vc) \bigr) \\
+	c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
+	\mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n,  \quad \vone^T \vw \text{ may be } \ne 1\\
+	\redroundmathbox{\mu - \hmu} 
+	& =  \redroundmathbox{\displaystyle%
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}}_{\textstyle \algn^\Ba(f,\nu - \hnu)} \, 
+		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}\\
+	\algn^\Ba(f,\nu - \hnu) &\sim \cn ( 0, 1 ) \\
+	\algn^\Ba(f,\nu - \hnu) & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \\
+	& \sim \cn \biggl( \frac{\vy^T (\mC^{-1}\vc - \vw)}{s\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}, \frac{c_0 - \vc ^T \mC^{-1} \vc}{c_0 - 2 \vc^T \vw + \vw^T \mC \vw} \biggr) \\
+	& \sim \cn (0,1) \quad \text{if } \vw = \mC^{-1}\vc 
+	\end{align*}	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Bayesian Trio Identity}
+	\vspace*{-7ex}
+	\begin{align*}
+	c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
+	\mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n,  \quad \vone^T \vw \text{ may be } \ne 1\\
+	\redroundmathbox{\mu - \hmu} 
+	& =  \redroundmathbox{\displaystyle%
+		\underbrace{\algn^\Ba(f,\nu - \hnu)}_{\textstyle \sim \cn ( 0, 1 )} \, 
+		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
 	\end{align*}
-	
-	
-	
+		\vspace*{-4ex}
+	\begin{itemize}
+		\item Bayesian analysis opens the possibility to confidence intervals for $\mu$ even if $\hnu$ is deterministic
+		\item But how do you estimate $s$ plus any parameters lurking in $C$?
+		\item $\disc^\Ba(\nu - \hnu;C) = \disc^\Dt(\nu - \hnu;C)$
+		\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic reproducing kernel Hilbert space cases, but 
+		\begin{itemize}
+			\item generally requires $\Order(n^3)$ operations, and
+			\item $\hmu$ might not integrate constants exactly
+		\end{itemize}
+		\item May also consider optimizing placement of data sites, $\{\vx_i\}_{i=1}^n$, but this is more difficult \cite{}
+	\end{itemize}
 	
 \end{frame}
+
 
 \begin{frame}
 	\frametitle{Randomized Bayesian Trio Identity}

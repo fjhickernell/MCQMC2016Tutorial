@@ -89,3 +89,18 @@ errMVNProbuSobolGn = abs(muBest - muMVNProbuSobolGn);
 toc
 
 save MVNProbExampleAllData.mat
+
+%% Try optimal weights
+nvecOPT = 2.^(7:10)';
+MVNProbOptSobolGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecOPT, ...
+   'errMeth','n','cubMeth','SobolOpt','intMeth','Genz');
+muMVNProbOptSobolGn = zeros(nn,nRep);
+tic 
+for i = 1:nRep
+   if i/10 == floor(i/10), i, end
+   muMVNProbOptSobolGn(:,i) = compProb(MVNProbOptSobolGn); 
+end
+errvecMVNProbOptSobolGn = abs(muBest - muMVNProbOptSobolGn);
+errmedMVNProbOptSobolGn = median(errvecMVNProbOptSobolGn,2);
+errtopMVNProbOptSobolGn = quantile(errvecMVNProbOptSobolGn,1-alpha,2);
+
