@@ -82,6 +82,9 @@ Supported by NSF-DMS-1522687}}
 \newcommand{\Dt}{\text{D}}
 \newcommand{\Rn}{\text{R}}
 \newcommand{\Ba}{\text{B}}
+\newcommand{\tmC}{\widetilde{\mC}}
+\newcommand{\tvC}{\widetilde{\vC}}
+\newcommand{\vC}{\boldsymbol{C}}
 
 \newcommand{\redroundmathbox}[1]{\parbox{\widthof{$#1$\hspace{1em}}}
 	{\begin{mdframed}[style=redshade]\centering $#1$ \end{mdframed}}}
@@ -231,7 +234,7 @@ Supported by NSF-DMS-1522687}}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Reproducing Kernel Hilbert Spaces}
+	\frametitle{Reproducing Kernel Hilbert Spaces (RKHS)}
 	\vspace{-4ex}
 	If the space of integrands, $\cf$ is a Hilbert space with \alert{reproducing kernel} $K$, then the cubature error can be expressed as an inner product of the integrand with the representer for the error functional:
 	\begin{align*}
@@ -435,7 +438,7 @@ Supported by NSF-DMS-1522687}}
 	
 	\centerline{\redroundmathbox{\mu - \hmu = 
     \begin{Bmatrix} \cos(f,\text{error rep}) & \disc^\Dt(\nu - \hnu) \\
-				\algn^\Rn(f,\nu - \hnu) &  \disc^\Rn(\nu - \hnu) \end{Bmatrix} \Var(f) }  }
+				\algn^\Rn(f,\nu - \hnu) &  \disc^\Rn(\nu - \hnu) \end{Bmatrix} \Var^\Dt(f) }  }
 	
 	\vspace{-2ex}
 	\begin{tabular}{m{4.5cm}m{7cm}}
@@ -507,8 +510,8 @@ Supported by NSF-DMS-1522687}}
 	\begin{itemize}
 		\item Bayesian analysis opens the possibility to confidence intervals for $\mu$ even if $\hnu$ is deterministic
 		\item But how do you estimate $s$ plus any parameters lurking in $C$?
-		\item $\disc^\Ba(\nu - \hnu;C) = \disc^\Dt(\nu - \hnu;C)$
-		\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic reproducing kernel Hilbert space cases, but 
+		\item $\disc^\Ba(\nu - \hnu) = \disc^\Dt(\nu - \hnu)$ for RKHS with $K$ replaced by $C$
+		\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic RKHS cases, but 
 		\begin{itemize}
 			\item generally requires $\Order(n^3)$ operations, and
 			\item $\hmu$ might not integrate constants exactly
@@ -518,14 +521,83 @@ Supported by NSF-DMS-1522687}}
 	
 \end{frame}
 
+\begin{frame} \frametitle{Multivariate Normal Probability}
+	\vspace{-8ex}
+	\begin{tabular}{m{8.5cm}m{3cm}}
+		\begin{equation*}
+		\mu = \int_{[\va,\vb]} \frac{\exp\bigl(- \frac 12 \vt^T \mSigma^{-1} \vt \bigr)}{\sqrt{(2 \pi)^d \det(\mSigma)}} \, \dif \vt \
+		\overset{\text{\smallocite{Gen93}}}{=} \ \int_{[0,1]^{d-1}} f(\vx) \, \dif \vx 
+		\end{equation*}
+		& \href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}
+	\end{tabular}
+	\vspace{-3ex}
+	
+	\centerline{\redroundmathbox{\mu - \hmu = 
+			\begin{Bmatrix} \cos(f,\text{error rep}) & \disc^\Dt(\nu - \hnu) \Var^\Dt(f) \\
+				\algn^\Rn(f,\nu - \hnu) &  \disc^\Rn(\nu - \hnu)  \Var^\Dt(f)  \\
+				\algn^\Ba(f,\nu - \hnu) &  \disc^\Ba(\nu - \hnu)  \Var^\Ba(f) \end{Bmatrix}}}
+	
+	\vspace{-2ex}
+	\begin{tabular}{m{4.5cm}m{7cm}}
+		\vspace{-2ex}
+		Improved convergence for smoother integrands using an \alert{optimally} (unequally) weighted sample average with scrambled Sobol' data sites 
+		
+		\vspace{1.5ex}
+		
+		\noindent
+		$\text{\parbox{4.5cm}{\raggedleft
+				\hfill For some typical choice of \newline 
+				\phantom{a}\hfill  $\va$, $\vb$, $\mSigma$, and $d=3$ \newline 
+				$\mu \approx 0.6763$}} {\color{red}\Biggr \}}$
+		
+		\vspace{1.5ex}
+		
+		\alert{Computing the weights is time consuming, but could be done offline }
+		&
+		\includegraphics[width = 7cm]{ProgramsImages/MVNIIDUSobolSobolWtSobol.eps}
+	\end{tabular}
+	
+\end{frame}
 
 \begin{frame}
 	\frametitle{Randomized Bayesian Trio Identity}
-	
-	
-	
+		\vspace*{-4ex}
+		Assume that $f \sim \GP (0, s^2C)$ and $\hnu$ is random (independent of $f$).  Then 
+		\vspace{-1ex}
+		\begin{align*}
+		c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
+		\mC &= \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n\\
+		\redroundmathbox{\mu - \hmu} 
+		& =  \redroundmathbox{\displaystyle%
+			\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Ba\Rn}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
+			\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Ba\Rn}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+		\end{align*}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Randomized Bayesian Trio Identity}
+	\vspace*{-4ex}
+	$f \sim \GP (0, s^2C)$ and $\hnu$ is random (independent of $f$):
+	\vspace{-1ex}
+	\begin{align*}
+	\redroundmathbox{\mu - \hmu} 
+	& =  \redroundmathbox{\displaystyle%
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Ba\Rn}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
+		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Ba\Rn}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+	\end{align*}
+	For $\vw  = \vone/n$, and unbiased estimation:
+	\[
+	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{\frac {\vone^T \tmC \vone}{n^2} - c_0 }, \qquad \tmC  = \Bigl(\Ex_{\hnu} C(\vx_i,\vx_j) \Bigr)_{i,j=1}^n
+	\]	
+	For some $\{\vx_i\}_{i=1}^n$, such as scrambled nets and shifted integration lattices
+	\[
+	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
+	\]	
+	which requires only $\Order(n)$ operations to evaluate \cite{??}
 	
 \end{frame}
+
 
 
 \section{Tractability}

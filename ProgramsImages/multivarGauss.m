@@ -12,6 +12,7 @@ classdef multivarGauss < handle
       n = 1e4 %number of samples
       intMeth = 'aff' %method for forming integrand
       cubMeth = 'Sobol' %cubature method for calculating the integral
+      transMeth = 'none' %transformation method
       errMeth = 'n' %method for determining that the error is met
    end
    
@@ -47,6 +48,8 @@ classdef multivarGauss < handle
                if ~isempty(wh), obj.intMeth = varargin{wh+iStart}; end
                wh = find(strcmp(varargin(iStart:end),'cubMeth'));
                if ~isempty(wh), obj.cubMeth = varargin{wh+iStart}; end
+               wh = find(strcmp(varargin(iStart:end),'transMeth'));
+               if ~isempty(wh), obj.transMeth = varargin{wh+iStart}; end
                wh = find(strcmp(varargin(iStart:end),'errMeth'));
                if ~isempty(wh), obj.errMeth = varargin{wh+iStart}; end
            end            
@@ -80,7 +83,11 @@ classdef multivarGauss < handle
          updateInteg(obj);
        end
              
-       function updateCovProp(obj)
+        function set.transMeth(obj,val)
+         obj.transMeth = val;
+         updateInteg(obj);
+       end
+      function updateCovProp(obj)
          obj.CovProp.C = chol(obj.Cov)';
          obj.CovProp.detSig = det(obj.Cov);
          obj.CovProp.invSig = inv(obj.Cov);
@@ -92,11 +99,18 @@ classdef multivarGauss < handle
             multinorm = ...
                @(x) exp(-0.5*sum((x - obj.mu).*((x - obj.mu)*obj.CovProp.invSig),2)) ...
                ./sqrt(((2*pi)^numel(obj.a))*obj.CovProp.detSig);
-            obj.f = @(t) prod(obj.b-obj.a)*multinorm(stretch(t));
+            ff = @(t) prod(obj.b-obj.a)*multinorm(stretch(t));
          elseif strcmp(obj.intMeth,'Genz')
-            obj.f = @(t) Genz(t,obj);
+            ff = @(t) Genz(t,obj);
          else
             error('intMeth not recognized')
+         end
+         if strcmp(obj.transMeth,'none')
+            obj.f = ff;
+         elseif strcmp(obj.transMeth,'tent')
+            obj.f = @(x) ff(1 - abs(2*x -1));
+         else
+            error ('transMeth not recognized')
          end
       end
       
@@ -164,7 +178,7 @@ classdef multivarGauss < handle
 %                  temp = obj.f(acosx);
                   for ii = 1:nn
                      nii = obj.n(ii);
-                     [K,kvec] = kernelFun(x(1:nii,:));
+                     [K,kvec] = kernelFun(x(1:nii,:),'Mat1');
 %                     [K,kvec] = kernelFun(acosx(1:nii,:));
                      w = pinv(K)*kvec;
                      prob(ii) = w'*temp(1:nii);
@@ -184,6 +198,21 @@ classdef multivarGauss < handle
             end
           end
       end
+      
+      function val = sameProblem(obj1,obj2)
+         val = all(obj1.a == obj2.a) && ...
+            all(obj1.b == obj2.b) && ...
+            all(obj1.mu == obj2.mu) && ...
+            all(all(obj1.Cov == obj2.Cov)) && ...
+            obj1.absTol == obj2.absTol && ...
+            obj1.relTol == obj2.relTol && ...
+            all(obj1.n == obj2.n) && ...
+            strcmp(obj1.intMeth,obj2.intMeth) && ...
+            strcmp(obj1.cubMeth,obj2.cubMeth) && ...
+            strcmp(obj1.transMeth,obj2.transMeth) && ...
+            strcmp(obj1.errMeth,obj2.errMeth); 
+   end
+ 
                
    end
    
