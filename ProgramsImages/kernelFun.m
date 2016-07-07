@@ -1,8 +1,8 @@
 function [K,kvec] = kernelFun(x,whKer)
+[nx,d] = size(x);
 if nargin < 2
    whKer = 'sqExp';
 end
-[nx,d] = size(x);
 K = ones(nx);
 if strcmp(whKer,'sqExp')
    aa = 1;

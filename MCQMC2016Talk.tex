@@ -134,45 +134,42 @@ Supported by NSF-DMS-1522687}}
 	 		& \href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}
 	 		} 
 	 \uncover<4->{
-	 	\tabularnewline [-4.2ex] \arrayrulecolor{ltred}\toprule
-\tabularnewline [-6ex] 
-\[ \begin{aligned}
-	 	\mu & = \int_{\cx} f(\vx) \, \nu(\dif\vx) \uncover<5->{\approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)}
-	 		\end{aligned} \]
-	 		& \uncover<6>{%\parbox{2ex}{\phantom{a}}\newline 
-	 			%\phantom{Hicke}
-	 				\qquad \redroundmathbox{\mu - \hmu =\, ?}}}
-	 			\tabularnewline[-6ex]
-	 	\multicolumn{2}{m{11.7cm}}{%
-	 	\uncover<4->{\[ 
+	 	\tabularnewline [-4.2ex] \arrayrulecolor{ltred}\toprule}
+\end{tabular}
+\uncover<4->{
+	\vspace{-3ex}
+\begin{gather*}
+	 	\mu  = \Ex[f(\vX)] = \int_{\cx} f(\vx) \, \nu(\dif\vx) \uncover<5->{\approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)}
+	 		\uncover<6>{
+	 				\qquad \redroundmathbox{\mu - \hmu =\, ?}} \\
 	 	\nu = \text{probability measure} \uncover<5->{, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure},\quad \sum_{i=1}^n w_i =1}
-	 	 \] }}		
-	\end{tabular}
-	
+	 	\end{gather*}
+	 	 }	
+
 
 \end{frame}
 
 \section{Trio Error Identity}
 
 \begin{frame}
-	\frametitle{Trio Identity for the Error \cite{Men16a}}
+	\frametitle{Trio Identity for the Error {\large \cite{Men16a}}}
 	\vspace{-7ex}
 	\begin{align*}
 	 \redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, \nu(\dif\vx) - \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 	& \uncover<2->{=  \redroundmathbox{\algn(f,\nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)} \\[1ex]
 	\Var(f) & =  \text{\alert{variation} of the integrand from a constant} \ge 0 \\
 	\disc(\nu - \hnu) & =  \text{\alert{discrepancy} of the sampling measure }\\
-	 &  \qquad \qquad \qquad  \text{from the probability measure} \ge 0\\
+	 &  \qquad \qquad  \text{from the probability measure} \ge 0\\
 	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} of the integrand and} \\
-	&  \qquad \qquad \qquad \text{the difference between the two measures}
-\only<2>{\\ & \qquad \qquad \qquad \text{\alert{often ignored}}}}
+	&  \qquad \qquad  \text{the difference between the two measures}
+\only<2>{\\ & \hspace{5cm} \qquad \text{\alert{often ignored}}}}
 	\end{align*}
 	
 	\only<1-3>{\uncover<3>{\vspace{-2ex}\begin{itemize}
-			\item Reduce error by clever sampling, $\hnu$
-			\item Reduce error by rewriting the problem while leaving $\mu$ unchanged
-			\item Improve understanding of error by modifying $\disc$ and $\Var$ to reduce $\disc(\nu - \hnu) \, \Var(f)$
-			\item Determine the sample size $n$ needed to make $\abs{\mu - \hmu} \le \varepsilon$
+			\item \alert{Reduce} error by clever sampling, $\hnu$
+			\item \alert{Reduce} error by rewriting the problem while leaving $\mu$ unchanged
+			\item Improve \alert{understanding} of error by modifying our definitions of $\disc$ and $\Var$
+			\item \alert{Determine} the sample size $n$ needed to make $\abs{\mu - \hmu} \le \varepsilon$
 		\end{itemize}}}
 		
 	\only<4>{\vspace{1ex}\centerline{\begin{tabular}{r@{\quad}@{\quad}c@{\qquad}c}
@@ -199,7 +196,7 @@ Supported by NSF-DMS-1522687}}
 	\end{align*}
 	\vspace{-4ex}
 	\uncover<2->{\begin{itemize}
-			\item $\abs{\algn^\Dt(f,\nu - \hnu)}   \le 1$  by the definitions of $\norm[\cf]{\cdot}, \norm[\cm]{\cdot}$
+			\item $\abs{\algn^\Dt(f,\nu - \hnu)}   \le 1$  %by the definitions of $\norm[\cf]{\cdot}, \norm[\cm]{\cdot}$
 			\item Ignoring $\algn^\Dt(f,\nu - \hnu)$ yields a generalized Koksma-Hlawka inequality \cites{Nie92,Hic97a,Hic99a}
 		\end{itemize}.}
 \end{frame}
@@ -227,7 +224,7 @@ Supported by NSF-DMS-1522687}}
 		\begin{itemize}
 			\item Discrepancy depends on the \alert{sample fraction}, not merely the sample size.  
 			
-			\item Discrepancy may be large if the sample fraction is small
+			\item Discrepancy may be large if the sample fraction is small \smallcite{Men16a}
 			
 			\item \alert{Correlation} for a web survey is difficult to predict or control
 		\end{itemize}
@@ -475,8 +472,8 @@ Supported by NSF-DMS-1522687}}
 \begin{frame}
 	\frametitle{Bayesian Trio Identity}
 	\vspace*{-4ex}
-	Error analysis assuming a random $f$ has been pursued by \cite{Dia88a}, \cite{Rit00a}  and others.
-	Suppose that $f \sim \GP (0, s^2C)$,  a Gaussian process in the sample space $\cf$ with zero mean and covariance kernel $C:\cx \times \cx \to \reals$.  Let $S : \cf \to \reals$ be linear with
+	A \alert{random} $f$ has been postulated by \cite{Dia88a}, \cite{OHa??}, \cite{Rit00a}  and others.
+	Suppose that $f \sim \GP (0, s^2C)$,  a \alert{Gaussian process} in the sample space $\cf$ with zero mean and covariance kernel $C:\cx \times \cx \to \reals$.  Let $S : \cf \to \reals$ be linear with
 	$ \var_{f}\bigl(S(f)\bigr)= s^2$, $S^{\cdot}S^{\cdot\cdot}C(\cdot,\cdot\cdot) =  1$.
 	Then 
 	\vspace{-1ex}
@@ -485,7 +482,7 @@ Supported by NSF-DMS-1522687}}
 	c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
 	\mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n,  \quad \vone^T \vw \text{ may be } \ne 1\\
 	\redroundmathbox{\mu - \hmu} 
-	& =  \redroundmathbox{\displaystyle%
+	& = \redroundmathbox{\displaystyle%
 		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}}_{\textstyle \algn^\Ba(f,\nu - \hnu)} \, 
 		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}\\
 	\algn^\Ba(f,\nu - \hnu) &\sim \cn ( 0, 1 ) \\
@@ -497,23 +494,27 @@ Supported by NSF-DMS-1522687}}
 
 \begin{frame}
 	\frametitle{Bayesian Trio Identity}
-	\vspace*{-7ex}
+	\vspace*{-8ex}
 	\begin{align*}
-	c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
-	\mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n,  \quad \vone^T \vw \text{ may be } \ne 1\\
+	f & \sim \GP \bigl(0, \var_{f}\bigl(S(f)\bigr) C\bigr), \qquad c_0  = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \\
+	\vc & = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \qquad
+	\mC  = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n
+	%,  \quad \vone^T \vw \text{ may be } \ne 1
+	\\
 	\redroundmathbox{\mu - \hmu} 
 	& =  \redroundmathbox{\displaystyle%
 		\underbrace{\algn^\Ba(f,\nu - \hnu)}_{\textstyle \sim \cn ( 0, 1 )} \, 
-		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{\std_{f}\bigl(S(f)\bigr)}_{\textstyle\Var^\Ba(f)}}
 	\end{align*}
 		\vspace*{-4ex}
 	\begin{itemize}
-		\item Bayesian analysis opens the possibility to confidence intervals for $\mu$ even if $\hnu$ is deterministic
-		\item But how do you estimate $s$ plus any parameters lurking in $C$?
+		\item Bayesian analysis provides \alert{confidence} intervals for $\mu$ even when $\hnu$ is deterministic
+		\item Must estimate \alert{hyper-parameters}, such as $\std_{f}\bigl(S(f)\bigr)$, say by MLE
 		\item $\disc^\Ba(\nu - \hnu) = \disc^\Dt(\nu - \hnu)$ for RKHS with $K$ replaced by $C$
 		\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic RKHS cases, but 
 		\begin{itemize}
-			\item generally requires $\Order(n^3)$ operations, and
+			\item generally requires $\Order(n^3)$ operations, 
+			\item susceptible to ill-conditioning for smoother kernels (faster convergence), and
 			\item $\hmu$ might not integrate constants exactly
 		\end{itemize}
 		\item May also consider optimizing placement of data sites, $\{\vx_i\}_{i=1}^n$, but this is more difficult \cite{}
@@ -590,7 +591,7 @@ Supported by NSF-DMS-1522687}}
 	\[
 	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{\frac {\vone^T \tmC \vone}{n^2} - c_0 }, \qquad \tmC  = \Bigl(\Ex_{\hnu} C(\vx_i,\vx_j) \Bigr)_{i,j=1}^n
 	\]	
-	For some $\{\vx_i\}_{i=1}^n$, such as scrambled nets and shifted integration lattices
+	For some $\{\vx_i\}_{i=1}^n$, such as IID samples, scrambled nets and shifted integration lattices
 	\[
 	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
 	\]	
@@ -626,5 +627,8 @@ Supported by NSF-DMS-1522687}}
 
 \end{document}
 
+Niederreiter low dimensional quote
 
+finance example convergence versus MVN convergence
+O'Hagan quote
 
