@@ -81,6 +81,15 @@
         date={1992},
 }
 
+\bib{OHa91a}{article}{
+      author={{O'H}agan, A.},
+       title={{B}ayes-{H}ermite quadrature},
+        date={1991},
+     journal={J. Statist.\ Plann.\ Inference},
+      volume={29},
+       pages={245\ndash 260},
+}
+
 \bib{Owe97}{article}{
       author={Owen, A.~B.},
        title={Scrambled net variance for integrals of smooth functions},
