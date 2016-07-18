@@ -1,0 +1,195 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.4' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5776,        187]
+NotebookOptionsPosition[      5198,        161]
+NotebookOutlinePosition[      5583,        178]
+CellTagsIndexPosition[      5540,        175]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Kplus", "[", 
+   RowBox[{"x_", ",", "sh_"}], "]"}], " ", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"1", " ", "+", " ", 
+     RowBox[{"sh", "*", "x"}]}], ")"}], "*", 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"-", "sh"}], "*", "x"}], "]"}], " "}]}]], "Input",
+ CellChangeTimes->{{3.676417811702868*^9, 3.6764178351488867`*^9}, {
+   3.676417866508902*^9, 3.67641793079912*^9}, {3.6764870180595627`*^9, 
+   3.6764870292003307`*^9}, 3.6764873644576473`*^9, {3.677434430836041*^9, 
+   3.677434435560289*^9}, {3.677434873661845*^9, 3.677434874524942*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  SuperscriptBox["\[ExponentialE]", 
+   RowBox[{
+    RowBox[{"-", "sh"}], " ", "x"}]], " ", 
+  RowBox[{"(", 
+   RowBox[{"1", "+", 
+    RowBox[{"sh", " ", "x"}]}], ")"}]}]], "Output",
+ CellChangeTimes->{
+  3.676417933610214*^9, 3.676487032351921*^9, {3.6764873673860693`*^9, 
+   3.676487373138939*^9}, 3.6774344365804453`*^9, 3.677434877570915*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Kint", "[", 
+   RowBox[{"t_", ",", "sh_"}], "]"}], " ", "=", " ", 
+  RowBox[{"Simplify", "[", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        RowBox[{"Kplus", "[", 
+         RowBox[{
+          RowBox[{"x", "-", "t"}], ",", "sh"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "t", ",", "b"}], "}"}]}], "]"}], "+", " ", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        RowBox[{"Kplus", "[", 
+         RowBox[{
+          RowBox[{"t", " ", "-", " ", "x"}], ",", "sh"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "a", ",", "t"}], "}"}]}], "]"}]}], ")"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"b", "-", "a"}], ")"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.676417942912096*^9, 3.676418049062398*^9}, 
+   3.676418100102112*^9, {3.676487051693493*^9, 3.676487172555121*^9}, {
+   3.676487415903062*^9, 3.676487418526772*^9}, {3.677434441648973*^9, 
+   3.677434488599709*^9}, {3.677434626831822*^9, 3.677434632564473*^9}, 
+   3.677434684740138*^9, {3.677434828221655*^9, 3.677434834463813*^9}, {
+   3.6774348977904997`*^9, 3.677434918781788*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   RowBox[{"-", "4"}], "+", 
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"sh", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "b"}], "+", "t"}], ")"}]}]], " ", 
+    RowBox[{"(", 
+     RowBox[{"2", "+", 
+      RowBox[{"b", " ", "sh"}], "-", 
+      RowBox[{"sh", " ", "t"}]}], ")"}]}], "+", 
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"sh", " ", 
+      RowBox[{"(", 
+       RowBox[{"a", "-", "t"}], ")"}]}]], " ", 
+    RowBox[{"(", 
+     RowBox[{"2", "-", 
+      RowBox[{"a", " ", "sh"}], "+", 
+      RowBox[{"sh", " ", "t"}]}], ")"}]}]}], 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"a", "-", "b"}], ")"}], " ", "sh"}]]], "Output",
+ CellChangeTimes->{
+  3.677434498428508*^9, 3.67743467062147*^9, 3.677434708366067*^9, 
+   3.677434840891087*^9, {3.677434884528141*^9, 3.6774349206348658`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"KintTwice", "[", "sh_", "]"}], " ", "=", " ", 
+  RowBox[{"Simplify", "[", 
+   RowBox[{
+    RowBox[{"Integrate", "[", 
+     RowBox[{
+      RowBox[{"Kint", "[", 
+       RowBox[{"t", ",", "sh"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "a", ",", "b"}], "}"}]}], "]"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"b", "-", "a"}], ")"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.676417942912096*^9, 3.676418049062398*^9}, 
+   3.676418100102112*^9, {3.676418147292317*^9, 3.67641815548279*^9}, {
+   3.6764871913613663`*^9, 3.676487198378212*^9}, {3.6764872406502523`*^9, 
+   3.676487250511692*^9}, {3.677434531295416*^9, 3.677434591285091*^9}, {
+   3.6774349663883247`*^9, 3.677434973196218*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   RowBox[{"-", "6"}], "-", 
+   RowBox[{"4", " ", "a", " ", "sh"}], "+", 
+   RowBox[{"4", " ", "b", " ", "sh"}], "+", 
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"a", "-", "b"}], ")"}], " ", "sh"}]], " ", 
+    RowBox[{"(", 
+     RowBox[{"6", "-", 
+      RowBox[{"2", " ", "a", " ", "sh"}], "+", 
+      RowBox[{"2", " ", "b", " ", "sh"}]}], ")"}]}]}], 
+  RowBox[{
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{"a", "-", "b"}], ")"}], "2"], " ", 
+   SuperscriptBox["sh", "2"]}]]], "Output",
+ CellChangeTimes->{
+  3.6764181608606052`*^9, 3.676487252972218*^9, 3.676487374367216*^9, 
+   3.6774346032601767`*^9, {3.677434960735701*^9, 3.677434974790428*^9}}]
+}, Open  ]]
+},
+WindowSize->{1158, 1031},
+WindowMargins->{{Automatic, 79}, {Automatic, 0}},
+Magnification:>2. Inherited,
+FrontEndVersion->"10.4 for Mac OS X x86 (32-bit, 64-bit Kernel) (April 11, \
+2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 596, 14, 56, "Input"],
+Cell[1179, 38, 371, 10, 61, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1587, 53, 1175, 29, 156, "Input"],
+Cell[2765, 84, 885, 28, 92, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3687, 117, 739, 17, 90, "Input"],
+Cell[4429, 136, 753, 22, 153, "Output"]
+}, Open  ]]
+}
+]
+*)
+
