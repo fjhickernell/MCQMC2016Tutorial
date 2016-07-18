@@ -141,18 +141,19 @@ classdef multivarGauss < handle
          if strcmp(obj.errMeth,'n')
             out = [];
             dim = numel(obj.a);
+            realDim = dim - redDim;
             nmax = max(obj.n);
             if strcmp(obj.cubMeth,'IID')
-               if dim - redDim >= 1
-                  x = rand(nmax,dim-redDim);
+               if realDim >= 1
+                  x = rand(nmax,realDim);
                else
                   x(nmax,1) = 0;
                end
                temp = cumsum(obj.f(x),1);
                prob = temp(obj.n)./obj.n(:);
             elseif strcmp(obj.cubMeth,'Sobol')
-               if dim - redDim >= 1
-                  x = net(scramble(sobolset(dim-redDim), ...
+               if realDim >= 1
+                  x = net(scramble(sobolset(realDim), ...
                   'MatousekAffineOwen'),nmax);
                else
                   x(nmax,1) = 0;
@@ -160,16 +161,16 @@ classdef multivarGauss < handle
                temp = cumsum(obj.f(x),1);
                prob = temp(obj.n)./obj.n(:);
             elseif strcmp(obj.cubMeth,'uSobol')
-               if dim - redDim >= 1
-                  x = net(sobolset(dim-redDim),nmax);
+               if realDim >= 1
+                  x = net(sobolset(realDim),nmax);
                else
                   x(nmax,1) = 0;
                end
                temp = cumsum(obj.f(x),1);
                prob = temp(obj.n)./obj.n(:);
             elseif strcmp(obj.cubMeth,'SobolOpt')
-               if dim - redDim >= 1
-                  x = net(scramble(sobolset(dim-redDim), ...
+               if realDim >= 1
+                  x = net(scramble(sobolset(realDim), ...
                      'MatousekAffineOwen'),nmax);
                   %acosx = acos(1-2*x)/pi;
                   nn = numel(obj.n);
@@ -182,6 +183,29 @@ classdef multivarGauss < handle
 %                     [K,kvec] = kernelFun(acosx(1:nii,:));
                      w = pinv(K)*kvec;
                      prob(ii) = w'*temp(1:nii);
+                  end               
+               else
+                  prob = obj.f(0)*ones(size(obj.n));
+               end
+            elseif strcmp(obj.cubMeth,'SobolMLE')
+               if realDim >= 1
+                  x = net(scramble(sobolset(realDim), ...
+                     'MatousekAffineOwen'),nmax);
+                  nn = numel(obj.n);
+                  prob(nn,1) = 0;
+                  temp = obj.f(x);
+                  out.aMLE(nn,1) = 0;
+                  for ii = 1:nn
+                     nii = obj.n(ii);
+                     lnaMLE = fminbnd(@(lna) ...
+                        MLEKernel(exp(lna),x(1:nii,:),temp(1:nii,:),'Mat1'), ...
+                        -5,5,optimset('TolX',1e-2));
+                     aMLE = exp(lnaMLE);
+                     out.aMLE(ii) = aMLE;
+                     [K,kvec] = kernelFun(x(1:nii,:),'Mat1',aMLE);
+                     w = pinv(K)*kvec;
+                     prob(ii) = w'*temp(1:nii);
+                     %out.stdErr = sqrt(cK
                   end               
                else
                   prob = obj.f(0)*ones(size(obj.n));

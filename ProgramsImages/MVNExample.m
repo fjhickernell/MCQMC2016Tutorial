@@ -22,7 +22,7 @@ if exist('MVNProbExampleAllData.mat','file')
    MVNProbIIDGnArch = MVNProbIIDGn;
    MVNProbSobolGnArch = MVNProbSobolGn;
    MVNProbuSobolGnArch = MVNProbuSobolGn;
-   MVNProbOptSobolGnArch = MVNProbOptSobolGn;
+   MVNProbOptSobolGnArch = MVNProbMLESobolGn;
 end
 
 
@@ -137,29 +137,29 @@ if compuSobol
    toc
 end
 
-%% Try optimal weights
-nvecOPT = 2.^(7:11)';
-nnOPT = numel(nvecOPT);
-MVNProbOptSobolGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecOPT, ...
+%% Try MLE Bayseian cubature
+nvecMLE = 2.^(7:11)';
+nnMLE = numel(nvecMLE);
+MVNProbMLESobolGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
    'errMeth','n','cubMeth','SobolOpt','intMeth','Genz');
-compOptSobol = true;
-if exist('MVNProbExampleData.mat','file')
-   if sameProblem(MVNProbOptSobolGn,MVNProbOptSobolGnArch)
-      disp('Already have weighted Sobol answer')
-      compOptSobol = false;
-   end
-end
-if compOptSobol
+compMLESobol = true;
+% if exist('MVNProbExampleData.mat','file')
+%    if sameProblem(MVNProbMLESobolGn,MVNProbMLESobolGnArch)
+%       disp('Already have MLE Sobol answer')
+%       compOptSobol = false;
+%    end
+% end
+if compMLESobol
    tic
-   muMVNProbOptSobolGn = zeros(nnOPT,nRep);
+   muMVNProbMLESobolGn = zeros(nnMLE,nRep);
    tic 
    for i = 1:nRep
       if i/1 == floor(i/1), i, end
-      muMVNProbOptSobolGn(:,i) = compProb(MVNProbOptSobolGn); 
+      muMVNProbMLESobolGn(:,i) = compProb(MVNProbMLESobolGn); 
    end
-   errvecMVNProbOptSobolGn = abs(muBest - muMVNProbOptSobolGn);
-   errmedMVNProbOptSobolGn = median(errvecMVNProbOptSobolGn,2);
-   errtopMVNProbOptSobolGn = quantile(errvecMVNProbOptSobolGn,1-alpha,2);
+   errvecMVNProbMLESobolGn = abs(muBest - muMVNProbMLESobolGn);
+   errmedMVNProbMLESobolGn = median(errvecMVNProbMLESobolGn,2);
+   errtopMVNProbMLESobolGn = quantile(errvecMVNProbMLESobolGn,1-alpha,2);
    toc
 end
 

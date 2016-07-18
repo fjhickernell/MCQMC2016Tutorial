@@ -1,6 +1,6 @@
 %Stanford, August 14, 2016
 \documentclass[10pt,compress,xcolor={usenames,dvipsnames}]{beamer} %slides and notes
-\usepackage{amsmath,datetime,xmpmulti,mathtools,bbm,array,booktabs,alltt,xspace,mathabx,pifont,tikz,calc,colortbl,graphicx}
+\usepackage{amsmath,datetime,xmpmulti,mathtools,bbm,array,booktabs,alltt,xspace,mathabx,pifont,tikz,calc,colortbl,stmaryrd,graphicx}
 \usepackage[usenames]{xcolor}
 \usepackage[tikz]{mdframed}
 \usepackage[author-year]{amsrefs}
@@ -29,7 +29,7 @@
 	linecolor=red!20,
 	roundcorner=5pt}
 
-\title[]{Error Analysis of (Quasi-)Monte Carlo Methods}
+\title[]{Error Analysis for Quasi-Monte Carlo Methods}
 \author[]{Fred J. Hickernell}
 \institute{\small{Department of Applied Mathematics,  Illinois Institute of Technology \\
 \href{mailto:hickernell@iit.edu}{\url{hickernell@iit.edu}} \quad
@@ -75,9 +75,11 @@ Supported by NSF-DMS-1522687}}
 \newcommand{\HickernellFJ}{H.} %To give my name to the bibliography
 \newcommand{\abstol}{\varepsilon_{\text{a}}}
 \newcommand{\reltol}{\varepsilon_{\text{r}}}
+\DeclareMathOperator{\MLE}{MLE}
 \DeclareMathOperator{\algn}{ALN}
 \DeclareMathOperator{\disc}{DSC}
 \DeclareMathOperator{\Var}{VAR}
+\DeclareMathOperator{\RMS}{RMS}
 \DeclareMathOperator{\GP}{\cg\cp}
 \newcommand{\Dt}{\text{D}}
 \newcommand{\Rn}{\text{R}}
@@ -85,9 +87,16 @@ Supported by NSF-DMS-1522687}}
 \newcommand{\tmC}{\widetilde{\mC}}
 \newcommand{\tvC}{\widetilde{\vC}}
 \newcommand{\vC}{\boldsymbol{C}}
+\newcommand{\hvtheta}{\hat{\vtheta}}
+\newcommand{\hs}{\hat{s}}
 
 \newcommand{\redroundmathbox}[1]{\parbox{\widthof{$#1$\hspace{1em}}}
 	{\begin{mdframed}[style=redshade]\centering $#1$ \end{mdframed}}}
+\newcommand{\setbeameruncoveredtransp}{\setbeamercovered{transparent=10}}
+\newcommand{\shadegraph}[1]{\tikz\node[opacity=0.25, inner sep=0, outer sep=0]{#1};}
+\newcommand{\sleepPict}{\href{http://www.preapps.com/blog/wp-content/uploads/2015/09/Valuable-Sleep.jpg}{\includegraphics[width = 3cm]{ProgramsImages/Valuable-Sleep.jpg}}}
+\newcommand{\financePict}{\href{http://i2.cdn.turner.com/money/dam/assets/130611131918-chicago-board-options-exchange-1024x576.jpg}{\includegraphics[width = 3cm]{ProgramsImages/130611131918-chicago-board-options-exchange-1024x576.jpg}}}
+\newcommand{\GaussPict}{\href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}}
 
 \newcommand{\medcone}{\parbox{1.2cm}{\includegraphics[width=0.55cm,angle=270]{ProgramsImages/MediumWaffleCone.eps}}\xspace}
 
@@ -108,50 +117,70 @@ Supported by NSF-DMS-1522687}}
 
 \frame{\titlepage}
 
-\section{Examples}
+\section{Motivation}
+
 \begin{frame}
+	%\setbeameruncoveredtransp
+	\frametitle{\textbf<2-3>{Error Analysis} for \textbf<4>{Quasi-Monte Carlo Methods}}
+	\vspace{-7ex}
+{\large	\begin{gather*} \mu := \Ex[f(\vX)] := \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu := \sum_{i=1}^n f(\vx_i) w_i \\
+	\redroundmathbox{\mu - \hmu =\, ?} 
+	 \end{gather*}
+	 \vspace{-8ex}
+	\begin{center}
+		\begin{tabular}{>{\centering}p{0.45\textwidth}>{\centering}p{0.5\textwidth}}
+\uncover<2->{\alert{Reality} & \alert{Error Analysis (Theory)} \tabularnewline 
+What is &  What we think it should be \\[1ex]}
+\uncover<3->{Because we are rarely certain that our assumptions hold}
+		\end{tabular}
+	\end{center}
+\uncover<4->{\alert{Quasi-Monte Carlo Methods} \\ [-1ex]
+	\begin{itemize}
+		\item $w_1  = \cdots = w_n = 1/n$ or
+		\item $\vx_i$ chosen carefully
+	\end{itemize}}}
+\end{frame}
+ 
+\begin{frame}
+	\setbeameruncoveredtransp
 	\frametitle{Integration Examples}
 	\vspace{-8ex}
 	\begin{tabular}{m{8cm}m{3cm}}
 	\[ \begin{aligned}
 	\mu &= \frac{1}{N} \sum_{j=1}^N f(j) = \text{population average hours of sleep} \\ f(j) & = \text{hours of sleep for individual } j 
 	\end{aligned} \]
-	& \href{http://www.preapps.com/blog/wp-content/uploads/2015/09/Valuable-Sleep.jpg}{\includegraphics[width = 3cm]{ProgramsImages/Valuable-Sleep.jpg}}
+	& \sleepPict
 \uncover<2->{
 	\tabularnewline [-2.2ex] \arrayrulecolor{ltred}\toprule
-\tabularnewline [-2.6ex] 
+\tabularnewline [-1.5ex] 
 \vspace{-4ex}
 		\[ \begin{aligned} \mu &= \int_{\reals^d} f(\vx) \, \nu (\dif \vx) =  \text{option price}\\ f(\vx) & = \text{discounted payoff determined by innovations }\vx
 			\end{aligned} \] 
-		& \href{http://i2.cdn.turner.com/money/dam/assets/130611131918-chicago-board-options-exchange-1024x576.jpg}{\includegraphics[width = 3cm]{ProgramsImages/130611131918-chicago-board-options-exchange-1024x576.jpg}}
-		} 
+		& \vspace{-2ex}
+		\only<1>{\shadegraph{\financePict}}\only<2->{\financePict}}
 	 \uncover<3->{
-	 	\tabularnewline [-2.2ex] \arrayrulecolor{ltred}\toprule
-\tabularnewline [-3.6ex] 
-\vspace{-3ex}
+	 	\tabularnewline[-1ex] \arrayrulecolor{ltred}\toprule
+\tabularnewline [-3ex] 
+\vspace{-2ex}
 	 	\[ \begin{aligned}\mu &= \int_{\cx} g(\vx) \, \dif \vx = \Prob(\vX \in \cx) = \text{probability} \\ g & = \text{probability density function}
 	 		\end{aligned} \] 
-	 		& \href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}
-	 		} 
+	 		& \vspace{-1ex} \only<1-2>{\shadegraph{\GaussPict}}\only<3->{\GaussPict}} 
 	 \uncover<4->{
-	 	\tabularnewline [-4.2ex] \arrayrulecolor{ltred}\toprule}
+	 	\tabularnewline[-2ex]  \arrayrulecolor{ltred}\toprule}
 \end{tabular}
-\uncover<4->{
 	\vspace{-3ex}
 \begin{gather*}
-	 	\mu  = \Ex[f(\vX)] = \int_{\cx} f(\vx) \, \nu(\dif\vx) \uncover<5->{\approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)}
-	 		\uncover<6>{
+	 	\uncover<4->{\mu  = \Ex[f(\vX)] = \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)
 	 				\qquad \redroundmathbox{\mu - \hmu =\, ?}} \\
-	 	\nu = \text{probability measure} \uncover<5->{, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure},\quad \sum_{i=1}^n w_i =1}
+	 	\uncover<4->{\nu = \text{probability measure}, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure},\quad \sum_{i=1}^n w_i =1}
 	 	\end{gather*}
-	 	 }	
-
-
 \end{frame}
+
 
 \section{Trio Error Identity}
 
 \begin{frame}
+	\setbeameruncoveredtransp
 	\frametitle{Trio Identity for the Error {\large \cite{Men16a}}}
 	\vspace{-7ex}
 	\begin{align*}
@@ -182,13 +211,14 @@ Supported by NSF-DMS-1522687}}
 \end{frame}
 
 \begin{frame}
+	\setbeameruncoveredtransp
 	\frametitle{Deterministic Trio Identity}
 	\vspace{-8ex}
 	\begin{align*}
 	(\cf, \norm[\cf]{\cdot}) & = \text{normed vector space of integrands} \\
 	& \qquad f \mapsto f(\vx) \text{ is bounded for all } \vx \in \cx \\
 	& \qquad L: \cf \to \reals \text{ is bounded and linear}, \quad 1 \in \cf \text{ or } L(f):=0  \\
-	(\cm, \norm[\cm]{\cdot}) & = \text{normed vector space of signed measures, includes } \delta_{\vx} \ \forall \vx \in \cx\\
+	(\cm, \norm[\cm]{\cdot}) & = \text{normed vector space of signed measures, includes } \delta_{\vt} \ \forall \vt \in \cx\\
 	& \qquad  \norm[\cm]{\lambda} := \sup_{\substack{f \in \cf \\ f \ne 0= L(f)}} \frac{\abs{\int_{\cx} f(\vx) \, \lambda(\dif\vx)}}{\norm[\cf]{f}} = \text{norm of } f \mapsto \int_{\cx} f(\vx) \, \lambda(\dif\vx)\\
 	\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 	& =  \redroundmathbox{%
@@ -206,16 +236,16 @@ Supported by NSF-DMS-1522687}}
 	\vspace{-8ex}
 	\begin{tabular}{m{8cm}m{3.5cm}}
 		\begin{gather*}
-		\mu = \text{population average hours of sleep} \\
+		\mu %= \frac 1N \sum_{j=1}^N f(j) 
+		= \text{population average hours of sleep}  \\
 		f(j) = \text{hours of sleep for individual } j \\
 			\nu = \frac{1}N \sum_{j=1}^N \delta_{j} = \text{uniform}, \qquad \hnu  = \frac 1n \sum_{i=1}^n \delta_{x_i}\\
 			\{x_i\}_{i=1}^n \text{is a sequence of distinct individuals}, \quad n < N
 			\end{gather*}
-			&
-	\href{http://www.preapps.com/blog/wp-content/uploads/2015/09/Valuable-Sleep.jpg}{\includegraphics[width = 3cm]{ProgramsImages/Valuable-Sleep.jpg}}
+			& \sleepPict
 	\end{tabular}
 	\vspace{-4ex}
-	\[L(f)  = \frac 1N \sum_{j=1}^N f(j) = \mu, \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - L(f)][g(j) - L(g)]\]
+\[ \mu = \mu_f = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu_f][g(j) - \mu_g]\]
 	\centerline{\redroundmathbox{\mu - \hmu  = 
 			\underbrace{-\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)}_{\textstyle\algn^\Dt(f,\nu - \hnu)}
 			\underbrace{ \sqrt{\frac{1-n/N}{\alert{n/N}}}}_{\textstyle\disc^\Dt(\nu - \hnu)}
@@ -251,10 +281,12 @@ Supported by NSF-DMS-1522687}}
 	\cx &= [0,1]^d, \qquad  \nu = \text{Lebesgue}, \qquad K(\vx,\vt) =\prod_{k = 1}^d [2 - \max(x_k,t_k)] \\
 	\Var^\Dt(f) & = \norm[\cf]{f-f(\vone)} = \Bigl \lVert \bigl ( \norm[L^2]{\partial^\fu f}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 , \qquad 
 	\partial^\fu f : = \frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \biggr \rvert_{\textstyle \vx_{\widebar{\fu}} = \vone} \\
-	[\disc^\Dt(\nu - \hnu)]^2 &  =  \frac 43 - 2 \sum_{i=1}^n w_i \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \sum_{i,j=1}^n w_i w_j \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] \\
-	& = \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 
+	[\disc^\Dt(\nu - \hnu)]^2 &  =  \frac 43 - 2 \sum_{i=1}^n w_i \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \sum_{i,j=1}^n w_i w_j \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] 
+	\only<2->{\\& = \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2}
 	\end{align*}
-	\only<1>{\begin{tabular}{>{\flushright}m{5cm}>{\centering}m{6cm}}
+	\only<1>{\vspace*{-1.8ex}
+		\centerline{\includegraphics[width = 6.7cm]{ProgramsImages/L2Kernel.eps}}}
+	\only<2>{\begin{tabular}{>{\flushright}m{5cm}>{\centering}m{6cm}}
 			$ \vx = (\ldots, 0.6, \cdots, 0.4, \ldots)$
 			\begin{multline*}
 			\nu([\vzero,\vx_{\{5,8\}}]) - \hnu([\vzero,\vx_{\{5,8\}}]) \\
@@ -262,7 +294,7 @@ Supported by NSF-DMS-1522687}}
 			\end{multline*}&
 			\includegraphics[width = 5cm]{ProgramsImages/LocalDiscrep.eps}
 		\end{tabular}}
-\only<2>{	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
+\only<3>{	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
 	\vspace{-4ex}
 	\begin{itemize}
 		\item $\disc^\Dt(\nu - \hnu)$ requires $\Order(dn^2)$ operations to evaluate
@@ -283,7 +315,7 @@ Supported by NSF-DMS-1522687}}
 	\overset{\text{\smallocite{Gen93}}}{=} \ \int_{[0,1]^{d-1}} f(\vx) \, \dif \vx \\
 		\hnu = \text{equally weighted average}
 		\end{gather*}
-		& \href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}
+		& \GaussPict
 	\end{tabular}
 	\vspace{-4ex}
 	
@@ -315,6 +347,7 @@ Supported by NSF-DMS-1522687}}
 \end{frame}
 
 \begin{frame}
+	\setbeameruncoveredtransp
 	\frametitle{Randomized Trio Identity}
 		\vspace{-8ex}
 		\begin{align*}
@@ -344,12 +377,12 @@ Supported by NSF-DMS-1522687}}
 	If $\hnu$ is an equally weighted average of $n$ integrand values at IID data sites, then
 	\begin{align*}
 	%\Var(f) & = 
-	\norm[L^2]{f - \mu} &= \sqrt{\int_{\cx} \abs{f(\vx) - \mu}^2 \, \nu(\dif \vx) } \\
+	\std(f) & := \norm[L^2]{f - \mu} := \sqrt{\int_{\cx} \abs{f(\vx) - \mu}^2 \, \nu(\dif \vx) } \\
    % \RMSE(f,\nu - \hnu) &= \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } = \frac{\norm[L^2(\cx),\nu]{f - \mu}}{\sqrt{n}} \\
 \redroundmathbox{\mu - \hmu} 
 		& =  \redroundmathbox{\displaystyle%
-			\underbrace{\frac{ \sqrt{n}\int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[L^2]{f - \mu}}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
-			\underbrace{\frac{1}{\sqrt{n}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[L^2]{f - \mu}}_{\textstyle\Var^\Dt(f)}}  \\
+			\underbrace{\frac{ \sqrt{n}\int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\std(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
+			\underbrace{\frac{1}{\sqrt{n}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\std(f)}_{\textstyle\Var^\Dt(f)}}  \\
 		& \qquad \algn^\Rn(f,\nu - \hnu) \sim (0,1), \qquad \hmu \text{ is unbiased} \\
 	& \qquad \phantom{\algn^\Rn(f,\nu - \hnu) } \approx \cn(0,1) \text{ for large } n \text{ by the Central Limit Theorem}
 	\end{align*}
@@ -368,10 +401,10 @@ Supported by NSF-DMS-1522687}}
 	    n \ll N
 		\end{gather*}
 		&
-		\href{http://www.preapps.com/blog/wp-content/uploads/2015/09/Valuable-Sleep.jpg}{\includegraphics[width = 3cm]{ProgramsImages/Valuable-Sleep.jpg}}
+		\sleepPict
 	\end{tabular}
 	\vspace{-5ex}
-	\[L(f)  = \frac 1N \sum_{j=1}^N f(j), \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - L(f)][g(j) - L(g)]\]
+\[ \mu = \mu_f = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu_f][g(j) - \mu_g]\]
 	\vspace{-1ex}	
 	\centerline{\redroundmathbox{\mu - \hmu  = \begin{cases} 
 				 \frac{- \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}\\
@@ -401,7 +434,7 @@ Supported by NSF-DMS-1522687}}
 						\noindent \alert{``Enough'' may mean much more than you think. }
 					\end{quotation}}
 					&
-		\hspace{-0.5cm}\href{http://www.preapps.com/blog/wp-content/uploads/2015/09/Valuable-Sleep.jpg}{\includegraphics[width = 3cm]{ProgramsImages/Valuable-Sleep.jpg}}
+		\sleepPict
 	\end{tabular}
 	\vspace{-2ex}	
 	\centerline{\redroundmathbox{\mu - \hmu  = \begin{cases} 
@@ -429,7 +462,7 @@ Supported by NSF-DMS-1522687}}
 		\mu = \int_{[\va,\vb]} \frac{\exp\bigl(- \frac 12 \vt^T \mSigma^{-1} \vt \bigr)}{\sqrt{(2 \pi)^d \det(\mSigma)}} \, \dif \vt \
 		\overset{\text{\smallocite{Gen93}}}{=} \ \int_{[0,1]^{d-1}} f(\vx) \, \dif \vx 
 		\end{equation*}
-		& \href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}
+		& \GaussPict
 	\end{tabular}
 	\vspace{-3ex}
 	
@@ -472,7 +505,7 @@ Supported by NSF-DMS-1522687}}
 \begin{frame}
 	\frametitle{Bayesian Trio Identity}
 	\vspace*{-4ex}
-	\alert{Random} $f$ postulated by \cite{Dia88a}, \cite{OHa91a}, \cite{Rit00a}  and others:  $f \sim \GP (0, s^2C)$,  a \alert{Gaussian process} from the sample space $\cf$ with zero mean and covariance kernel, $s^2C$, $C:\cx \times \cx \to \reals$. \alert{Hyperparameter} 	$s := \std_{f}\bigl(S(f)\bigr)$, where $S : \cf \to \reals$ is linear.  Then 
+	\alert{Random} $f$ postulated by \cite{Dia88a}, \cite{OHa91a}, \cite{Rit00a}  and others:  $f \sim \GP (0, s^2C)$,  a \alert{Gaussian process} from the sample space $\cf$ with zero mean and covariance kernel, $s^2C_{\vtheta}$, $C_{\vtheta}:\cx \times \cx \to \reals$. The \alert{scale parameter}, $s$, and \alert{shape parameter}, $\vtheta$, should be estimated.  	 Then 
 	\vspace{-1ex}
 	\begin{align*}
 	%\mu - \hmu & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn \bigl( \vy^T (\mC^{-1}\vc - \vw), s^2(c_0 - \vc ^T \mC^{-1} \vc) \bigr) \\
@@ -482,43 +515,49 @@ Supported by NSF-DMS-1522687}}
 	& = \redroundmathbox{\displaystyle%
 		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}}_{\textstyle \algn^\Ba(f,\nu - \hnu)} \, 
 		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}\\
-	\algn^\Ba(f,\nu - \hnu) &\sim \cn ( 0, 1 ) \\
-	\algn^\Ba(f,\nu - \hnu) & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \\
-	& \sim \cn \biggl( \frac{\vy^T (\mC^{-1}\vc - \vw)}{s\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}, \frac{c_0 - \vc ^T \mC^{-1} \vc}{c_0 - 2 \vc^T \vw + \vw^T \mC \vw} \biggr) \\
-	& \sim \cn (0,1) \quad \text{if } \vw = \mC^{-1}\vc 
+	& \qquad \algn^\Ba(f,\nu - \hnu) \sim \cn ( 0, 1 ) \\
+	& \qquad \algn^\Ba(f,\nu - \hnu) \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn (0,1) \quad \text{if } \vw = \mC^{-1}\vc \\
+	& \qquad \text{may identify } s := \std_{f}\bigl(S(f)\bigr), \text{ where } S : \cf \to \reals \text{ is linear} \\
+	& \qquad \disc^\Ba(\nu - \hnu) =  \disc^\Dt(\nu - \hnu) \text{ if } s^2 C_{\vtheta} = K
 	\end{align*}	
 \end{frame}
 
+
+
 \begin{frame}
-	\frametitle{Bayesian Trio Identity}
-	\vspace*{-8ex}
-	\begin{align*}
-	f & \sim \GP \bigl(0, \var_{f}\bigl(S(f)\bigr) C\bigr), \qquad c_0  = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \\
-	\vc & = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \qquad
-	\mC  = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n
-	%,  \quad \vone^T \vw \text{ may be } \ne 1
-	\\
-	\redroundmathbox{\mu - \hmu} 
-	& =  \redroundmathbox{\displaystyle%
-		\underbrace{\algn^\Ba(f,\nu - \hnu)}_{\textstyle \sim \cn ( 0, 1 )} \, 
-		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{\std_{f}\bigl(S(f)\bigr)}_{\textstyle\Var^\Ba(f)}}
-	\end{align*}
-		\vspace*{-4ex}
-	\begin{itemize}
-		\item Bayesian analysis provides \alert{confidence} intervals for $\mu$ even when $\hnu$ is deterministic
-		\item Must estimate \alert{hyper-parameters}, such as $\std_{f}\bigl(S(f)\bigr)$, say by MLE
-		\item $\disc^\Ba(\nu - \hnu) = \disc^\Dt(\nu - \hnu)$ for RKHS with $K$ replaced by $C$
-		\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic RKHS cases, but 
-		\begin{itemize}
-			\item generally requires $\Order(n^3)$ operations, 
-			\item susceptible to ill-conditioning for smoother kernels (faster convergence), and
-			\item $\hmu$ might not integrate constants exactly
-		\end{itemize}
-		\item May also consider optimizing placement of data sites, $\{\vx_i\}_{i=1}^n$, but this is more difficult \cite{}
-	\end{itemize}
+	\setbeameruncoveredtransp
+	\frametitle{Bayesian Cubature \hfill \uncover<3->{Deterministic Interpretation}}
+	\vspace{-7.8ex}
+	\[
+	\begin{array}{rcl}
+		f  \sim \GP (0, s^2 C_{\vtheta}) & & \uncover<3->{f \in \cf \text{ w/ reproducing kernel } K_{\vtheta}} \tabularnewline \toprule
+		\multicolumn{3}{c}{\abs{\mu - \hmu} \le \text{ width}} \tabularnewline
+		\text{with } 99\% \text{ confidence}&& \uncover<4->{\text{if }  \Var^{\Dt}(f - \tf_{\vy}) \le \frac{2.58}{\alert{n}} \Var^{\Dt}(\tf_{\vy}) }\tabularnewline
+		 2.58\sqrt{\bigl (c_{\hvtheta,0} - \vc_{\hvtheta}^T  \mC_{\hvtheta}^{-1} \vc_{\hvtheta}\bigr) \, \frac {\vy^T \mC_{\hvtheta}^{-1}  \vy}{\alert{n}} } &
+		 \shortleftarrow\text{\!width}\uncover<3->{\!\shortrightarrow}&
+		 \uncover<3->{\text{replace } C_{\vtheta} \text{ by } K_{\vtheta}}
+		  \tabularnewline 
+		  = 2.58 \disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) &&  \uncover<4->{=\frac{2.58}{\alert{n}}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\alert{\tf_{\vy}}) } \tabularnewline
+		  \multicolumn{3}{c}{\vy = \bigl(f(\vx_i)\bigr)_{i=1}^n} \tabularnewline[0.5ex]
+		  && \uncover<4->{\tf_{\vy} = \text{minimum norm interpolant}} \tabularnewline
+		  \mC_{\hvtheta}^{-1} \vc_{\hvtheta} & \leftarrow \vw \uncover<3->{\rightarrow}& \uncover<3->{\text{replace } C_{\vtheta} \text{ by } K_{\vtheta}} \tabularnewline
+	  \argmin_{\vtheta} \frac{\vy^T \mC_{\vtheta}^{-1} \vy}{[\det(\mC_{\vtheta}^{-1})]^{1/n}} & \leftarrow 	\hvtheta  \uncover<3->{\rightarrow} &  \uncover<3->{\text{replace } C_{\vtheta} \text{ by } K_{\vtheta}} \tabularnewline
+	  \text{estimate $s$ and $\vtheta$ by MLE} & & \uncover<4->{ = \argmin_{\vtheta}  \vol \bigl(\{ \vz \in \reals^n : \tabularnewline 
+	  	&& \qquad\quad \Var^{\Dt}_{\vtheta}(\tf_{\vz}) \le \Var^{\Dt}_{\vtheta}(\tf_{\vy})\} \bigr ) }
+	\end{array}
+	\]
+	\vspace*{-4ex}
+	\uncover<2->{\begin{itemize}
+            %\item $C_{\vtheta} = K_{\vtheta} \implies \hmu^{\Dt} = \hmu^{\Ba}, \text{ but }\RMS_{f} \Var^{\Dt}_{\vtheta}(f) \ge \sqrt{n} \Var^{\Ba}_{\vtheta}(f)$!!!!
+			\item Requires $\Order(n^3)$ operations to compute $\mC_{\vtheta}^{-1}$ 
+			\item Ill-conditioning for smoother kernels (faster convergence)
+			\item Might not integrate constants exactly
+	\end{itemize}}
 	
 \end{frame}
 
+
+	
 \begin{frame} \frametitle{Multivariate Normal Probability}
 	\vspace{-8ex}
 	\begin{tabular}{m{8.5cm}m{3cm}}
@@ -526,7 +565,7 @@ Supported by NSF-DMS-1522687}}
 		\mu = \int_{[\va,\vb]} \frac{\exp\bigl(- \frac 12 \vt^T \mSigma^{-1} \vt \bigr)}{\sqrt{(2 \pi)^d \det(\mSigma)}} \, \dif \vt \
 		\overset{\text{\smallocite{Gen93}}}{=} \ \int_{[0,1]^{d-1}} f(\vx) \, \dif \vx 
 		\end{equation*}
-		& \href{http://www.mathworks.com/matlabcentral/answers/uploaded_files/26298/Plotting\%20a\%203d\%20gaussian\%20function\%20using\%20surf\%20-\%202015\%2002\%2027.png}{\includegraphics[width = 3cm]{ProgramsImages/Plotting_gaussian.png}}
+		& \GaussPict
 	\end{tabular}
 	\vspace{-3ex}
 	
@@ -560,7 +599,7 @@ Supported by NSF-DMS-1522687}}
 \begin{frame}
 	\frametitle{Randomized Bayesian Trio Identity}
 		\vspace*{-4ex}
-		Assume that $f \sim \GP (0, s^2C)$ and $\hnu$ is random (independent of $f$).  Then 
+		Assume that $f \sim \GP (0, s^2C)$ and $\hnu$ is \alert{random} (independent of $f$).  Then 
 		\vspace{-1ex}
 		\begin{align*}
 		c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
@@ -629,3 +668,66 @@ Niederreiter low dimensional quote
 finance example convergence versus MVN convergence
 O'Hagan quote
 
+
+\begin{frame}
+	\setbeameruncoveredtransp
+	\frametitle{Bayesian Cubature \hfill \uncover<2->{Deterministic Interpretation}}
+	\vspace{-7.5ex}
+	\[
+	\begin{array}{rcl}
+	f  \sim \GP (0, s^2 C_{\vtheta}) & & \uncover<2->{f \in \cf \text{ w/ reproducing kernel } K_{\vtheta}} \tabularnewline \toprule
+	\multicolumn{3}{c}{\abs{\mu - \hmu} \le \text{ width}} \tabularnewline
+	\text{with probability } 99\% && \uncover<2->{\text{if }  \Var^{\Dt}(f - \tf_{\vy}) \le \fC\Var^{\Dt}(\tf_{\vy}) }\tabularnewline
+	2.58\sqrt{\bigl (c_{\hvtheta,0} - \vc_{\hvtheta}^T  \mC_{\hvtheta}^{-1} \vc_{\hvtheta}\bigr) \, \frac {\vy^T \mC_{\hvtheta}^{-1}  \vy}{\alert{n}} } &
+	\leftarrow\text{width}\uncover<2->{\rightarrow}&
+	\uncover<2->{\alert{\fC} \sqrt{\bigl(k_{\hvtheta,0} - \vk_{\hvtheta}^T  \mK_{\hvtheta}^{-1} \vk_{\hvtheta}\bigr) \bigl(\vy^T \mK_{\vtheta}^{-1}  \vy \bigr)} }
+	\tabularnewline 
+	= 2.58 \disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) &&  \uncover<2->{=\alert{\fC}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\alert{\tf_{\vy}}) } \tabularnewline
+	\multicolumn{3}{c}{\vy = \bigl(f(\vx_i)\bigr)_{i=1}^n} \tabularnewline
+	&& \uncover<2->{\tf_{\vy} = \text{minimum norm interpolant}} \tabularnewline
+	\mC_{\hvtheta}^{-1} \vc_{\hvtheta} & \longleftarrow \vw \uncover<2->{\longrightarrow}& \uncover<2->{\mK_{\hvtheta}^{-1} \vk_{\hvtheta}} \tabularnewline
+	\argmin_{\vtheta} \frac{\vy^T \mC_{\vtheta}^{-1} \vy}{[\det(\mC_{\vtheta}^{-1})]^{1/n}} & \longleftarrow 	\hvtheta  \uncover<2->{\longrightarrow} &  \uncover<2->{\argmin_{\vtheta} \frac{\vy^T \mK_{\vtheta}^{-1} \vy}{[\det(\mK_{\vtheta}^{-1})]^{1/n}}} \tabularnewline
+	\text{estimate $s$ and $\vtheta$ by MLE} & & \uncover<2->{ = \argmin_{\vtheta}  \vol \bigl(\{ \vz \in \reals^n : \tabularnewline 
+		&& \qquad\quad \Var^{\Dt}_{\vtheta}(\tf_{\vz}) \le \Var^{\Dt}_{\vtheta}(\tf_{\vy})\} \bigr ) }
+	%\hs = \sqrt{\frac {\vy^T \mC_{\vtheta}^{-1}  \vy}n }
+	\end{array}
+	\]
+	\vspace*{-4ex}
+	\uncover<3>{\begin{itemize}
+			%\item $C_{\vtheta} = K_{\vtheta} \implies \hmu^{\Dt} = \hmu^{\Ba}, \text{ but }\RMS_{f} \Var^{\Dt}_{\vtheta}(f) \ge \sqrt{n} \Var^{\Ba}_{\vtheta}(f)$!!!!
+			\item generally requires $\Order(n^3)$ operations to compute $\mC_{\vtheta}^{-1}$ 
+			\item susceptible to ill-conditioning for smoother kernels (faster convergence)
+			\item $\hmu$ might not integrate constants exactly
+		\end{itemize}}
+		
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Bayesian Trio Identity}
+		\vspace*{-8ex}
+		\begin{align*}
+		f & \sim \GP \bigl(0, \var_{f}\bigl(S(f)\bigr) C\bigr), \qquad c_0  = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \\
+		\vc & = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \qquad
+		\mC  = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n
+		%,  \quad \vone^T \vw \text{ may be } \ne 1
+		\\
+		\redroundmathbox{\mu - \hmu} 
+		& =  \redroundmathbox{\displaystyle%
+			\underbrace{\algn^\Ba(f,\nu - \hnu)}_{\textstyle \sim \cn ( 0, 1 )} \, 
+			\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{\std_{f}\bigl(S(f)\bigr)}_{\textstyle\Var^\Ba(f)}}
+		\end{align*}
+		\vspace*{-4ex}
+		\begin{itemize}
+			\item Bayesian analysis provides \alert{confidence} intervals for $\mu$ even when $\hnu$ is deterministic
+			\item Must estimate \alert{hyper-parameters}, such as $\std_{f}\bigl(S(f)\bigr)$, say by MLE
+			\item $\disc^\Ba(\nu - \hnu) = \disc^\Dt(\nu - \hnu)$ for RKHS with $K$ replaced by $C$
+			\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic RKHS cases, but 
+			\begin{itemize}
+				\item generally requires $\Order(n^3)$ operations, 
+				\item susceptible to ill-conditioning for smoother kernels (faster convergence), and
+				\item $\hmu$ might not integrate constants exactly
+			\end{itemize}
+			\item May also consider optimizing placement of data sites, $\{\vx_i\}_{i=1}^n$, but this is more difficult \cite{}
+		\end{itemize}
+		
+	\end{frame}
