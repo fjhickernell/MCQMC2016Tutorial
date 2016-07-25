@@ -41,3 +41,97 @@ legend(h,['\(K(x,' num2str(t) ')\)'],'Location','northwest')
 legend boxoff
 print -depsc L2Kernel.eps
 
+%% Plot L2 unweighted discrepancy for Sobol' points
+rng(47)
+mvec = (0:12)';
+nvec = 2.^mvec;
+nmax = max(nvec);
+nn = numel(nvec);
+dvec = [1 4 12 52 250];
+dmax = max(dvec);
+nd = numel(dvec);
+k0 = (4/3).^dvec;
+nrep = 30;
+disc2 = zeros(nn,nd,nrep);
+
+for ii = 1:nrep
+   x = net(scramble(sobolset(dmax),'MatousekAffineOwen'),nmax);
+   Kmat = ones(nmax,nmax);
+   kvec = ones(nmax,1);
+   kd = 1;
+   for k = 1:dmax
+      kvec = kvec .* ((3 - x(:,k).^2)/2);
+      Kmat = Kmat .* (2 - bsxfun(@max,x(:,k),x(:,k)'));
+      if k == dvec(kd)
+         temp1 = cumsum(kvec);
+         temp2 = cumsum(cumsum(Kmat,1),2);
+         disc2(:,kd,ii) = k0(kd) - 2*(temp1(nvec)./nvec) + ...
+            temp2(sub2ind([nmax nmax],nvec,nvec))./(nvec.^2);
+         kd = kd + 1;
+      end
+   end
+end
+disc = sqrt(mean(disc2,3));
+scdisc = bsxfun(@rdivide,disc,disc(1,:));
+figure
+h = loglog(nvec,scdisc,'.');
+hold on
+h = [h; loglog(nvec([1 nn]),scdisc(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
+h = [h; loglog(nvec([1 nn]),scdisc(1,nd)*[1 sqrt(nvec(1)/nvec(nn))],'--','color',get(h(nd),'color'))];
+xlabel('\(n\)')
+ylabel('Scaled DSC')
+legendstuff = cell(1,nd+2);
+legendstuff{1} = ['\(d = ' int2str(dvec(1)) '\)'];
+legendstuff{2} = '\(O(n^{-1})\)';
+for k = 2:nd
+   legendstuff{k+1} = ['\(d = ' int2str(dvec(k)) '\)'];
+end
+legendstuff{nd+2} = '\(O(n^{-1/2})\)';
+legend(h([1 nd+1 2:nd nd+2]),legendstuff,'location','southwest')
+legend boxoff
+print -depsc UnwtL2Disc.eps
+
+%% Plot L2 weighted discrepancy for Sobol' points
+rng(47)
+gamma = (1:dmax).^-3;
+k0 = cumprod(1 + gamma/3);
+k0 = k0(dvec);
+nrep = 30;
+disc2 = zeros(nn,nd,nrep);
+
+for ii = 1:nrep
+   x = net(scramble(sobolset(dmax),'MatousekAffineOwen'),nmax);
+   Kmat = ones(nmax,nmax);
+   kvec = ones(nmax,1);
+   kd = 1;
+   for k = 1:dmax
+      kvec = kvec .* ((1 + gamma(k)/2) - (gamma(k)/2) * x(:,k).^2);
+      Kmat = Kmat .* ((1+gamma(k)) - gamma(k)*bsxfun(@max,x(:,k),x(:,k)'));
+      if k == dvec(kd)
+         temp1 = cumsum(kvec);
+         temp2 = cumsum(cumsum(Kmat,1),2);
+         disc2(:,kd,ii) = k0(kd) - 2*(temp1(nvec)./nvec) + ...
+            temp2(sub2ind([nmax nmax],nvec,nvec))./(nvec.^2);
+         kd = kd + 1;
+      end
+   end
+end
+disc = sqrt(mean(disc2,3));
+scdisc = bsxfun(@rdivide,disc,disc(1,:));
+figure
+h = loglog(nvec,scdisc,'.');
+hold on
+h = [h; loglog(nvec([1 nn]),scdisc(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
+xlabel('\(n\)')
+ylabel('Scaled, Weighted DSC')
+legendstuff = cell(1,nd+1);
+legendstuff{1} = ['\(d = ' int2str(dvec(1)) '\)'];
+legendstuff{2} = '\(O(n^{-1})\)';
+for k = 2:nd
+   legendstuff{k+1} = ['\(d = ' int2str(dvec(k)) '\)'];
+end
+legend(h([1 nd+1 2:nd]),legendstuff,'location','southwest')
+legend boxoff
+print -depsc WtL2Disc.eps
+
+
