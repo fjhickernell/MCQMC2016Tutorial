@@ -3,12 +3,24 @@
 \begin{bibdiv}
 \begin{biblist}
 
+\bib{CafMorOwe97}{article}{
+      author={Caflisch, R.~E.},
+      author={Morokoff, W.},
+      author={Owen, A.},
+       title={Valuation of mortgage backed securities using {B}rownian bridges
+  to reduce effective dimension},
+        date={1997},
+     journal={J. Comput.\ Finance},
+      volume={1},
+       pages={27\ndash 46},
+}
+
 \bib{Dia88a}{incollection}{
       author={Diaconis, P.},
        title={{B}ayesian numerical analysis},
         date={1988},
-   booktitle={Statistical decision theory and related topics iv, papers from
-  the 4th purdue symp., west lafayette/indiana 1986},
+   booktitle={Statistical decision theory and related topics {IV}, {P}apers
+  from the 4th {P}urdue symp., {W}est {L}afayette, {I}ndiana 1986},
       editor={Gupta, S.~S.},
       editor={Berger, J.~O.},
       volume={1},
@@ -107,6 +119,17 @@
      address={Berlin},
         date={2000},
       volume={1733},
+}
+
+\bib{SloWoz98}{article}{
+      author={Sloan, I.~H.},
+      author={Wo\'zniakowski, H.},
+       title={When are quasi-{M}onte {C}arlo algorithms efficient for high
+  dimensional integrals?},
+        date={1998},
+     journal={J. Complexity},
+      volume={14},
+       pages={1\ndash 33},
 }
 
 \end{biblist}

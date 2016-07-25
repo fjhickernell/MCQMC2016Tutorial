@@ -22,7 +22,7 @@ if exist('MVNProbExampleAllData.mat','file')
    MVNProbIIDGnArch = MVNProbIIDGn;
    MVNProbSobolGnArch = MVNProbSobolGn;
    MVNProbuSobolGnArch = MVNProbuSobolGn;
-   MVNProbOptSobolGnArch = MVNProbMLESobolGn;
+   %MVNProbMLESobolGnArch = MVNProbMLESobolGn;
 end
 
 
@@ -141,7 +141,7 @@ end
 nvecMLE = 2.^(7:11)';
 nnMLE = numel(nvecMLE);
 MVNProbMLESobolGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
-   'errMeth','n','cubMeth','SobolOpt','intMeth','Genz');
+   'errMeth','n','cubMeth','SobolMLE','intMeth','Genz');
 compMLESobol = true;
 % if exist('MVNProbExampleData.mat','file')
 %    if sameProblem(MVNProbMLESobolGn,MVNProbMLESobolGnArch)
@@ -152,10 +152,11 @@ compMLESobol = true;
 if compMLESobol
    tic
    muMVNProbMLESobolGn = zeros(nnMLE,nRep);
-   tic 
+   errbdvecMBVProbMLESobolGn(nnMLE,nRep) = 0;
    for i = 1:nRep
       if i/1 == floor(i/1), i, end
-      muMVNProbMLESobolGn(:,i) = compProb(MVNProbMLESobolGn); 
+      [muMVNProbMLESobolGn(:,i), out] = compProb(MVNProbMLESobolGn); 
+      errbdvecMBVProbMLESobolGn(:,i) = out.ErrBd;
    end
    errvecMVNProbMLESobolGn = abs(muBest - muMVNProbMLESobolGn);
    errmedMVNProbMLESobolGn = median(errvecMVNProbMLESobolGn,2);

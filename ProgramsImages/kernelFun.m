@@ -10,19 +10,22 @@ if nargin < 4
    end
 end
 K = ones(nx);
-if strcmp(whKer,'sqExp')
+if strcmp(whKer,'sqExp') %all wrong
    kvec = ones(nx,1)*(sqrt(pi)/(2*shape))^d;
    for k = 1:d;
       K = K.*exp(-(shape*bsxfun(@minus,x(:,k),x(:,k)')).^2);
       kvec = kvec.*(erf(shape*x(:,k)) + erf(shape*(1 - x(:,k))));
    end
 elseif strcmp(whKer,'Mat1')
-   kvec = ones(nx,1)*((2/shape)^d);
+   diffdom = diff(domain,1,1);
+   shdiffdom = shape*diffdom;
+   k0 = prod((- 6 + 4*shdiffdom +exp(-shdiffdom).*(6 + 2*shdiffdom))./shdiffdom.^2);
+   kvec = ones(nx,1)*(2^d/prod(shdiffdom));
    for k = 1:d;
       tempa = shape*abs(bsxfun(@minus,x(:,k),x(:,k)'));
       K = K.*exp(-tempa).*(1 + tempa);
-      tempb = shape*x(:,k);
-      tempc = shape - tempb;
+      tempb = shape*(x(:,k)-domain(1,k));
+      tempc = shape*(domain(2,k) - x(:,k));
       kvec = kvec.*(2 - exp(-tempc).*(1+tempc/2) ...
           - exp(-tempb).*(1+tempb/2));
    end

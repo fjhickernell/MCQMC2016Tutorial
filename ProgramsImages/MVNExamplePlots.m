@@ -72,7 +72,7 @@ xlabel('Sample Size, \(n\)')
 ylabel('Error, \(|\mu - \hat{\mu}|\)')
 print -depsc MVNSobolGenzAff.eps
 
-%% IID, unscrambled Sobol, and scrambled Sobol, and optimal weights
+%% IID, unscrambled Sobol, and scrambled Sobol, and MLE cubature
 figure
 h = loglog(nvec,errmedMVNProbIIDGn,'.', ...
    [nvec(1) nlarge],errmedMVNProbIIDGn(1)*[1 sqrt(nvec(1)/nlarge)], '--', ...
@@ -86,14 +86,14 @@ h = [h(1:4); loglog(nvec,errmedMVNProbSobolGn,'.', ...
       [nvec(1) nlarge],errmedMVNProbSobolGn(1)*[1 (nvec(1)/nlarge)^1.5], '--', ...
       [nvec nvec]', [errmedMVNProbSobolGn errtopMVNProbSobolGn]' , '-', ...
       'color', MATLABPurple)];
-h = [h(1:6); loglog(nvecOPT,errmedMVNProbOptSobolGn,'.', ...
-      [nvecOPT(1) nvecOPT(end)],errmedMVNProbOptSobolGn(1)*[1 (nvecOPT(1)/nvecOPT(end))^2], '--', ...
-      [nvecOPT nvecOPT]', [errmedMVNProbOptSobolGn errtopMVNProbOptSobolGn]' , '-', ...
+h = [h(1:6); loglog(nvecMLE,errmedMVNProbMLESobolGn,'.', ...
+      [nvecMLE(1) nvecMLE(end)],errmedMVNProbMLESobolGn(1)*[1 (nvecMLE(1)/nvecMLE(end))^2], '--', ...
+      [nvecMLE nvecMLE]', [errmedMVNProbMLESobolGn errtopMVNProbMLESobolGn]' , '-', ...
       'color', MATLABGreen)];
 legend(h([1:2:7 8]),{'IID MC', ...
    'Sobol''', ...
    'Scrambled Sobol''', ...
-   'Opt Weights Sobol''', '\(O(n^{-2})\)'}, ...
+   'Bayesian Cubature Sobol''', '\(O(n^{-2})\)'}, ...
    'location','southwest')
 legend boxoff
 axis(axisvec)
@@ -101,6 +101,35 @@ set(gca,'Xtick',xtick,'YTick',ytick)
 xlabel('Sample Size, \(n\)')
 ylabel('Error, \(|\mu - \hat{\mu}|\)')
 print -depsc MVNIIDUSobolSobolWtSobol.eps
+
+%% Plot Error Bounds
+figure
+loglog(errvecMVNProbMLESobolGn(:),errbdvecMBVProbMLESobolGn(:),'.', ...
+   [1e-8 1e-2],[1e-8 1e-2], 'k--')
+axis([1e-8 1e-2 1e-8 1e-2])
+xlabel('Error, \(|\mu - \hat{\mu}|\)')
+ylabel('Bayesian Cub.\ Error Bound')
+print -depsc MVNSobolWtSobolErrBd.eps
+success = mean(errvecMVNProbMLESobolGn(:) <= errbdvecMBVProbMLESobolGn(:))
+
+%% Plot Matern kernel
+xplot = (0:0.002:1);
+nx = numel(xplot);
+[xx,yy] = meshgrid(xplot);
+refpt = [0.4 0.6];
+tempa = out.aMLE(end)*abs(xx(:)-refpt(1));
+Kval = exp(-tempa).*(1 + tempa);
+tempa = out.aMLE(end)*abs(yy(:)-refpt(2));
+Kval = Kval.*exp(-tempa).*(1 + tempa);
+zz = reshape(Kval,nx,nx);
+figure
+surf(xx,yy,zz)
+shading interp
+xlabel('\(x_1\)')
+ylabel('\(x_2\)')
+zlabel(['\(C(\textbf{x},(' num2str(refpt(1)) ',' num2str(refpt(2)) '))\)'])
+view(-50,30)
+print -depsc Matern.eps
 
 %% Plot the Genz function
 xplot = (0:0.002:1);

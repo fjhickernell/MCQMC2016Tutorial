@@ -189,24 +189,7 @@ classdef multivarGauss < handle
                end
             elseif strcmp(obj.cubMeth,'SobolMLE')
                if realDim >= 1
-                  x = net(scramble(sobolset(realDim), ...
-                     'MatousekAffineOwen'),nmax);
-                  nn = numel(obj.n);
-                  prob(nn,1) = 0;
-                  temp = obj.f(x);
-                  out.aMLE(nn,1) = 0;
-                  for ii = 1:nn
-                     nii = obj.n(ii);
-                     lnaMLE = fminbnd(@(lna) ...
-                        MLEKernel(exp(lna),x(1:nii,:),temp(1:nii,:),'Mat1'), ...
-                        -5,5,optimset('TolX',1e-2));
-                     aMLE = exp(lnaMLE);
-                     out.aMLE(ii) = aMLE;
-                     [K,kvec] = kernelFun(x(1:nii,:),'Mat1',aMLE);
-                     w = pinv(K)*kvec;
-                     prob(ii) = w'*temp(1:nii);
-                     %out.stdErr = sqrt(cK
-                  end               
+                  [prob,out] = cubMLE(obj.f,obj.n,[zeros(1,realDim); ones(1,realDim)]);
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end
