@@ -1,12 +1,23 @@
 %% Generate Examples of American Option Pricing
 
-InitializeWorkspaceDisplay %clean up 
+gail.InitializeWorkspaceDisplay %clean up 
 format long
 
-nvec = 2.^(7:20)';
-nlarge = nvec(end)*2;
+nvec = 2.^(7:15)';
+nmax = max(nvec);
+nRep = 100;
+nlarge = nmax*2;
 nn = numel(nvec);
 alpha = 0.1;
+
+if exist('AmerPutExampleAllData.mat','file')
+   load AmerPutExampleAllData
+   ArchEuroPut = AmerPut;
+   ArchAmerPut = AmerPut;
+   ArchAmerPutCV = AmerPut;
+   Archnvec = nvec;
+end
+
 
 %% Parameters for the American option
 absTol = 1e-3;
@@ -30,16 +41,111 @@ AmerPut = optPrice(EuroPut); %construct an American optPrice object
 AmerPut.payoffParam = struct( ...
 	'optType',{{'american'}},...
 	'putCallType',{{'put'}});
-nRep = 10;
-AmerPrice(nRep,1) = 0;
-%outAmerPut = struct([]);
-%outAmerPut(nRep,1) = 0;
+AmerPutCV = optPayoff(EuroPut); %construct an American and European optPayoff object for CV
+AmerPutCV.payoffParam = struct( ...
+	'optType',{{'american','euro'}},...
+	'putCallType',{{'put','put'}});
+
+%% Construct a very accurate answer
+compGold = true;
+nGoldRep = 100;
+if exist('putPriceExact','var') && ...
+   all(ArchAmerPut.timeDim.timeVector == AmerPut.timeDim.timeVector) && ...
+   ArchAmerPut.assetParam.initPrice == AmerPut.assetParam.initPrice && ... %initial stock price
+   ArchAmerPut.payoffParam.strike == ArchAmerPut.payoffParam.strike, %strike price   
+   compGold = false;
+   disp('Already have gold standard American Put')
+end
+ 
+if compGold
+   putPriceGold(nGoldRep,1) = 0;
+   nGold = 2^21;
+   tic
+   for ii = 1:nGoldRep
+      gail.TakeNote(ii,10) %print out every 10th ii
+      x = net(scramble(sobolset(AmerPut.timeDim.nSteps), ...
+         'MatousekAffineOwen'),nGold);
+      payoffAmerEuro = genOptPayoffs(AmerPut,x);
+     putPriceGold(ii) = mean(payoffAmerEuro(:,1));
+   end
+   putPriceExact = mean(putPriceGold);
+end
+disp(['mu  = ' num2str(putPriceExact,15) ' +/- ' num2str(2*std(putPriceGold),10)])
+
+%% IID sampling
+AmerPutIID = optPayoff(AmerPut);
+AmerPutIID.wnParam = struct('sampleKind','IID','xDistrib','Gaussian');
+AmerPutIID.bmParam.assembleType = 'diff';
+AmerPutIID.inputType = 'n';
+compIID = true;
+if exist('AmerPutExampleAllData.mat','file')
+   if exist('muAmerPutIID','var') && all(nvec == Archnvec)
+      compIID = false;
+      disp('Already have IID American Put')
+   end
+end
+if compIID
+   tic
+   muAmerPutIID = zeros(nn,nRep);
+   for i = 1:nRep
+      temp = cumsum(genOptPayoffs(AmerPutIID,nmax));
+      muAmerPutIID(:,i) = temp(nvec)./nvec; 
+   end
+   errvecAmerPutIID = abs(putPriceExact - muAmerPutIID);
+   errmedAmerPutIID = median(errvecAmerPutIID,2);
+   errtopAmerPutIID = quantile(errvecAmerPutIID,1-alpha,2);
+   toc
+end
+
+%% Unscrambled Sobol sampling
+compUSobol = true;
+if exist('AmerPutExampleAllData.mat','file')
+   if exist('muAmerPutUSobol','var') && all(nvec == Archnvec)
+      compUSobol = false;
+      disp('Already have unscrambled Sobol American Put')
+   end
+end
+if compUSobol
+   tic 
+   muAmerPutUSobol = zeros(nn,1);
+     x = net(sobolset(AmerPut.timeDim.nSteps),nmax);
+     temp = cumsum(genOptPayoffs(AmerPut,x));
+     muAmerPutUSobol(:) = temp(nvec)./nvec; 
+   errvecAmerPutUSobol = abs(putPriceExact - muAmerPutUSobol);
+   toc
+end
+
+%% Scrambled Sobol sampling
+compSobol = true;
+if exist('AmerPutExampleAllData.mat','file')
+   if exist('muAmerPutSobol','var') && all(nvec == Archnvec)
+      compSobol = false;
+      disp('Already have scrambled Sobol American Put')
+   end
+end
+if compSobol
+   tic 
+   muAmerPutSobol = zeros(nn,nRep);
+   for i = 1:nRep
+      x = net(scramble(sobolset(AmerPut.timeDim.nSteps), ...
+         'MatousekAffineOwen'),nmax);
+      temp = cumsum(genOptPayoffs(AmerPut,x));
+      muAmerPutSobol(:,i) = temp(nvec)./nvec; 
+   end
+   errvecAmerPutSobol = abs(putPriceExact - muAmerPutSobol);
+   errmedAmerPutSobol = median(errvecAmerPutSobol,2);
+   errtopAmerPutSobol = quantile(errvecAmerPutSobol,1-alpha,2);
+   toc
+end
+
+
+
+%% Save output
+save AmerPutExampleAllData.mat
+return
+
 f = @(x) genOptPayoffs(AmerPut,x);
 AmerOptFourierCoeffDecay(f,AmerPut.timeDim.nSteps)
-return
-for ii = 1:nRep
-   [AmerPrice(ii),outAmerPut(ii)] = genOptPrice(AmerPut);
-end
 
 AmerPutCV = optPayoff(EuroPut); %construct an American and European optPayoff object for CV
 AmerPutCV.payoffParam = struct( ...

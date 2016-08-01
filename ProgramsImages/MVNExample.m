@@ -1,6 +1,6 @@
 %% Generate Examples of Multivariate Normal Probabilities
 
-InitializeWorkspaceDisplay %clean up 
+gail.InitializeWorkspaceDisplay %clean up 
 format long
 
 nvec = 2.^(7:20)';
@@ -22,7 +22,7 @@ if exist('MVNProbExampleAllData.mat','file')
    MVNProbIIDGnArch = MVNProbIIDGn;
    MVNProbSobolGnArch = MVNProbSobolGn;
    MVNProbuSobolGnArch = MVNProbuSobolGn;
-   %MVNProbMLESobolGnArch = MVNProbMLESobolGn;
+   MVNProbMLESobolGnArch = MVNProbMLESobolGn;
 end
 
 
@@ -143,12 +143,12 @@ nnMLE = numel(nvecMLE);
 MVNProbMLESobolGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
    'errMeth','n','cubMeth','SobolMLE','intMeth','Genz');
 compMLESobol = true;
-% if exist('MVNProbExampleData.mat','file')
-%    if sameProblem(MVNProbMLESobolGn,MVNProbMLESobolGnArch)
-%       disp('Already have MLE Sobol answer')
-%       compOptSobol = false;
-%    end
-% end
+if exist('MVNProbExampleData.mat','file')
+   if sameProblem(MVNProbMLESobolGn,MVNProbMLESobolGnArch)
+      disp('Already have MLE Sobol answer')
+      compMLESobol = false;
+   end
+end
 if compMLESobol
    tic
    muMVNProbMLESobolGn = zeros(nnMLE,nRep);

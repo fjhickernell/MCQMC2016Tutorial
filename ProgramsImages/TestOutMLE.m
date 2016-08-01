@@ -6,7 +6,7 @@ if nargin < 3
    if nargin < 2
       domain = [0 0;1 1];
       if nargin < 1
-         nvec = 2.^6';
+         nvec = 2.^6;
       end
    end
 end

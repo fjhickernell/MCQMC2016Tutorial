@@ -65,6 +65,16 @@
       volume={65},
 }
 
+\bib{DicPil10a}{book}{
+      author={Dick, J.},
+      author={Pillichshammer, F.},
+       title={Digital nets and sequences: Discrepancy theory and quasi-{M}onte
+  {C}arlo integration},
+   publisher={Cambridge University Press},
+     address={Cambridge},
+        date={2010},
+}
+
 \bib{Gen93}{article}{
       author={Genz, A.},
        title={Comparison of methods for the computation of multivariate normal
@@ -105,6 +115,28 @@
      journal={Oper.\ Res.},
       volume={56},
        pages={607\ndash 617},
+}
+
+\bib{GriKuoSlo10}{article}{
+      author={Griebel, M.},
+      author={Kuo, F.~Y.},
+      author={Sloan, I.~H.},
+       title={The smoothing effect of the {ANOVA} decomposition},
+        date={2010},
+     journal={J. Complexity},
+      volume={26},
+       pages={523\ndash 551},
+}
+
+\bib{GriKuoSlo16}{article}{
+      author={Griebel, M.},
+      author={Kuo, F.~Y.},
+      author={Sloan, I.~H.},
+       title={The {ANOVA} decomposition of a non-smooth function of infinitely
+  many variables can have every term smooth},
+        date={2016+},
+     journal={Math.\ Comp.},
+        note={in press},
 }
 
 \bib{Hei01a}{inproceedings}{
@@ -148,6 +180,17 @@
      journal={Statist.\ Probab.\ Lett.},
       volume={44},
        pages={73\ndash 78},
+}
+
+\bib{Hic99b}{inproceedings}{
+      author={\HickernellFJ, F.~J.},
+       title={What affects the accuracy of quasi-{M}onte {C}arlo quadrature?},
+        date={2000},
+   booktitle={{M}onte {C}arlo and quasi-{M}onte {C}arlo methods 1998},
+      editor={Niederreiter, H.},
+      editor={Spanier, J.},
+   publisher={Springer-Verlag, Berlin},
+       pages={16\ndash 55},
 }
 
 \bib{HicEtal14a}{inproceedings}{
@@ -220,6 +263,16 @@
        pages={1089\ndash 1112},
 }
 
+\bib{Hla61}{article}{
+      author={Hlawka, E.},
+       title={Funktionen von beschr{\"a}nkter {V}ariation in der {T}heorie der
+  {G}leichverteilung},
+        date={1961},
+     journal={Ann. Mat. Pura Appl.},
+      volume={54},
+       pages={325\ndash 333},
+}
+
 \bib{Jia16a}{thesis}{
       author={Jiang, L.},
        title={Guaranteed adaptive {M}onte {C}arlo methods for estimating means
@@ -281,6 +334,18 @@
        pages={331\ndash 351},
 }
 
+\bib{NovWoz10a}{book}{
+      author={Novak, E.},
+      author={Wo{\'{z}}niakowski, H.},
+       title={Tractability of multivariate problems {V}olume ii: {S}tandard
+  information for functionals},
+      series={EMS Tracts in Mathematics},
+   publisher={European Mathematical Society},
+     address={Z\"urich},
+        date={2010},
+      number={12},
+}
+
 \bib{OHa91a}{article}{
       author={{O'H}agan, A.},
        title={{B}ayes-{H}ermite quadrature},
@@ -297,6 +362,30 @@
      journal={Ann.\ Stat.},
       volume={25},
        pages={1541\ndash 1562},
+}
+
+\bib{PasTra95}{article}{
+      author={Paskov, S.},
+      author={Traub, J.},
+       title={Faster valuation of financial derivatives},
+        date={1995},
+     journal={J. Portfolio Management},
+      volume={22},
+       pages={113\ndash 120},
+}
+
+\bib{RasGha03a}{incollection}{
+      author={Rasmussen, C.~E.},
+      author={Ghahramani, Z.},
+       title={Bayesian {M}onte {C}arlo},
+        date={2003},
+   booktitle={Advances in {N}eural {I}nformation {P}rocessing {S}ystems},
+      editor={Thrun, S.},
+      editor={Saul, L.~K.},
+      editor={Obermayer, K.},
+      volume={15},
+   publisher={MIT Press},
+       pages={489\ndash 496},
 }
 
 \bib{RheGly12a}{inproceedings}{

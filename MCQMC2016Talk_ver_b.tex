@@ -37,12 +37,12 @@
 
 \title[]{Error Analysis for Quasi-Monte Carlo Methods}
 \author[]{Fred J. Hickernell}
-\institute{\small{Department of Applied Mathematics,  Illinois Institute of Technology \\
+\institute{Department of Applied Mathematics,  Illinois Institute of Technology \\
 \href{mailto:hickernell@iit.edu}{\url{hickernell@iit.edu}} \quad
-\href{http://mypages.iit.edu/~hickernell}{\url{mypages.iit.edu/~hickernell}} 
-\\[2ex]
-Joint work with the Guaranteed Automatic Integration Library (GAIL) team \\[2ex]
-Supported by NSF-DMS-1522687}}
+\href{http://mypages.iit.edu/~hickernell}{\url{mypages.iit.edu/~hickernell}}}
+\thanksnote{Thanks to the Guaranteed Automatic Integration Library (GAIL) team  and friends\\[1.5ex]
+	Supported by NSF-DMS-1522687\\[1.5ex]
+	Thanks to the MCQMC 2016 organizers}
 \date[]{MCQMC \textbullet\ August 14, 2016}
 
 %Title:  Guaranteed Fixed-Width Confidence Intervals for Monte Carlo and Quasi-Monte Carlo Simulation
@@ -128,20 +128,21 @@ Supported by NSF-DMS-1522687}}
 
 \begin{frame}
 	%\setbeameruncoveredtransp
-	\frametitle{\textbf<1-2>{Error Analysis} for \textbf<3>{Quasi-Monte Carlo Methods}}
+	\frametitle{\textbf<1>{Error Analysis} for \textbf<2>{Quasi-Monte Carlo Methods}}
 	\vspace{-7ex}
-{\large	\begin{gather*} \mu := \Ex[f(\vX)] := \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu := \sum_{i=1}^n f(\vx_i) w_i \\
-	\redroundmathbox{\mu - \hmu =\, ?} 
+{\large	\begin{gather*} \mu := \Ex[f(\vX)] := \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu := \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx) \\
+	\redroundmathbox{\mu - \hmu = \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) =\, ?} 
 	 \end{gather*}
-	 \vspace{-8ex}
+	 \vspace{-7ex}
 	\begin{center}
 		\begin{tabular}{>{\centering}p{0.45\textwidth}>{\centering}p{0.5\textwidth}}
-\uncover<1->{\alert{Reality} & \alert{\textbf<1-2>{Error Analysis} (Theory)} \tabularnewline 
-What is &  What we think it should be \\[1ex]}
-\uncover<2->{Because we are rarely certain that our assumptions hold}
+\uncover<1->{\alert{Reality} & \alert{\textbf<1>{Error Analysis} (Theory)} \tabularnewline 
+What is &  What we think it should be \\ by rigorous argument \\[1ex]}
+Not certain that \\
+our assumptions hold
 		\end{tabular}
 	\end{center}
-\uncover<3->{\alert{Quasi-Monte Carlo Methods} \\ [-1ex]
+\uncover<2->{\alert{\textbf<2>{Quasi-Monte Carlo Methods}} \\ [-1ex]
 	\begin{itemize}
 		\item $w_1  = \cdots = w_n = 1/n$ or
 		\item $\vx_i$ chosen carefully
@@ -172,14 +173,13 @@ What is &  What we think it should be \\[1ex]}
 	 	\[ \begin{aligned}\mu &= \int_{\cx} g(\vx) \, \dif \vx = \Prob(\vX \in \cx) = \text{probability} \\ g & = \text{probability density function}
 	 		\end{aligned} \] 
 	 		& \vspace{-1ex} \only<1-2>{\shadegraph{\GaussPict}}\only<3->{\GaussPict}} 
-	 \uncover<4->{
-	 	\tabularnewline[-2ex]  \arrayrulecolor{ltred}\toprule}
+	 	\tabularnewline[-2ex]  \arrayrulecolor{ltred}\toprule
 \end{tabular}
-	\vspace{-3ex}
+	\vspace{-1ex}
 \begin{gather*}
-	 	\uncover<4->{\mu  = \Ex[f(\vX)] = \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)
-	 				\qquad \redroundmathbox{\mu - \hmu =\, ?}} \\
-	 	\uncover<4->{\nu = \text{probability measure}, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure},\quad \sum_{i=1}^n w_i =1}
+	 	\mu  = \Ex[f(\vX)] = \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)
+	 				\qquad \redroundmathbox{\mu - \hmu =\, ?} \\
+	 	\nu = \text{probability measure}, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure},\quad \sum_{i=1}^n w_i =1
 	 	\end{gather*}
 \end{frame}
 
@@ -192,23 +192,16 @@ What is &  What we think it should be \\[1ex]}
 	\vspace{-7ex}
 	\begin{align*}
 	 \redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, \nu(\dif\vx) - \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
-	& \uncover<2->{=  \redroundmathbox{\algn(f,\nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)} \\[1ex]
-	\Var(f) & =  \text{\alert{variation} of the integrand} \ge 0 \\
+	&=  \redroundmathbox{\algn(f,\nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)} \\[1ex]
+   \Var(f) & =  \text{\alert{variation} of the integrand} \ge 0 \\
 	\disc(\nu - \hnu) & =  \text{\alert{discrepancy} of the sampling measure }\\
 	 &  \qquad \qquad  \text{from the probability measure} \ge 0\\
 	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} of the integrand and} \\
 	&  \qquad \qquad  \text{the difference between the two measures}
-\only<2>{\\ & \hspace{3cm} \qquad \text{\alert{often ignored, but shouldn't be}}}}
+\only<1>{\\ & \hspace{3cm} \qquad \text{\alert{often ignored, but shouldn't be}}}
 	\end{align*}
-	
-	\only<1-3>{\uncover<3>{\vspace{-2ex}\begin{itemize}
-			\item \alert{Reduce} error by clever sampling, $\hnu$
-			\item \alert{Reduce} error by rewriting the problem while leaving $\mu$ unchanged
-			\item Improve \alert{understanding} of error by modifying our definitions of $\disc$ and $\Var$
-			\item \alert{Determine} the sample size $n$ needed to make $\abs{\mu - \hmu} \le \varepsilon$
-		\end{itemize}}}
-		
-	\only<4>{\vspace{1ex}\centerline{\begin{tabular}{r@{\quad}@{\quad}c@{\qquad}c}
+			
+	\uncover<2>{\vspace{1ex}\centerline{\begin{tabular}{r@{\quad}@{\quad}c@{\qquad}c}
 		\multicolumn{1}{c}{}& \multicolumn{2}{c}{Sampling Distribution, $\hnu$}\\
 		 Integrand, $f$ & Fixed & Random \\  \cmidrule[1.5pt]{2-3} \\   [-1ex]
 		 Fixed & Deterministic & Randomized \\ [1ex]
@@ -224,17 +217,16 @@ What is &  What we think it should be \\[1ex]}
 	\begin{align*}
 	(\cf, \norm[\cf]{\cdot}) & = \text{normed vector space of integrands} \\
 	& \qquad f \mapsto f(\vx) \text{ is bounded for all } \vx \in \cx \\
-	& \qquad L: \cf \to \reals \text{ is bounded and linear}, \quad \hnu(\cx)=1 \in \cf \text{ or } L(f):=0  \\
-	(\cm, \norm[\cm]{\cdot}) & = \text{normed vector space of signed measures, includes } \delta_{\vt} \ \forall \vt \in \cx\\
-	& \qquad  \norm[\cm]{\lambda} := \sup_{\substack{f \in \cf \\ f \ne 0= L(f)}} \frac{\abs{\int_{\cx} f(\vx) \, \lambda(\dif\vx)}}{\norm[\cf]{f}} = \text{norm of } f \mapsto \int_{\cx} f(\vx) \, \lambda(\dif\vx)\\
-	\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
-	& =  \redroundmathbox{%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[\cm]{\nu - \hnu} \norm[\cf]{f-L(f)}}}_{\textstyle \algn^\Dt(f,\nu - \hnu)} \, \underbrace{\norm[\cm]{\nu - \hnu}}_{\textstyle\disc^\Dt(\nu - \hnu)} \, \underbrace{\norm[\cf]{f-L(f)}}_{\textstyle\Var^\Dt(f)}}}
+	(\cm, \norm[\cm]{\cdot}) & = \text{normed vector space of signed measures} \\
+	& \qquad  \norm[\cm]{\lambda} := \sup_{0 \ne f \in \cf} \frac{\abs{\int_{\cx} f(\vx) \, \lambda(\dif\vx)}}{\norm[\cf]{f}} \\
+\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
+	\uncover<2->{	& =  \redroundmathbox{%
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[\cm]{\nu - \hnu} \norm[\cf]{f-L(f)}}}_{\textstyle \algn^\Dt(f,\nu - \hnu)} \, \underbrace{\norm[\cm]{\nu - \hnu}}_{\textstyle\disc^\Dt(\nu - \hnu)} \, \underbrace{\norm[\cf]{f}}_{\textstyle\Var^\Dt(f)}}}
 	\end{align*}
 	\vspace{-4ex}
 	\uncover<2->{\begin{itemize}
 			\item $\abs{\algn^\Dt(f,\nu - \hnu)}   \le 1$  %by the definitions of $\norm[\cf]{\cdot}, \norm[\cm]{\cdot}$
-			\item Ignoring $\algn^\Dt(f,\nu - \hnu)$ yields a generalized Koksma-Hlawka inequality \cites{Nie92,Hic97a,Hic99a}
+			\item Ignoring $\algn^\Dt(f,\nu - \hnu)$ yields a generalized Koksma-Hlawka inequality \cites{Hla61, Nie92,Hic97a,Hic99a}
 		\end{itemize}.}
 \end{frame}
 
@@ -246,23 +238,21 @@ What is &  What we think it should be \\[1ex]}
 		\mu %= \frac 1N \sum_{j=1}^N f(j) 
 		= \text{population average hours of sleep}  \\
 		f(j) = \text{hours of sleep for individual } j \\
-			\nu = \frac{1}N \sum_{j=1}^N \delta_{j} = \text{uniform}, \qquad \hnu  = \frac 1n \sum_{i=1}^n \delta_{x_i}\\
-			\{x_i\}_{i=1}^n \text{is a sequence of distinct individuals}, \quad n < N
+			\nu = \text{uniform}, \qquad \hnu  = \frac 1n \sum_{i=1}^n \delta_{x_i}\\
+			\{x_i\}_{i=1}^n \text{is a sequence of distinct individuals}
 			\end{gather*}
 			& \sleepPict
 	\end{tabular}
 	\vspace{-4ex}
-\[ \mu = \mu_f = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu_f][g(j) - \mu_g]\]
+\[ \mu = \mu(f) = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu(f)][g(j) - \mu(g)]\]
 	\centerline{\redroundmathbox{\mu - \hmu  = 
 			\underbrace{-\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)}_{\textstyle\algn^\Dt(f,\nu - \hnu)}
 			\underbrace{ \sqrt{\frac{1-n/N}{\alert{n/N}}}}_{\textstyle\disc^\Dt(\nu - \hnu)}
 			\underbrace{ \std(f)}_{\textstyle\Var^\Dt(f)} }}
 		\vspace{-2ex}
 		\begin{itemize}
-			\item Discrepancy depends on the \alert{sample fraction}, not merely the sample size.  
-			
-			\item Discrepancy may be large if the sample fraction is small \smallcite{Men16a}
-			
+			\item Discrepancy depends on the \alert{sample fraction}, not merely the sample size  \smallcite{Men16a}
+						
 			\item \alert{Correlation} for a web survey is difficult to predict or control
 		\end{itemize}
 \end{frame}
@@ -270,36 +260,36 @@ What is &  What we think it should be \\[1ex]}
 \begin{frame}
 	\frametitle{Reproducing Kernel Hilbert Spaces (RKHS)}
 	\vspace{-4ex}
-	If the space of integrands, $\cf$ is a Hilbert space with \alert{reproducing kernel} $K$, then the cubature error can be expressed as an inner product of the integrand with the representer for the error functional:
+	If the space of integrands, $\cf$ is a Hilbert space with \alert{reproducing kernel} $K:\cx \times \cx \to \reals$, then the \alert{cubature error} is the \alert{inner product} of the integrand with the representer for the error functional \smallcite{Hic99a}:
 	\begin{align*}
-	\Var(f) &= \norm[\cf]{f - L(f)}, \qquad f(\vt) = \ip[\cf]{K(\cdot,\vt)}{f} \ \forall \vt \in \cx,\ f \in \cf\\
+	\Var(f) &= \norm[\cf]{f}, \qquad f(\vt) = \ip[\cf]{K(\cdot,\vt)}{f} \ \forall \vt \in \cx,\ f \in \cf\\
 	[\disc(\nu - \hnu)]^2 &  =  \int_{\cx^2}K(\vx, \vt) \, \nu(\dif \vx) \nu(\dif \vt) - 2 \sum_{i=1}^n w_i \int_{\cx} K(\vx_i, \vt) \, \nu(\dif \vt) \\
 	& \qquad \qquad + \sum_{i,j=1}^n w_i w_j K(\vx_i, \vx_j) \\
 	\algn(f,\nu - \hnu)  &= \cos\biggl(f,\underbrace{\int_{\cx} K(\cdot, \vt) \, \nu(\dif \vt) + \sum_{j=1}^n w_j K(\cdot, \vx_j)}_{\textstyle\text{cubature error representer}}\biggr), \\ & \qquad \qquad \cos(f,g) : = \frac{\ip[\cf]{f}{g}}{\norm[\cf]{f} \norm[\cf]{g}}
 	\end{align*}
-	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-L(f)}}
+	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f}}
 	}
 \end{frame}
 
 \begin{frame}
-	\frametitle{$L^2$ Discrepancy}
-	\vspace{-8ex}
+	\frametitle{$L^2$-Discrepancy}
+	\vspace{-9ex}
 	\begin{align*}
-	\cx &= [0,1]^d, \qquad  \nu = \text{Lebesgue}, \qquad K(\vx,\vt) =\prod_{k = 1}^d [2 - \max(x_k,t_k)] \\
+	\cx &= [0,1]^d, \qquad  \nu = \text{uniform}, \qquad K(\vx,\vt) =\prod_{k = 1}^d [2 - \max(x_k,t_k)] \\[-1ex]
 	\Var^\Dt(f) & = \norm[\cf]{f-f(\vone)} = \Bigl \lVert \bigl ( \norm[L^2]{\partial^\fu f}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 , \qquad 
 	\partial^\fu f : = \frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \biggr \rvert_{\textstyle \vx_{\widebar{\fu}} = \vone} \\
 	[\disc^\Dt(\nu - \hnu)]^2 &  = \left(\frac 43\right)^d - 2 \sum_{i=1}^n w_i \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \sum_{i,j=1}^n w_i w_j \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] 
 	\only<2->{\\& = \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2}
 	\end{align*}
 	\only<1>{\vspace*{-1.8ex}
-		\centerline{\includegraphics[width = 6.7cm]{ProgramsImages/L2Kernel.eps}}}
+		\centerline{\includegraphics[width = 7cm]{ProgramsImages/L2Kernel.eps}}}
 	\only<2>{\begin{tabular}{>{\flushright}m{5cm}>{\centering}m{6cm}}
-			$ \vx = (\ldots, 0.6, \cdots, 0.4, \ldots)$
+			$ \vx = (\ldots, 0.6, \ldots, 0.4, \ldots)$
 			\begin{multline*}
 			\nu([\vzero,\vx_{\{5,8\}}]) - \hnu([\vzero,\vx_{\{5,8\}}]) \\
 			 = 0.24 - 7/32 = 0.02125
-			\end{multline*}&
-			\includegraphics[width = 5cm]{ProgramsImages/LocalDiscrep.eps}
+			\end{multline*}& \vspace{-1ex}
+			\includegraphics[width = 4.4cm]{ProgramsImages/LocalDiscrep.eps}
 		\end{tabular}}
 \only<3>{	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
 	\vspace{-4ex}
@@ -307,6 +297,7 @@ What is &  What we think it should be \\[1ex]}
 		\item $\disc^\Dt(\nu - \hnu)$ requires $\Order(dn^2)$ operations to evaluate
 		\item $\disc^\Dt(\nu - \hnu) \begin{cases} =  \Order(n^{-1/2}) \text{ for IID Monte Carlo} \\
 		= \Order( n^{\alert{-1} + \epsilon}) \text{ for digital nets, integration lattices, \ldots} \\
+		\qquad \qquad \text{\smallcites{Nie92, DicPil10a}} \\
 		\ge \Order(n^{\alert{-1} + \epsilon}) \text{ because of the limited smoothness of } f \in \cf\end{cases}$
 	\end{itemize}
 	\vspace{-2ex}
@@ -346,7 +337,7 @@ What is &  What we think it should be \\[1ex]}
 
 \vspace{2ex}
 
-\alert{Clever sampling reduces \newline cubature error}
+\hspace{2ex}\parbox{4.2cm}{\raggedright \alert{Low discrepancy (quasi-Monte Carlo) sampling reduces cubature error}}
 	&
 	\includegraphics[width = 7cm]{ProgramsImages/MVNIIDUSobol.eps}
 \end{tabular}
@@ -360,17 +351,17 @@ What is &  What we think it should be \\[1ex]}
 		\begin{align*}
 		\hnu & = \text{\alert{random} measure with probability }\Prob_{\hnu} \\
 		(\cf, \norm[\cf]{\cdot}) & = \text{normed vector space of integrands} \\
-		& \qquad  L: \cf \to \reals \text{ is linear }, \quad L(f) \in \cf \ \ \forall f \in \cf  \\
+		%& \qquad  L: \cf \to \reals \text{ is linear }, \quad L(f) \in \cf \ \ \forall f \in \cf  \\
 		& \qquad  \RMSE(f,\nu - \hnu) := \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } < \infty \quad \forall f \in \cf \\
 		\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 			& =  \redroundmathbox{\displaystyle%
 				\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
-				\underbrace{\sup_{\substack{f \in \cf \\ f \ne 0= L(f)}}  \frac{\RMSE(f, \nu - \hnu)}{\norm[\cf]{f}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[\cf]{f-L(f)}}_{\textstyle\Var^\Dt(f)}} }
+				\underbrace{\sup_{0  \ne f \in \cf}  \frac{\RMSE(f, \nu - \hnu)}{\norm[\cf]{f}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[\cf]{f}}_{\textstyle\Var^\Dt(f)}} }
 		\end{align*}
 		\vspace{-3ex}
 		\uncover<2->{
 			\begin{itemize}
-				\item $\Ex\abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$ by the definitions of $\disc^\Rn(\nu - \hnu), \Var^\Dt(f)$
+				\item $\Ex\abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$
 				
 				\item $\disc^\Rn(\nu - \hnu)  \le \sqrt{\Ex\abs{\disc^\Dt(\nu - \hnu)}^2}$
 			\end{itemize}
@@ -391,7 +382,7 @@ What is &  What we think it should be \\[1ex]}
 			\underbrace{\frac{ \sqrt{n}\int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\std(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
 			\underbrace{\frac{1}{\sqrt{n}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\std(f)}_{\textstyle\Var^\Dt(f)}}  \\
 		& \qquad \algn^\Rn(f,\nu - \hnu) \sim (0,1), \qquad \hmu \text{ is unbiased} \\
-	& \qquad \phantom{\algn^\Rn(f,\nu - \hnu) } \approx \cn(0,1) \text{ for large } n \text{ by the Central Limit Theorem}
+	& \qquad \phantom{\algn^\Rn(f,\nu - \hnu)}\, \approx \cn(0,1) \text{ for large } n \text{ by the Central Limit Theorem}
 	\end{align*}
 	
 \end{frame}
@@ -399,32 +390,31 @@ What is &  What we think it should be \\[1ex]}
 
 \begin{frame}
 	\frametitle{Hours of Sleep Simple Random Survey w/o Replacement}
-	\vspace{-8ex}
+	\vspace{-7ex}
 	\begin{tabular}{m{8cm}m{3.5cm}}
 		\begin{gather*}
 		\mu = \text{population average hours of sleep} \\
 		f(j) = \text{hours of sleep for individual } j \\
-		\text{simple random sampling, } \{x_i\}_{i=1}^n \text{, w/o replacement} \\
-	    n \ll N
+		\text{simple random sampling, } \{x_i\}_{i=1}^n \text{, w/o replacement} 
 		\end{gather*}
 		&
 		\sleepPict
 	\end{tabular}
 	\vspace{-5ex}
-\[ \mu = \mu_f = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu_f][g(j) - \mu_g]\]
+\[ \mu = \mu(f) = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu(f)][g(j) - \mu(g)]\]
 	\vspace{-1ex}	
 	\centerline{\redroundmathbox{\mu - \hmu  = \begin{cases} 
-				 \frac{- \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}\\
 			\hspace{1.1em} -\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) \hspace{1.9em}
 			 \sqrt{\frac{1-n/N}{\alert{n/N}}} \hspace{0.8em}
-			\std(f) & \text{web}
+			\std(f) & \text{web} \\[2ex]
+			\frac{- \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}
 	\end{cases}}}
 	\vspace{-3.5ex}
 	\begin{itemize}
 		
 		\item The error of a web survey with $n_{\text{web}}$ samples is equivalent to the error of survey with   $n_{\text{SRS}} \approx \frac{n_{\text{web}}/N}{\corr^2\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)(1-n_{\text{web}}/N)}$ simple random samples 
 		
-		\item E.g., $n_{\text{web}} = 125$ million distinct samples from a population of $N = 250$ million with a correlation of $0.05$ is about as valuable as $n_{\text{SRS}} = 400$ simple random samples
+		\item E.g., $n_{\text{web}} = \alert{1}$ \alert{million} distinct samples from a population of $N = 250$ million with a correlation of $0.05$ is about as valuable as $n_{\text{SRS}} = \alert{1.6}$ simple random samples
 		
 		
 	\end{itemize}
@@ -447,7 +437,7 @@ What is &  What we think it should be \\[1ex]}
     \begin{Bmatrix} \cos(f,\text{error rep}) & \disc^\Dt(\nu - \hnu) \\
 				\algn^\Rn(f,\nu - \hnu) &  \disc^\Rn(\nu - \hnu) \end{Bmatrix} \Var^\Dt(f) }  }
 	
-	\vspace{-2ex}
+	\vspace{-1ex}
 	\begin{tabular}{m{4.5cm}m{7cm}}
 		\vspace{-2ex}
 		For scrambled Sobol' points
@@ -472,7 +462,7 @@ What is &  What we think it should be \\[1ex]}
 		
 		\vspace{1.5ex}
 		
-		\alert{Removing bias can help. \newline You might not be unlucky. }
+		\alert{Randomized sampling, $\hnu$, may avoid the large error minority }
 		&
 		\includegraphics[width = 7cm]{ProgramsImages/MVNIIDUSobolSobol.eps}
 	\end{tabular}
@@ -480,13 +470,75 @@ What is &  What we think it should be \\[1ex]}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Pricing an American Option}
+	\frametitle{Pricing an Asian Option}
+	\vspace{-7ex}
+	\begin{tabular}{m{8.5cm}m{3cm}}
+		\begin{equation*}
+		\mu = \int_{\reals^d} \text{payoff}(\vt) \, \frac{\exp\bigl(- \frac 12 \vt^T \mSigma^{-1} \vt \bigr)}{\sqrt{(2 \pi)^d \det(\mSigma)}} \, \dif \vt = \int_{[0,1]^{d}} f(\vx) \, \dif \vx 
+		\end{equation*}
+		& \financePict
+	\end{tabular}
+	\vspace{-1ex}
+	
+	\centerline{\redroundmathbox{\mu - \hmu = 
+			\begin{Bmatrix} \cos(f,\text{error rep}) & \disc^\Dt(\nu - \hnu) \\
+				\algn^\Rn(f,\nu - \hnu) &  \disc^\Rn(\nu - \hnu) \end{Bmatrix} \Var^\Dt(f) }  }
+	
+	\vspace{-1ex}
+	\begin{tabular}{m{4.5cm}m{7cm}}
+		\vspace{-1ex}
+		
+		\noindent
+		$\text{\parbox{4.5cm}{\raggedleft
+				\hfill For an Asian arithmetic mean option,  $d = 13$,
+				$\mu \approx \$6.1375$}} {\color{red}\biggr \}}$
+		
+		\bigskip
+	Scrambled Sobol' does not achieve $\Order(n^{-3/2})$ convergence because $f$ is not smooth enough.
+		
+		\bigskip
+		
+		$f$ is not even smooth enough for $\Order(n^{-1})$ convergence, except by a delicate argument \smallcites{GriKuoSlo10, GriKuoSlo16}
+		
+		&
+		\includegraphics[width = 7cm]{ProgramsImages/AsianCallIIDUSobolSobol.eps}
+	\end{tabular}
+	
 \end{frame}
+
+\begin{frame}<1>[label = Summary]
+	\setbeamercovered{transparent=30}
+	\frametitle{Summary \uncover<1-4>{So Far}}
+	\vspace{-7ex}
+	\begin{equation*}
+	\redroundmathbox{\mu - \hmu =\, ?} 
+	\end{equation*}
+	\vspace{-8ex}
+	\begin{center}
+		\begin{tabular}{>{\centering}p{0.45\textwidth}>{\centering}p{0.5\textwidth}}
+			\alert{Reality} & \alert{Error Analysis (Theory)} \tabularnewline 
+			What is &  What we think it should be
+		\end{tabular}
+	\end{center}
+	\vspace{-3ex}		
+	\begin{itemize}
+		\item<1,5| only@1-> \alert{Trio identity}: $\redroundmathbox{\mu - \hmu = \algn(f, \nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)}$---keep all  terms
+		\item<1,5| only@1-> Big data may not eliminate the need for \alert{proper sampling}---simple random sampling beats haphazard sampling
+		\item<1,5| only@1-> \alert{Low discrepancy} sampling beats simple random sampling
+		\item<1,5| only@1-> \alert{Randomization} to remove bias can improve convergence rate
+		\item<2,5| only@2-> \alert{Bayesian cubature} provides even faster convergence rates with confidence intervals, but requires time consuming calculations
+		\item<3,5|only@3-> Error may be \alert{dimension-independent} if the dependence of $f(x_1, x_2, \ldots)$ on $x_k$  decays quickly as $k$ increases
+		\item<4-|only@4-> \alert{Changing the integrand} while leaving $\mu$ unchanged can reduce error
+		\item<5 | only@5-> There are data-based \alert{stopping criteria} with theoretical justification
+	\end{itemize}
+\end{frame}
+
+
 
 \begin{frame}
 	\frametitle{Bayesian Trio Identity}
 	\vspace*{-4ex}
-	\alert{Random} $f$ postulated by \cite{Dia88a}, \cite{OHa91a}, \cite{Rit00a}  and others:  $f \sim \GP (0, s^2C_{\vtheta})$,  a \alert{Gaussian process} from the sample space $\cf$ with zero mean and covariance kernel, $s^2C_{\vtheta}$, $C_{\vtheta}:\cx \times \cx \to \reals$. The \alert{scale parameter}, $s$, and \alert{shape parameter}, $\vtheta$, should be estimated.  	 Then 
+	\alert{Random} $f$ postulated by \ocite{Dia88a}, \ocite{OHa91a}, \ocite{Rit00a}, \ocite{RasGha03a} and others:  $f \sim \GP (0, s^2C_{\vtheta})$,  a \alert{Gaussian process} from the sample space $\cf$ with zero mean and covariance kernel, $s^2C_{\vtheta}$, $C_{\vtheta}:\cx \times \cx \to \reals$. The \alert{scale parameter}, $s$, and \alert{shape parameter}, $\vtheta$, should be estimated.  	 Then 
 	\vspace{-1ex}
 	\begin{align*}
 	%\mu - \hmu & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn \bigl( \vy^T (\mC^{-1}\vc - \vw), s^2(c_0 - \vc ^T \mC^{-1} \vc) \bigr) \\
@@ -495,12 +547,15 @@ What is &  What we think it should be \\[1ex]}
 	\redroundmathbox{\mu - \hmu} 
 	& = \redroundmathbox{\displaystyle%
 		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}}_{\textstyle \algn^\Ba(f,\nu - \hnu)} \, 
-		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}\\
-	%& \qquad \algn^\Ba(f,\nu - \hnu) \sim \cn ( 0, 1 ) \\
-	& \qquad \algn^\Ba(f,\nu - \hnu) \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn (0,1) \quad \text{if } \vw = \mC^{-1}\vc \\
-	%& \qquad \text{may identify } s := \std_{f}\bigl(S(f)\bigr), \text{ where } S : \cf \to \reals \text{ is linear} \\
-	& \qquad \disc^\Ba(\nu - \hnu) =  \disc^\Dt(\nu - \hnu) \text{ if } s^2 C_{\vtheta} = K
-	\end{align*}	
+		\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+	\end{align*}
+	\vspace{-3ex}
+	\begin{itemize}
+		\item 	$\vw =  \mC^{-1}\vc$ minimizes  $\disc^\Ba(\nu - \hnu)$ \\
+		\hspace{1.5cm} makes $\algn^\Ba(f,\nu - \hnu) \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn (0,1)$ 
+	\item $\disc^\Ba(\nu - \hnu) =  \disc^\Dt(\nu - \hnu)$  if  $C_{\vtheta} = K$		
+	\end{itemize}
+		
 \end{frame}
 
 
@@ -523,15 +578,15 @@ What is &  What we think it should be \\[1ex]}
 		  && \uncover<3->{\tf_{\vy} = \text{minimum norm interpolant}} \tabularnewline
 		  \mC_{\hvtheta}^{-1} \vc_{\hvtheta} & \leftarrow \vw \uncover<2->{\rightarrow}& \uncover<2->{\text{\alert<2>{replace} } C_{\vtheta} \text{ by } K_{\vtheta}} \tabularnewline
 	  \argmin_{\vtheta} \frac{\vy^T \mC_{\vtheta}^{-1} \vy}{[\det(\mC_{\vtheta}^{-1})]^{1/n}} & \leftarrow 	\hvtheta  \uncover<2->{\rightarrow} &  \uncover<2->{\text{\alert<2>{replace} } C_{\vtheta} \text{ by } K_{\vtheta}} \tabularnewline
-	  \text{estimate $s$ and $\vtheta$ by MLE} & & \uncover<3->{ = \argmin_{\vtheta}  \vol \bigl(\{ \vz \in \reals^n : \tabularnewline 
-	  	&& \qquad\quad \Var^{\Dt}_{\vtheta}(\tf_{\vz}) \le \Var^{\Dt}_{\vtheta}(\tf_{\vy})\} \bigr ) }
+	  \text{estimate $s$ and $\vtheta$ by MLE} & & \uncover<3->{ = \argmin_{\vtheta}  \vol \bigl(\bigl\{ \vz \in \reals^n : \tabularnewline 
+	  	&& \qquad\quad \Var^{\Dt}_{\vtheta}(\tf_{\vz}) \le \Var^{\Dt}_{\vtheta}(\tf_{\vy}) \bigr\} \bigr ) }
 	\end{array}
 	\]
 	\only<1>{\qquad \alert{Nice:\quad}$
-		\begin{array}{cccccc}
-		\vy, \, \mC_{\vtheta} & \vw & \hmu & \text{width}& \hvtheta & \hs \tabularnewline
+		\begin{array}{c@{\quad}ccccc}
+		\vy, \, \mC_{\vtheta} & \vw & \hmu & \text{width}& \hvtheta  \tabularnewline
 		\toprule
-		47 \vy, \, 29 \mC_{\vtheta} & \vw & 47 \hmu & 47 \text{width} & \hvtheta &   47\hs/\sqrt{29}
+		47 \vy, \, 29 \mC_{\vtheta} & \vw & 47 \hmu & 47 \text{width} & \hvtheta 
 		\end{array}$}
 	\only<3->{%
 		\\[-2ex]
@@ -568,7 +623,7 @@ What is &  What we think it should be \\[1ex]}
 			\begin{multline*}C_{\theta}(\vx,\vt) \\
 			= \prod_{k=1}^d (1 + \theta\abs{x_k - t_k})\me^{-\theta\abs{x_k - t_k}}
 			\end{multline*}}
-		\only<2>{Improved convergence for smoother integrands using Bayesian cubature with scrambled Sobol' data sites}
+		\only<2>{Smaller error using Bayesian cubature with scrambled Sobol' data sites}
 		\only<3>{Confidence intervals succeed $\approx 98\%$ of the time}\only<2>{\\
 		\vspace{3ex}	
 	
@@ -599,8 +654,8 @@ What is &  What we think it should be \\[1ex]}
 	\begin{align*}
 	\redroundmathbox{\mu - \hmu} 
 	& =  \redroundmathbox{\displaystyle%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Ba\Rn}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
-		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Ba\Rn}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
+		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Rn\Ba}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
 	\end{align*}
 	For $\vw  = \vone/n$, and unbiased estimation:
 	\[
@@ -610,44 +665,18 @@ What is &  What we think it should be \\[1ex]}
 	\[
 	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
 	\]	
-	which requires only $\Order(n)$ operations to evaluate \cite{??}
+	which requires only $\Order(n)$ operations to evaluate \smallcite{Hic99b,HicYue00}
 	
 \end{frame}
 
-\begin{frame}<1>[label = Summary]
-	\setbeamercovered{transparent=30}
-	\frametitle{Summary \uncover<1-3>{So Far}}
-		\vspace{-7ex}
-		\begin{equation*}
-			\redroundmathbox{\mu - \hmu =\, ?} 
-			\end{equation*}
-			\vspace{-8ex}
-			\begin{center}
-				\begin{tabular}{>{\centering}p{0.45\textwidth}>{\centering}p{0.5\textwidth}}
-					\alert{Reality} & \alert{Error Analysis (Theory)} \tabularnewline 
-						What is &  What we think it should be
-				\end{tabular}
-			\end{center}
-	\vspace{-3ex}		
-	\begin{itemize}
-		\item<1,4| only@1-> \alert{Trio identity}: $\redroundmathbox{\mu - \hmu = \algn(f, \nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)}$---keep all  terms
-		\item<1,4| only@1-> Big data may not eliminate the need for \alert{proper sampling}---simple random sampling beats haphazard sampling
-		\item<1,4| only@1-> \alert{Low discrepancy} sampling beats simple random sampling
-		\item<1,4| only@1-> \alert{Randomization} to remove bias can improve convergence rate
-		\item<1,4| only@1-> \alert{Bayesian cubature} provides even faster convergence rates with confidence intervals, but requires time consuming calculations
-		\item<2,4|only@2-> Error may be \alert{dimension-independent} if the dependence of $f(x_1, x_2, \ldots)$ on $x_k$  decays quickly as $k$ increases
-		\item<3,4|only@3-> \alert{Changing the integrand} while leaving $\mu$ unchanged can reduce error
-		\item<4|only@4-> There are data-based \alert{stopping criteria} with theoretical justification
-	\end{itemize}
-\end{frame}
-
+\againframe<2>{Summary}
 
 \section{Tractability}
 
 \begin{frame}
 	\frametitle{The Effect of Dimension on the Discrepancy}
 	\vspace{-5ex}
-	We have fixed dimension, $d$, and  let sample size, $n$, increase.  What happens when both increase?
+   What happens when dimension, $d$, is large and but sample size, $n$, is modest?
 	
 	\begin{tabular}{m{6cm}>{\centering}m{5.5cm}}
 	 $L^2$-discrepancy and variation:
@@ -657,40 +686,77 @@ What is &  What we think it should be \\[1ex]}
 	  \end{multline*}
 	\[ 	\Var(f) = \Biggl \lVert \biggl ( \biggl \lVert\frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \Bigr \rvert_{\vx_{\widebar{\fu}} = \vone}\biggr\rVert_{L^2}\biggr )_{\!\!\!\fu \ne \emptyset} \Biggr \rVert_2 \]
 	 & 
-	 For Scrambled Sobol' points \newline
+	 For Scrambled Sobol' points \\
 	 \includegraphics[width = 5.5cm]{ProgramsImages/UnwtL2Disc.eps}
 	\end{tabular}
-	The constant in the $\Order(n^{-1+\epsilon})$ convergence of $\disc$ is \alert{$d$ dependent}.
+	The constant in the $\Order(n^{-1+\epsilon})$ convergence of $\disc$ is \alert{$d$ dependent}. 
 \end{frame}
 
 \begin{frame}
-	\frametitle{Pricing an American Option}
-\end{frame}
+	\frametitle{Pricing a Financial Derivative}
+	\vspace{-7ex}
+	\begin{tabular}{m{8.5cm}m{3cm}}
+			\centerline{\redroundmathbox{\mu - \hmu =	\algn(f,\nu - \hnu)  \disc(\nu - \hnu) \Var(f) }  }
+		& \financePict
+	\end{tabular}
 
+\ocite{PasTra95} discovered that low discrepany sampling gave significant performance gains for pricing a Collaterlized Mortgage Obligation with \alert{$d = 360$}
+\end{frame}
+	
+	\begin{frame}
+		\frametitle{Pricing an Asian Option}
+		\vspace{-7ex}
+		\begin{tabular}{m{8.5cm}m{3cm}}
+			\begin{equation*}
+			\mu = \int_{\reals^d} \text{payoff}(\vt) \, \frac{\exp\bigl(- \frac 12 \vt^T \mSigma^{-1} \vt \bigr)}{\sqrt{(2 \pi)^d \det(\mSigma)}} \, \dif \vt = \int_{[0,1]^{d}} f(\vx) \, \dif \vx 
+			\end{equation*}
+			& \financePict
+		\end{tabular}
+		\vspace{-1ex}
+		
+		\centerline{\redroundmathbox{\mu - \hmu =	\algn(f,\nu - \hnu)  \disc(\nu - \hnu) \Var(f) }  }
+		
+			\vspace{-1ex}
+			\begin{tabular}{m{4.5cm}m{7cm}}
+				\vspace{-1ex}
+				
+				\noindent
+				$\text{\parbox{4.5cm}{\raggedleft
+						\hfill For an Asian arithmetic mean option,  \alert{$d = 13$},
+						$\mu \approx \$6.1375$}} {\color{red}\biggr \}}$
+				
+				\bigskip
+				Scrambled Sobol' achieves $\Order(n^{-1})$ convergence for modest $n$ provided that the Brownian motion is constructed by \alert{principal component analysis (PCA)}, rather than time stepping
+				&
+				\includegraphics[width = 7cm]{ProgramsImages/AsianCallSobolPCADiff.eps}
+			\end{tabular}
+	
+\end{frame}
 \begin{frame}
 	\frametitle{Overcoming the Curse of Dimensionality with Weights}
 	\vspace{-4ex}
-	\ocite{SloWoz98} showed how inserting decaying coordinate weights rescues the $\Order(n^{-1+\epsilon})$ convergence rate \alert{independent of dimension}.  \ocite{CafMorOwe97} explained that quasi-Monte Carlo methods work well for \alert{low effective dimension} even when $d$ is large.
-	
-	\vspace{-5ex}
+	\begin{itemize}
+		\item 	\ocite{SloWoz98} show how inserting decaying coordinate weights yields $\Order(n^{-1+\epsilon})$ convergence \alert{independent of dimension}
+		\item \ocite{CafMorOwe97} explain how quasi-Monte Carlo methods work well for \alert{low effective dimension}
+		\item \ocite{NovWoz10a} cover \alert{tractability} comprehensively
+	\end{itemize}
+	\vspace{-7ex}
 	\begin{tabular}{m{6cm}>{\centering}m{5.5cm}}
 		\begin{multline*}
 		\disc^2 = \prod_{k=1}^d\Bigl(1 + \frac{\alert{\gamma_k^2}}{3}\Bigr) \\
 			- \frac{2}{n} \sum_{i=1}^n \prod_{k=1}^d \left (1 + \frac{\alert{\gamma_k^2}(1 - x_{ik}^2)}{2} \right) \\ + \frac{1}{n^2}\sum_{i,j=1}^n \prod_{k = 1}^d [1 + \alert{\gamma_k^2}( 1 - \max(x_{ik},x_{jk}))]
 		\end{multline*}
-		\[ 	\Var(f) = \vast \lVert \vast ( \frac{1}{\displaystyle\prod_{k \in \fu} \alert{\gamma_k}}\biggl \lVert\frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \Bigr \rvert_{\vx_{\widebar{\fu}} = \vone}\biggr\rVert_{L^2}\!\!\vast )_{\!\!\!\!\fu \ne \emptyset} \vast \rVert_2 \]
+		\vspace{-4ex}
+		\begin{gather*} 	\Var(f) = \Biggl \lVert \Biggl ( \!\!\frac{1}{\alert{\gamma_{\fu}} }\biggl \lVert\frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \Bigr \rvert_{\vx_{\widebar{\fu}} = \vone}\biggr\rVert_{L^2}\!\!\Biggr )_{\!\!\!\!\fu \ne \emptyset} \Biggr \rVert_2 \\
+		\alert{\gamma_{\fu}} = \prod_{k \in \fu} \alert{\gamma_k}
+		\end{gather*}
 		& 
-		For Scrambled Sobol' points \newline $\gamma_k^2 = k^{-3}$\newline
+		For Scrambled Sobol' points \\ $\gamma_k^2 = k^{-3}$ \\
 		\includegraphics[width = 5.5cm]{ProgramsImages/WtL2Disc.eps}
 	\end{tabular}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Pricing an American Option}
-	PCA versus diff
-\end{frame}
-
-\againframe<2>{Summary}
+\againframe<3>{Summary}
 
 \section{Rewriting the Problem}
 
@@ -699,7 +765,7 @@ What is &  What we think it should be \\[1ex]}
 	\frametitle{Reducing $\Var$}
 	\vspace{-7ex}
 	\begin{align*}
-	\mu &= \int_{[0,1]^d} g(\vx) \, \dif \vx = \int_{[0,1]^d} f(\vx) \, \dif \vx, \qquad \nu = \text{Lebesque} \\
+	\mu &= \int_{[0,1]^d} g(\vx) \, \dif \vx = \int_{[0,1]^d} f(\vx) \, \dif \vx, \qquad \nu = \text{uniform} \\
 	 \redroundmathbox{\mu - \hmu(g)} & = \redroundmathbox{\algn(g,\nu - \hnu) \, \disc(\nu - \hnu) \, \Var(g)} \\
 	  \redroundmathbox{\mu - \hmu(f)}& = \redroundmathbox{\algn(f,\nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)}
 	\end{align*}
@@ -717,11 +783,19 @@ What is &  What we think it should be \\[1ex]}
 		& \overset{\text{\scriptsize{\ocite{Gen93}}}}{=} \int_{[0,1]^d} f(\vx) \, \dif \vx
 			\end{aligned}\]}
 		\item \alert{Control variates:} $f(\vx)  = g(\vx) + \vbeta^T(\vmu_{\vh} - \vh(\vx) )$ \only<3>{\\$\vbeta$ for low discrepancy sampling may be different than for IID sampling \smallcites{HicEtal03,Li16a}}
-		\item \alert{Importance sampling} (change of variables)
+		\item Change of variables---\alert{importance sampling} and \alert{antithetic variates}
 		\end{itemize}
 		&
-		\vspace{-12ex}
-		\includegraphics<2>[width = 5.5cm]{ProgramsImages/MVNSobolGenzAff.eps}
+		\only<1>{\vspace{2ex}\includegraphics[width = 5.5cm]{ProgramsImages/AsianCallSobolPCADiff.eps}}
+		\only<2>{\vspace{-12ex}\includegraphics<2>[width = 5.5cm]{ProgramsImages/MVNSobolGenzAff.eps}}
+		\only<3>{\vspace{-4ex}\centerline{Asian Arithmetic Mean Call} 
+			 \centerline{$\varepsilon = 0.0001$}
+			\medskip
+			\begin{tabular}{p{3cm}c}
+				& Time \tabularnewline
+				w/o control variates & $1.01$ s\tabularnewline
+				w/ Geometric Mean Call control variate & $0.26$ s
+			\end{tabular}}
 	\end{tabular}
 \end{frame}
 
@@ -757,31 +831,29 @@ What is &  What we think it should be \\[1ex]}
 \end{frame}
 
 
-\againframe<3>{Summary}
+\againframe<4>{Summary}
 
 
 \section{When to Stop}
 \begin{frame}
 	\frametitle{How Many Samples Are Needed?}
-	Our error analysis looks like 
+	Given  an \alert{error tolerance}, $\varepsilon$, how do we decide how many samples, $n$, are needed to make
 	\[
-	\redroundmathbox{\mu - \hmu = \algn(f, \nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)}
-	\]
-	but given an \alert{error tolerance}, $\varepsilon$, how do we decide the number of samples, $n$, needed to make
-	\[
-	\abs{\mu - \hmu_n }\le \varepsilon?
+	\redroundmathbox{\abs{\mu - \hmu} = \abs{\algn(f, \nu - \hnu)} \, \disc(\nu - \hnu) \, \Var(f)} \le \varepsilon
 	\]
 	\vspace{-6ex}
 	\begin{itemize}
-		\item \alert{Bayesian cubature} provides data-based confidence intervals for $\hmu_n$
+		\item \alert{Bayesian cubature} provides data-based confidence intervals for $\hmu$
 		
-		\item For \alert{IID Monte Carlo}, $\disc^{\Rn}(\nu - \hnu)  = 1/\sqrt{n}$, and $\Var^{\Dt}(f) = \std(f)$ and $\algn^{\Rn}(f, \nu - \hnu)$ can be bounded with high probability assuming a bound on the kurtosis of $f$ \smallcites{HicEtal14a,BayEtal14a,Jia16a}
+		\item For \alert{IID Monte Carlo}, $\abs{\mu - \hmu }= \abs{\algn^{\Rn}(f, \nu - \hnu)} \std(f)/\sqrt{n}$ can be bounded with high probability assuming a bound on $\kurt(f)$ \smallcites{HicEtal14a,BayEtal14a,Jia16a}
+		
 		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling, rigorous stopping criteria may be constructed in terms of the discrete Fourier Walsh/complex exponential coefficients of $f$ \smallcites{HicJim16a, JimHic16a, Li16a}
 	\end{itemize}
 \end{frame}
 
-\againframe<4>{Summary}
+\againframe<5>{Summary}
 
+\thankyouframe
 
 \begin{frame}[allowframebreaks]\frametitle{References}
 	\bibliography{FJH23,FJHown23}
@@ -789,119 +861,3 @@ What is &  What we think it should be \\[1ex]}
 
 \end{document}
 
-Niederreiter low dimensional quote
-
-finance example convergence versus MVN convergence
-O'Hagan quote
-
-
-\begin{frame}
-	\setbeameruncoveredtransp
-	\frametitle{Bayesian Cubature \hfill \uncover<2->{Deterministic Interpretation}}
-	\vspace{-7.5ex}
-	\[
-	\begin{array}{rcl}
-	f  \sim \GP (0, s^2 C_{\vtheta}) & & \uncover<2->{f \in \cf \text{ w/ reproducing kernel } K_{\vtheta}} \tabularnewline \toprule
-	\multicolumn{3}{c}{\abs{\mu - \hmu} \le \text{ width}} \tabularnewline
-	\text{with probability } 99\% && \uncover<2->{\text{if }  \Var^{\Dt}(f - \tf_{\vy}) \le \fC\Var^{\Dt}(\tf_{\vy}) }\tabularnewline
-	2.58\sqrt{\bigl (c_{\hvtheta,0} - \vc_{\hvtheta}^T  \mC_{\hvtheta}^{-1} \vc_{\hvtheta}\bigr) \, \frac {\vy^T \mC_{\hvtheta}^{-1}  \vy}{\alert{n}} } &
-	\leftarrow\text{width}\uncover<2->{\rightarrow}&
-	\uncover<2->{\alert{\fC} \sqrt{\bigl(k_{\hvtheta,0} - \vk_{\hvtheta}^T  \mK_{\hvtheta}^{-1} \vk_{\hvtheta}\bigr) \bigl(\vy^T \mK_{\vtheta}^{-1}  \vy \bigr)} }
-	\tabularnewline 
-	= 2.58 \disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) &&  \uncover<2->{=\alert{\fC}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\alert{\tf_{\vy}}) } \tabularnewline
-	\multicolumn{3}{c}{\vy = \bigl(f(\vx_i)\bigr)_{i=1}^n} \tabularnewline
-	&& \uncover<2->{\tf_{\vy} = \text{minimum norm interpolant}} \tabularnewline
-	\mC_{\hvtheta}^{-1} \vc_{\hvtheta} & \longleftarrow \vw \uncover<2->{\longrightarrow}& \uncover<2->{\mK_{\hvtheta}^{-1} \vk_{\hvtheta}} \tabularnewline
-	\argmin_{\vtheta} \frac{\vy^T \mC_{\vtheta}^{-1} \vy}{[\det(\mC_{\vtheta}^{-1})]^{1/n}} & \longleftarrow 	\hvtheta  \uncover<2->{\longrightarrow} &  \uncover<2->{\argmin_{\vtheta} \frac{\vy^T \mK_{\vtheta}^{-1} \vy}{[\det(\mK_{\vtheta}^{-1})]^{1/n}}} \tabularnewline
-	\text{estimate $s$ and $\vtheta$ by MLE} & & \uncover<2->{ = \argmin_{\vtheta}  \vol \bigl(\{ \vz \in \reals^n : \tabularnewline 
-		&& \qquad\quad \Var^{\Dt}_{\vtheta}(\tf_{\vz}) \le \Var^{\Dt}_{\vtheta}(\tf_{\vy})\} \bigr ) }
-	%\hs = \sqrt{\frac {\vy^T \mC_{\vtheta}^{-1}  \vy}n }
-	\end{array}
-	\]
-	\vspace*{-4ex}
-	\uncover<3>{\begin{itemize}
-			%\item $C_{\vtheta} = K_{\vtheta} \implies \hmu^{\Dt} = \hmu^{\Ba}, \text{ but }\RMS_{f} \Var^{\Dt}_{\vtheta}(f) \ge \sqrt{n} \Var^{\Ba}_{\vtheta}(f)$!!!!
-			\item generally requires $\Order(n^3)$ operations to compute $\mC_{\vtheta}^{-1}$ 
-			\item susceptible to ill-conditioning for smoother kernels (faster convergence)
-			\item $\hmu$ might not integrate constants exactly
-		\end{itemize}}
-		
-	\end{frame}
-	
-	\begin{frame}
-		\frametitle{Bayesian Trio Identity}
-		\vspace*{-8ex}
-		\begin{align*}
-		f & \sim \GP \bigl(0, \var_{f}\bigl(S(f)\bigr) C\bigr), \qquad c_0  = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \\
-		\vc & = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \qquad
-		\mC  = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n
-		%,  \quad \vone^T \vw \text{ may be } \ne 1
-		\\
-		\redroundmathbox{\mu - \hmu} 
-		& =  \redroundmathbox{\displaystyle%
-			\underbrace{\algn^\Ba(f,\nu - \hnu)}_{\textstyle \sim \cn ( 0, 1 )} \, 
-			\underbrace{\sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}_{\textstyle\disc^\Ba(\nu - \hnu)} \, \underbrace{\std_{f}\bigl(S(f)\bigr)}_{\textstyle\Var^\Ba(f)}}
-		\end{align*}
-		\vspace*{-4ex}
-		\begin{itemize}
-			\item Bayesian analysis provides \alert{confidence} intervals for $\mu$ even when $\hnu$ is deterministic
-			\item Must estimate \alert{hyper-parameters}, such as $\std_{f}\bigl(S(f)\bigr)$, say by MLE
-			\item $\disc^\Ba(\nu - \hnu) = \disc^\Dt(\nu - \hnu)$ for RKHS with $K$ replaced by $C$
-			\item $\vw  = \mC^{-1}\vc$ minimizes the discrepancy in both the Bayesian and deterministic RKHS cases, but 
-			\begin{itemize}
-				\item generally requires $\Order(n^3)$ operations, 
-				\item susceptible to ill-conditioning for smoother kernels (faster convergence), and
-				\item $\hmu$ might not integrate constants exactly
-			\end{itemize}
-			\item May also consider optimizing placement of data sites, $\{\vx_i\}_{i=1}^n$, but this is more difficult \cite{}
-		\end{itemize}
-		
-	\end{frame}
-
-
-\begin{frame}
-	\frametitle{Randomized Bayesian Trio Identity}
-	\vspace*{-4ex}
-	Assume that $f \sim \GP (0, s^2C)$ and $\hnu$ is \alert{random} (independent of $f$).  Then 
-	\vspace{-1ex}
-	\begin{align*}
-	c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
-	\mC &= \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n\\
-	\redroundmathbox{\mu - \hmu} 
-	& =  \redroundmathbox{\displaystyle%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Ba\Rn}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
-		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Ba\Rn}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
-	\end{align*}
-	
-\end{frame}
-
-\begin{frame}
-	\frametitle{Big Data Conclusions}
-	\vspace{-6ex}
-	\begin{tabular}{m{8.5cm}m{3cm}}
-		\hspace{-1cm}\parbox{9.2cm}{\begin{quotation}
-				\noindent With enough data, the numbers speak for themselves. \\
-				\phantom{a}\hfill \href{http://www.wired.com/2008/06/pb-theory/}{\textup{Chris Anderson,} The End of Theory \\
-					\phantom{a} \hfill	\textup{Wired Magazine, 2008}} \\
-				\noindent \alert{``Enough'' may mean much more than you think. }
-			\end{quotation}}
-			&
-			\sleepPict
-		\end{tabular}
-		\vspace{-2ex}	
-		\centerline{\redroundmathbox{\mu - \hmu  = \begin{cases} 
-					\frac{- \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}\\
-					\hspace{1.1em} -\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) \hspace{1.9em}
-					\sqrt{\frac{1-n/N}{\alert{n/N}}} \hspace{0.8em}
-					\std(f) & \text{web}
-				\end{cases}}}
-				\vspace{-1ex}
-				\begin{itemize}
-					
-					\item The error of a web survey with $n_{\textrm{web}}$ samples is equivalent to the error of survey with   $n_{\textrm{SRS}} \approx \frac{n_{\text{web}}/N}{\corr^2\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)(1-n_{\text{web}}/N)}$ simple random samples  		
-					
-					\item E.g., $n_{\text{web}} = 125$ million distinct samples from a population of $N = 250$ million with a correlation of $0.05$ is about as valuable as $n_{\text{SRS}} = 400$ simple random samples
-					
-				\end{itemize}
-				
-			\end{frame}

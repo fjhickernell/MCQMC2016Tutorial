@@ -6,7 +6,7 @@
 clc;clearvars;
 iter=1;[t,t1,t2] =deal(0); [n,n1,n2] =deal(0);
 
-%InitializeWorkspaceDisplay %initialize the workspace and the display parameters
+%gail.InitializeWorkspaceDisplay %initialize the workspace and the display parameters
 inp.timeDim.timeVector = 1/52:1/52:52*1/52; %weekly monitoring for 1 year 
 inp.assetParam.initPrice = 36; %initial stock price
 inp.assetParam.interest = 0.06; %risk-free interest rate
