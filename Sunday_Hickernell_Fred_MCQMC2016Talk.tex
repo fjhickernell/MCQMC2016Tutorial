@@ -203,9 +203,9 @@ our assumptions hold
 			
 	\uncover<2>{\vspace{1ex}\centerline{\begin{tabular}{r@{\quad}@{\quad}c@{\qquad}c}
 		\multicolumn{1}{c}{}& \multicolumn{2}{c}{Sampling Distribution, $\hnu$}\\
-		 Integrand, $f$ & Fixed & Random \\  \cmidrule[1.5pt]{2-3} \\   [-1ex]
-		 Fixed & Deterministic & Randomized \\ [1ex]
-		Gaussian Process	& Bayesian & Bayesian Randomized	
+		 Integrand, $f$ & Fixed & Random  \\  \cmidrule[1.5pt]{2-3} \\   [-1ex]
+		 Fixed & Deterministic $={}^{\Dt}$ & Randomized $={}^{\Rn}$ \\ [1ex]
+		Gaussian Process & Bayesian $={}^{\Ba}$ & Bayesian Randomized $={}^{\Ba\Rn}$	
 	\end{tabular}}}
 
 \end{frame}
@@ -253,18 +253,18 @@ our assumptions hold
 		\begin{itemize}
 			\item Discrepancy depends on the \alert{sample fraction}, not merely the sample size  \smallcite{Men16a}
 						
-			\item \alert{Correlation} for a web survey is difficult to predict or control
+			\item \alert{Correlation} for a web survey is difficult to control or predict
 		\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Reproducing Kernel Hilbert Spaces (RKHS)}
 	\vspace{-4ex}
-	If the space of integrands, $\cf$ is a Hilbert space with \alert{reproducing kernel} $K:\cx \times \cx \to \reals$, then the \alert{cubature error} is the \alert{inner product} of the integrand with the representer for the error functional \smallcite{Hic99a}:
+	If  $\cf$ is a Hilbert space of integrands with \alert{reproducing kernel} $K:\cx \times \cx \to \reals$, then the \alert{cubature error} is the \alert{inner product} of the integrand with the representer for the error functional \smallcite{Hic99a}:
 	\begin{align*}
 	\Var(f) &= \norm[\cf]{f}, \qquad f(\vt) = \ip[\cf]{K(\cdot,\vt)}{f} \ \forall \vt \in \cx,\ f \in \cf\\
 	[\disc(\nu - \hnu)]^2 &  =  \int_{\cx^2}K(\vx, \vt) \, \nu(\dif \vx) \nu(\dif \vt) - 2 \sum_{i=1}^n w_i \int_{\cx} K(\vx_i, \vt) \, \nu(\dif \vt) \\
-	& \qquad \qquad + \sum_{i,j=1}^n w_i w_j K(\vx_i, \vx_j) \\
+	& \qquad \qquad + \sum_{i,j=1}^n w_i w_j K(\vx_i, \vx_j)  = k_0 - 2 \vk^T \vw + \vw^T \mK \vw \\
 	\algn(f,\nu - \hnu)  &= \cos\biggl(f,\underbrace{\int_{\cx} K(\cdot, \vt) \, \nu(\dif \vt) + \sum_{j=1}^n w_j K(\cdot, \vx_j)}_{\textstyle\text{cubature error representer}}\biggr), \\ & \qquad \qquad \cos(f,g) : = \frac{\ip[\cf]{f}{g}}{\norm[\cf]{f} \norm[\cf]{g}}
 	\end{align*}
 	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f}}
@@ -350,9 +350,9 @@ our assumptions hold
 		\vspace{-8ex}
 		\begin{align*}
 		\hnu & = \text{\alert{random} measure with probability }\Prob_{\hnu} \\
-		(\cf, \norm[\cf]{\cdot}) & = \text{normed vector space of integrands} \\
+		(\cf, \norm[\cf]{\cdot}) & \text{ as before, but } f \mapsto f(\vx) \text{ need not be bounded}\\
 		%& \qquad  L: \cf \to \reals \text{ is linear }, \quad L(f) \in \cf \ \ \forall f \in \cf  \\
-		& \qquad  \RMSE(f,\nu - \hnu) := \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } < \infty \quad \forall f \in \cf \\
+		& \qquad  \RMSE(f,\nu - \hnu) := \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } < \infty \\
 		\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 			& =  \redroundmathbox{\displaystyle%
 				\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 

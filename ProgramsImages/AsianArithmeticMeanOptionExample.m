@@ -1,7 +1,6 @@
 %% Generate Examples of Asian Arithmetic Mean Option Pricing
 
-%gail.InitializeWorkspaceDisplay %clean up 
-clearvars
+gail.InitializeWorkspaceDisplay %clean up 
 format long
 
 if exist('AsianCallExampleAllData.mat','file')
