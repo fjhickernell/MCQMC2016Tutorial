@@ -109,6 +109,8 @@ classdef multivarGauss < handle
             obj.f = ff;
          elseif strcmp(obj.transMeth,'tent')
             obj.f = @(x) ff(1 - abs(2*x -1));
+         elseif strcmp(obj.transMeth,'C0')
+            obj.f = @(x) ff((x.^2).*(3-2*x)).*prod(6*x.*(1-x),2);
          else
             error ('transMeth not recognized')
          end
@@ -193,6 +195,15 @@ classdef multivarGauss < handle
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end
+            elseif strcmp(obj.cubMeth,'lattice')
+               if realDim >= 1
+                  x = mod(bsxfun(@plus,gail.lattice_gen(1,nmax,realDim), ...
+                     + rand(1,realDim)),1);
+               else
+                  x(nmax,1) = 0;
+               end
+               temp = cumsum(obj.f(x),1);
+               prob = temp(obj.n)./obj.n(:);
             end
          elseif strcmp(obj.errMeth,'g')
             if strcmp(obj.cubMeth,'IID')

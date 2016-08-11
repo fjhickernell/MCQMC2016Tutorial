@@ -50,6 +50,19 @@
       volume={163},
 }
 
+\bib{CriEtal07}{article}{
+      author={Cristea, L.~L.},
+      author={Dick, J.},
+      author={Leobacher, G.},
+      author={Pillichshammer, F.},
+       title={The tent transformation can improve the convergence rate of
+  quasi-{M}onte {C}arlo algorithms using digital nets},
+        date={2007},
+     journal={Numer. Math.},
+      volume={105},
+       pages={413\ndash 455},
+}
+
 \bib{Dia88a}{incollection}{
       author={Diaconis, P.},
        title={{B}ayesian numerical analysis},
@@ -61,6 +74,16 @@
       volume={1},
    publisher={Springer-Verlag, New York},
        pages={163\ndash 175},
+}
+
+\bib{Dic08a}{article}{
+      author={Dick, J.},
+       title={{W}alsh spaces containing smooth functions an quasi-monte carlo
+  rules of arbitrary high order},
+        date={2008},
+     journal={SIAM J. Numer.\ Anal.},
+      volume={46},
+      number={1519--1553},
 }
 
 \bib{KuoEtal14a}{proceedings}{
@@ -201,6 +224,19 @@
       editor={Spanier, J.},
    publisher={Springer-Verlag, Berlin},
        pages={16\ndash 55},
+}
+
+\bib{Hic01a}{inproceedings}{
+      author={\HickernellFJ, F.~J.},
+       title={Obtaining {$O(N^{-2+\epsilon})$} convergence for lattice
+  quadrature rules},
+        date={2002},
+   booktitle={{M}onte {C}arlo and quasi-{M}onte {C}arlo methods 2000},
+      editor={Fang, K.~T.},
+      editor={\HickernellFJ, F.~J.},
+      editor={Niederreiter, H.},
+   publisher={Springer-Verlag, Berlin},
+       pages={274\ndash 289},
 }
 
 \bib{HicEtal14a}{inproceedings}{

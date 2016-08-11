@@ -179,7 +179,7 @@ our assumptions hold
 \begin{gather*}
 	 	\mu  = \Ex[f(\vX)] = \int_{\cx} f(\vx) \, \nu(\dif\vx) \approx \hmu = \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, \hnu(\dif\vx)
 	 				\qquad \redroundmathbox{\mu - \hmu =\, ?} \\
-	 	\nu = \text{probability measure}, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure},\quad \sum_{i=1}^n w_i =1
+	 	\nu = \text{probability measure}, \quad\hnu = \sum_{i=1}^n w_i \delta_{\vx_i} = \text{sampling measure} %,\quad \sum_{i=1}^n w_i =1
 	 	\end{gather*}
 \end{frame}
 
@@ -198,11 +198,11 @@ our assumptions hold
 	 &  \qquad \qquad  \text{from the probability measure} \ge 0\\
 	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} of the integrand and} \\
 	&  \qquad \qquad  \text{the difference between the two measures}
-\only<1>{\\ & \hspace{3cm} \qquad \text{\alert{often ignored, but shouldn't be}}}
+\\ & \hspace{3cm} \text{\alert{often ignored, but shouldn't be}}
 	\end{align*}
 			
 	\uncover<2>{\vspace{1ex}\centerline{\begin{tabular}{r@{\quad}@{\quad}c@{\qquad}c}
-		\multicolumn{1}{c}{}& \multicolumn{2}{c}{Sampling Distribution, $\hnu$}\\
+		\multicolumn{1}{c}{}& \multicolumn{2}{c}{Sampling Measure, $\hnu$}\\
 		 Integrand, $f$ & Fixed & Random  \\  \cmidrule[1.5pt]{2-3} \\   [-1ex]
 		 Fixed & Deterministic $={}^{\Dt}$ & Randomized $={}^{\Rn}$ \\ [1ex]
 		Gaussian Process & Bayesian $={}^{\Ba}$ & Bayesian Randomized $={}^{\Ba\Rn}$	
@@ -226,7 +226,7 @@ our assumptions hold
 	\vspace{-4ex}
 	\uncover<2->{\begin{itemize}
 			\item $\abs{\algn^\Dt(f,\nu - \hnu)}   \le 1$  %by the definitions of $\norm[\cf]{\cdot}, \norm[\cm]{\cdot}$
-			\item Ignoring $\algn^\Dt(f,\nu - \hnu)$ yields a generalized Koksma-Hlawka inequality \cites{Hla61, Nie92,Hic97a,Hic99a}
+			\item Ignoring $\algn^\Dt(f,\nu - \hnu)$ yields a generalized \alert{Koksma-Hlawka} inequality \cites{Hla61, Nie92,Hic97a,Hic99a}
 		\end{itemize}.}
 \end{frame}
 
@@ -238,8 +238,8 @@ our assumptions hold
 		\mu %= \frac 1N \sum_{j=1}^N f(j) 
 		= \text{population average hours of sleep}  \\
 		f(j) = \text{hours of sleep for individual } j \\
-			\nu = \text{uniform}, \qquad \hnu  = \frac 1n \sum_{i=1}^n \delta_{x_i}\\
-			\{x_i\}_{i=1}^n \text{is a sequence of distinct individuals}
+			\nu = \text{uniform on } \{1, \ldots, N\}\\
+			\hnu  = \text{uniform on a set of distinct individuals, } \{x_i\}_{i=1}^n
 			\end{gather*}
 			& \sleepPict
 	\end{tabular}
@@ -265,7 +265,7 @@ our assumptions hold
 	\Var(f) &= \norm[\cf]{f}, \qquad f(\vt) = \ip[\cf]{K(\cdot,\vt)}{f} \ \forall \vt \in \cx,\ f \in \cf\\
 	[\disc(\nu - \hnu)]^2 &  =  \int_{\cx^2}K(\vx, \vt) \, \nu(\dif \vx) \nu(\dif \vt) - 2 \sum_{i=1}^n w_i \int_{\cx} K(\vx_i, \vt) \, \nu(\dif \vt) \\
 	& \qquad \qquad + \sum_{i,j=1}^n w_i w_j K(\vx_i, \vx_j)  = k_0 - 2 \vk^T \vw + \vw^T \mK \vw \\
-	\algn(f,\nu - \hnu)  &= \cos\biggl(f,\underbrace{\int_{\cx} K(\cdot, \vt) \, \nu(\dif \vt) + \sum_{j=1}^n w_j K(\cdot, \vx_j)}_{\textstyle\text{cubature error representer}}\biggr), \\ & \qquad \qquad \cos(f,g) : = \frac{\ip[\cf]{f}{g}}{\norm[\cf]{f} \norm[\cf]{g}}
+	\algn(f,\nu - \hnu)  &= \cos\biggl(f,\underbrace{\int_{\cx} K(\cdot, \vt) \, \nu(\dif \vt) - \sum_{j=1}^n w_j K(\cdot, \vx_j)}_{\textstyle\text{cubature error representer}}\biggr), \\ & \qquad \qquad \cos(f,g) : = \frac{\ip[\cf]{f}{g}}{\norm[\cf]{f} \norm[\cf]{g}}
 	\end{align*}
 	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f}}
 	}
@@ -273,35 +273,43 @@ our assumptions hold
 
 \begin{frame}
 	\frametitle{$L^2$-Discrepancy}
-	\vspace{-9ex}
+	\vspace{-8ex}
+	\begin{gather*}
+\nu = \text{uniform on } \cx = [0,1]^d, \quad \hnu = \text{uniform on }\{\vx_i\}_{i=1}^n \\[-1ex]
+	 K(\vx,\vt) =\prod_{k = 1}^d [2 - \max(x_k,t_k)] \quad \text{\smallcite{Hic97a}} \\[-1ex]
+	\Var^\Dt(f)  = \norm[\cf]{f-f(\vone)} = \Bigl \lVert \bigl ( \norm[L^2]{\partial^\fu f}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 , \qquad 
+	\partial^\fu f : = \frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \biggr \rvert_{\textstyle \vx_{\widebar{\fu}} = \vone}
+	\end{gather*}
+	\vspace{-3ex}
 	\begin{align*}
-	\cx &= [0,1]^d, \qquad  \nu = \text{uniform}, \qquad K(\vx,\vt) =\prod_{k = 1}^d [2 - \max(x_k,t_k)] \\[-1ex]
-	\Var^\Dt(f) & = \norm[\cf]{f-f(\vone)} = \Bigl \lVert \bigl ( \norm[L^2]{\partial^\fu f}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 , \qquad 
-	\partial^\fu f : = \frac{\partial^{\abs{\fu}} f}{\partial \vx_\fu} \biggr \rvert_{\textstyle \vx_{\widebar{\fu}} = \vone} \\
-	[\disc^\Dt(\nu - \hnu)]^2 &  = \left(\frac 43\right)^d - 2 \sum_{i=1}^n w_i \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \sum_{i,j=1}^n w_i w_j \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] 
-	\only<2->{\\& = \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2}
+	[\disc^\Dt(\nu - \hnu)]^2  &= \left(\frac 43\right)^d - \frac{2}n \sum_{i=1}^n \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \frac{1}{n^2}\sum_{i,j=1}^n \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] 
+	\only<2->{\\ &= \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2}
 	\end{align*}
 	\only<1>{\vspace*{-1.8ex}
-		\centerline{\includegraphics[width = 7cm]{ProgramsImages/L2Kernel.eps}}}
+		\centerline{\includegraphics[width = 6.5cm]{ProgramsImages/L2Kernel.eps}}}
 	\only<2>{\begin{tabular}{>{\flushright}m{5cm}>{\centering}m{6cm}}
 			$ \vx = (\ldots, 0.6, \ldots, 0.4, \ldots)$
 			\begin{multline*}
 			\nu([\vzero,\vx_{\{5,8\}}]) - \hnu([\vzero,\vx_{\{5,8\}}]) \\
 			 = 0.24 - 7/32 = 0.02125
 			\end{multline*}& \vspace{-1ex}
-			\includegraphics[width = 4.4cm]{ProgramsImages/LocalDiscrep.eps}
+			\includegraphics[width = 4cm]{ProgramsImages/LocalDiscrep.eps}
 		\end{tabular}}
-\only<3>{	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
-	\vspace{-4ex}
+\only<3>{\vspace{-2ex}	
+	
+	\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
+	\vspace{-3ex}
 	\begin{itemize}
 		\item $\disc^\Dt(\nu - \hnu)$ requires $\Order(dn^2)$ operations to evaluate
-		\item $\disc^\Dt(\nu - \hnu) \begin{cases} =  \Order(n^{-1/2}) \text{ for IID Monte Carlo} \\
-		= \Order( n^{\alert{-1} + \epsilon}) \text{ for digital nets, integration lattices, \ldots} \\
+		\item $\disc^\Dt(\nu - \hnu)
+		\begin{cases} =  \Order(n^{-1/2}) \text{ on average for IID Monte Carlo} \\
+		= \Order( n^{\alert{-1} + \epsilon}) \text{ for digital nets, integration lattices, \ldots} \\[-0.5ex]
 		\qquad \qquad \text{\smallcites{Nie92, DicPil10a}} \\
-		\ge \Order(n^{\alert{-1} + \epsilon}) \text{ because of the limited smoothness of } f \in \cf\end{cases}$
-	\end{itemize}
-	\vspace{-2ex}
-	\qquad \alert{Low discrepancy (quasi-Monte Carlo) sampling reduces cubature error}}
+		\ge \Order(n^{\alert{-1}}) \text{ for all } \hnu \text{ because this } K \text{ has limited smoothness} \\
+		= \Order(n^{-r}) \text{ for } r >1 \text{ for smoother } K \text{ and higher order nets} \\[-0.5ex]
+		 	\qquad \qquad \text{\smallcite{Dic08a}}
+		\end{cases}$
+	\end{itemize}}
 \end{frame}
 
 
@@ -311,7 +319,7 @@ our assumptions hold
 	\begin{gather*}
 	\mu = \int_{[\va,\vb]} \frac{\exp\bigl(- \frac 12 \vt^T \mSigma^{-1} \vt \bigr)}{\sqrt{(2 \pi)^d \det(\mSigma)}} \, \dif \vt \
 	\overset{\text{\smallocite{Gen93}}}{=} \ \int_{[0,1]^{d-1}} f(\vx) \, \dif \vx \\
-		\hnu = \text{equally weighted average}
+		\hnu = \text{uniform on } \{x_i\}_{i=1}^n
 		\end{gather*}
 		& \GaussPict
 	\end{tabular}
@@ -352,20 +360,17 @@ our assumptions hold
 		\hnu & = \text{\alert{random} measure with probability }\Prob_{\hnu} \\
 		(\cf, \norm[\cf]{\cdot}) & \text{ as before, but } f \mapsto f(\vx) \text{ need not be bounded}\\
 		%& \qquad  L: \cf \to \reals \text{ is linear }, \quad L(f) \in \cf \ \ \forall f \in \cf  \\
-		& \qquad  \RMSE(f,\nu - \hnu) := \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 } < \infty \\
-		\uncover<2->{\redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
-			& =  \redroundmathbox{\displaystyle%
+		\redroundmathbox{\mu - \hmu} &= 
+		  \redroundmathbox{\displaystyle%
 				\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
-				\underbrace{\sup_{0  \ne f \in \cf}  \frac{\RMSE(f, \nu - \hnu)}{\norm[\cf]{f}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[\cf]{f}}_{\textstyle\Var^\Dt(f)}} }
+				\underbrace{\sup_{0  \ne f \in \cf}  \frac{ \sqrt{\Ex_{\hnu} \biggl [ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \biggr]^2 }}{\norm[\cf]{f}}}_{\textstyle\disc^\Rn(\nu - \hnu)} \, \underbrace{\norm[\cf]{f}}_{\textstyle\Var^\Dt(f)}} 
 		\end{align*}
 		\vspace{-3ex}
-		\uncover<2->{
 			\begin{itemize}
 				\item $\Ex\abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$
 				
 				\item $\disc^\Rn(\nu - \hnu)  \le \sqrt{\Ex\abs{\disc^\Dt(\nu - \hnu)}^2}$
 			\end{itemize}
-		}
 		
 \end{frame}
 
@@ -494,7 +499,7 @@ our assumptions hold
 				$\mu \approx \$6.1375$}} {\color{red}\biggr \}}$
 		
 		\bigskip
-	Scrambled Sobol' does not achieve $\Order(n^{-3/2})$ convergence because $f$ is not smooth enough.
+	Scrambled Sobol' does not achieve $\Order(n^{-3/2})$ convergence because $f$ is \alert{not smooth enough}.
 		
 		\bigskip
 		
@@ -526,7 +531,11 @@ our assumptions hold
 		\item<1,5| only@1-> Big data may not eliminate the need for \alert{proper sampling}---simple random sampling beats haphazard sampling
 		\item<1,5| only@1-> \alert{Low discrepancy} sampling beats simple random sampling
 		\item<1,5| only@1-> \alert{Randomization} to remove bias can improve convergence rate
-		\item<2,5| only@2-> \alert{Bayesian cubature} provides even faster convergence rates with confidence intervals, but requires time consuming calculations
+		\item<2,5| only@2-> \alert{Bayesian cubature} provides even faster convergence rates with confidence intervals, but 
+		\begin{itemize}
+			\item cannot control whether $f$ is a typical $\GP (0, s^2 C_{\vtheta})$
+			\item requires time consuming calculations
+		\end{itemize}
 		\item<3,5|only@3-> Error may be \alert{dimension-independent} if the dependence of $f(x_1, x_2, \ldots)$ on $x_k$  decays quickly as $k$ increases
 		\item<4-|only@4-> \alert{Changing the integrand} while leaving $\mu$ unchanged can reduce error
 		\item<5 | only@5-> There are data-based \alert{stopping criteria} with theoretical justification
@@ -543,7 +552,8 @@ our assumptions hold
 	\begin{align*}
 	%\mu - \hmu & \big \vert \{f(\vx_i )= y_i\}_{i=1}^n \sim \cn \bigl( \vy^T (\mC^{-1}\vc - \vw), s^2(c_0 - \vc ^T \mC^{-1} \vc) \bigr) \\
 	c_0 & = \int_{\cx^2} C(\vx,\vt) \, \nu(\dif \vx) \nu(\dif \vt), \qquad \vc = \biggl( \int_{\cx} C(\vx_i,\vt) \,\nu(\dif \vt) \biggr)_{i=1}^n \\
-	\mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n,  \quad \vone^T \vw \text{ may be } \ne 1\\
+	\mC & = \bigl( C(\vx_i,\vx_j) \bigr)_{i,j=1}^n, \qquad \vw = \bigl(w_i \bigr)_{i=1}^n\\
+	%,  \quad \vone^T \vw \text{ may be } \ne 1\\
 	\redroundmathbox{\mu - \hmu} 
 	& = \redroundmathbox{\displaystyle%
 		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{c_0 - 2 \vc^T \vw + \vw^T \mC \vw}}}_{\textstyle \algn^\Ba(f,\nu - \hnu)} \, 
@@ -567,13 +577,15 @@ our assumptions hold
 	\[
 	\begin{array}{rcl}
 		f  \sim \GP (0, s^2 C_{\vtheta}) & & \uncover<2->{f \in \cf \text{ w/ reproducing kernel } K_{\vtheta}} \tabularnewline \toprule
-		\multicolumn{3}{c}{\abs{\mu - \hmu} \le \text{ width}} \tabularnewline
-		\text{with } 99\% \text{ confidence}&& \uncover<3->{\text{if }  \Var^{\Dt}(f - \tf_{\vy}) \le \frac{2.58}{\alert{\sqrt{n}}} \Var^{\Dt}(\tf_{\vy}) }\tabularnewline
+		\multicolumn{3}{c}{\abs{\algn^{\Ba}}\disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) = \abs{\mu - \hmu} \uncover<2->{=\abs{\algn^{\Dt}}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\only<2>{f}\only<3>{\alert{f - \tf_{\vy}}})}}
+			\tabularnewline
+		\text{with } 99\% \text{ confidence}& \le \text{ width}& \uncover<3->{\text{if }  \Var^{\Dt}(\alert{f - \tf_{\vy}}) \le \frac{2.58}{\alert{\sqrt{n}}} \Var^{\Dt}(\tf_{\vy})}
+		\tabularnewline
 		 2.58\sqrt{\bigl (c_{\hvtheta,0} - \vc_{\hvtheta}^T  \mC_{\hvtheta}^{-1} \vc_{\hvtheta}\bigr) \, \frac {\vy^T \mC_{\hvtheta}^{-1}  \vy}{\alert{n}} } &
 		 \shortleftarrow\text{\!width}\uncover<2->{\!\shortrightarrow}&
 		 \uncover<2->{\text{\alert<2>{replace} } C_{\vtheta} \text{ by } K_{\vtheta}}
 		  \tabularnewline 
-		  = 2.58 \disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) &&  \uncover<3->{=\frac{2.58}{\alert{\sqrt{n}}}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\alert{\tf_{\vy}}) } \tabularnewline
+		  = 2.58 \disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) &&  \uncover<3->{=\frac{2.58}{\alert{\sqrt{n}}}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\alert{\tf_{\vy}}) } \tabularnewline[-1ex]
 		  \multicolumn{3}{c}{\vy = \bigl(f(\vx_i)\bigr)_{i=1}^n} \tabularnewline[0.5ex]
 		  && \uncover<3->{\tf_{\vy} = \text{minimum norm interpolant}} \tabularnewline
 		  \mC_{\hvtheta}^{-1} \vc_{\hvtheta} & \leftarrow \vw \uncover<2->{\rightarrow}& \uncover<2->{\text{\alert<2>{replace} } C_{\vtheta} \text{ by } K_{\vtheta}} \tabularnewline
@@ -595,7 +607,7 @@ our assumptions hold
 	\begin{itemize}\setlength{\itemsep}{-0.3ex}
   			\item Requires $\Order(n^3)$ operations to compute $\mC_{\vtheta}^{-1}$, but see \smallocite{AniCheSte16a}
 			\item Ill-conditioning for smoother kernels (faster convergence)
-			\item Might not integrate constants exactly
+			%\item Might not integrate constants exactly
 	\end{itemize} 
 	%\end{tabular}
 	}
@@ -645,31 +657,6 @@ our assumptions hold
 	
 \end{frame}
 
-\againframe<2->{BayesCub}
-
-
-\begin{frame}
-	\frametitle{Randomized Bayesian Trio Identity}
-	\vspace*{-4ex}
-	$f \sim \GP (0, s^2C)$ and $\hnu$ is  \alert{random} (independent of $f$):
-	\vspace{-1ex}
-	\begin{align*}
-	\redroundmathbox{\mu - \hmu} 
-	& =  \redroundmathbox{\displaystyle%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
-		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Rn\Ba}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
-	\end{align*}
-	For $\vw  = \vone/n$, and unbiased estimation:
-	\[
-	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{\frac {\vone^T \tmC \vone}{n^2} - c_0 }, \qquad \tmC  = \Bigl(\Ex_{\hnu} C(\vx_i,\vx_j) \Bigr)_{i,j=1}^n
-	\]	
-	For some $\{\vx_i\}_{i=1}^n$, such as IID samples, scrambled nets and shifted integration lattices
-	\[
-	\disc^{\Ba\Rn}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
-	\]	
-	which requires only $\Order(n)$ operations to evaluate \smallcite{Hic99b,HicYue00}
-	
-\end{frame}
 
 \againframe<2>{Summary}
 
@@ -785,12 +772,12 @@ our assumptions hold
 		& \overset{\text{\scriptsize{\ocite{Gen93}}}}{=} \int_{[0,1]^d} f(\vx) \, \dif \vx
 			\end{aligned}\]}
 		\item \alert{Control variates:} $f(\vx)  = g(\vx) + \vbeta^T(\vmu_{\vh} - \vh(\vx) )$ \only<3>{\\$\vbeta$ for low discrepancy sampling may be different than for IID sampling \smallcites{HicEtal03,Li16a}}
-		\item Change of variables---\alert{importance sampling} and \alert{antithetic variates}
+		\item Change of variables---\alert{importance sampling}, \alert{antithetic variates}, and the \alert{tent transformation} \smallcites{Hic01a,CriEtal07}
 		\end{itemize}
 		&
 		\only<1>{\vspace{2ex}\includegraphics[width = 5.5cm]{ProgramsImages/AsianCallSobolPCADiff.eps}}
-		\only<2>{\vspace{-12ex}\includegraphics<2>[width = 5.5cm]{ProgramsImages/MVNSobolGenzAff.eps}}
-		\only<3>{\vspace{-4ex}\centerline{Asian Arithmetic Mean Call} 
+		\only<2>{\vspace{-14ex}\includegraphics<2>[width = 5.5cm]{ProgramsImages/MVNSobolGenzAff.eps}}
+		\only<3>{\vspace{-6ex}\centerline{Asian Arithmetic Mean Call} 
 			 \centerline{$\varepsilon = 0.0001$}
 			\medskip
 			\begin{tabular}{p{3cm}c}
@@ -849,13 +836,39 @@ our assumptions hold
 		
 		\item For \alert{IID Monte Carlo}, $\abs{\mu - \hmu }= \abs{\algn^{\Rn}(f, \nu - \hnu)} \std(f)/\sqrt{n}$ can be bounded with high probability assuming a bound on $\kurt(f)$ \smallcites{HicEtal14a,BayEtal14a,Jia16a}
 		
-		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling, rigorous stopping criteria may be constructed in terms of the discrete Fourier Walsh/complex exponential coefficients of $f$ \smallcites{HicJim16a, JimHic16a, Li16a}
+		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling, rigorous stopping criteria have been constructed in terms of the discrete Fourier Walsh/complex exponential coefficients of $f$ \smallcites{HicJim16a, JimHic16a, Li16a}
 	\end{itemize}
 \end{frame}
 
 \againframe<5>{Summary}
 
 \thankyouframe
+
+\againframe<2->{BayesCub}
+
+
+\begin{frame}
+	\frametitle{Randomized Bayesian Trio Identity}
+	\vspace*{-4ex}
+	$f \sim \GP (0, s^2C)$ and $\hnu$ is  \alert{random} (independent of $f$):
+	\vspace{-1ex}
+	\begin{align*}
+	\redroundmathbox{\mu - \hmu} 
+	& =  \redroundmathbox{\displaystyle%
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
+		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Rn\Ba}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+	\end{align*}
+	For $\vw  = \vone/n$, and unbiased estimation:
+	\[
+	\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{\frac {\vone^T \tmC \vone}{n^2} - c_0 }, \qquad \tmC  = \Bigl(\Ex_{\hnu} C(\vx_i,\vx_j) \Bigr)_{i,j=1}^n
+	\]	
+	For some $\{\vx_i\}_{i=1}^n$, such as IID samples, scrambled nets and shifted integration lattices
+	\[
+	\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
+	\]	
+	which requires only $\Order(n)$ operations to evaluate \smallcite{Hic99b,HicYue00}
+	
+\end{frame}
 
 \begin{frame}[allowframebreaks]\frametitle{References}
 	\bibliography{FJH23,FJHown23}

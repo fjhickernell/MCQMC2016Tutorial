@@ -8,13 +8,15 @@ rng(0)
 n=32;
 x = net(scramble(sobolset(2),'MatousekAffineOwen'),n);
 xcorner = [0.6 0.4];
+whichin = (x(:,1) <= 0.6) & (x(:,2) <= 0.4);
 figure
-plot(x(:,1),x(:,2),'.')
+plot(x(~whichin,1),x(~whichin,2),'.')
+hold on
+plot(x(whichin,1),x(whichin,2),'.')
 axis square
 axis([0 1 0 1])
 ticks = 0:0.2:1;
 set(gca,'Xtick',ticks,'Ytick',ticks)
-hold on
 plot([0 xcorner([1 1]) 0 0],[0 0 xcorner([2 2]) 0],'k-', ...
    xcorner(1), xcorner(2), '.k')
 xlabel('\(x_5\)')
@@ -24,7 +26,6 @@ text(xcorner(1), xcorner(2)+0.05, ...
 localdisc = prod(xcorner) ...
    - sum((x(:,1) <= xcorner(1)) & (x(:,2) <= xcorner(2)))/n
 print -depsc LocalDiscrep.eps
-return
 
 %% Plot kernelfigure
 x = (0:0.002:1)';
@@ -48,7 +49,7 @@ legend boxoff
 print -depsc L2Kernel.eps
 
 %% Plot L2 unweighted discrepancy for Sobol' points
-compUnWtdDisc = false;
+compUnWtdDisc = true;
 if compUnWtdDisc
    tic
    rng(47)
@@ -100,7 +101,7 @@ for k = 2:nd
    legendstuff{k+1} = ['\(d = ' int2str(dvec(k)) '\)'];
 end
 %legendstuff{nd+2} = '\(O(n^{-1/2})\)';
-legendstuff{nd+2} = 'IID';
+legendstuff{nd+2} = 'IID, \(O(n^{-1/2}\)';
 legend(h([1 nd+1 2:nd nd+2]),legendstuff,'location','southwest')
 legend boxoff
 print -depsc UnwtL2Disc.eps
