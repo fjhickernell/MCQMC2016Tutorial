@@ -495,8 +495,8 @@ our assumptions hold
 		
 		\noindent
 		$\text{\parbox{4.5cm}{\raggedleft
-				\hfill For an Asian arithmetic mean option,  $d = 13$,
-				$\mu \approx \$6.1375$}} {\color{red}\biggr \}}$
+				\hfill For an Asian arithmetic mean option,  $d = 12$,
+				$\mu \approx \$13.1220$}} {\color{red}\biggr \}}$
 		
 		\bigskip
 	Scrambled Sobol' does not achieve $\Order(n^{-3/2})$ convergence because $f$ is \alert{not smooth enough}.
@@ -637,20 +637,28 @@ our assumptions hold
 			\begin{multline*}C_{\theta}(\vx,\vt) \\
 			= \prod_{k=1}^d (1 + \theta\abs{x_k - t_k})\me^{-\theta\abs{x_k - t_k}}
 			\end{multline*}}
-		\only<2>{Smaller error using Bayesian cubature with scrambled Sobol' data sites}
-		\only<3>{Confidence intervals succeed $\approx 98\%$ of the time}\only<2>{\\
-		\vspace{3ex}	
-	
-		\noindent
-		$\text{\parbox{4.5cm}{\raggedleft
-				\hfill For some typical choice of \newline 
-				\phantom{a}\hfill  $\va$, $\vb$, $\mSigma$, and $d=3$ \newline 
-				$\mu \approx 0.6763$}}  {\color{red}\Biggr \}}$}
+		\only<2>{Smaller error using Bayesian cubature with scrambled Sobol' data sites 
+			\begin{itemize}\setlength{\itemsep}{-0.3ex}
+				\item Requires $\Order(n^3)$ operations to compute $\mC_{\vtheta}^{-1}$, but see \smallocite{AniCheSte16a}
+				\item Ill-conditioning for smoother kernels (faster convergence)
+				%\item Might not integrate constants exactly
+			\end{itemize}}
+		\only<3>{Confidence intervals succeed $\approx 98\%$ of the time}
+%		\only<2>{\\
+%		\vspace{3ex}	
+%	
+%		\noindent
+%		$\text{\parbox{4.5cm}{\raggedleft
+%				\hfill For some typical choice of \newline 
+%				\phantom{a}\hfill  $\va$, $\vb$, $\mSigma$, and $d=3$ \newline 
+%				$\mu \approx 0.6763$}}  {\color{red}\Biggr \}}$}
+%		
+%		\vspace{1.5ex}
 		
-		\vspace{1.5ex}
+			
 		
 		&
-		\includegraphics<1>[width = 7cm]{ProgramsImages/Matern.eps}
+		\only<1>{\vspace{-1ex}}\includegraphics<1>[width = 7cm]{ProgramsImages/Matern.eps}
 		\includegraphics<2>[width = 7cm]{ProgramsImages/MVNIIDUSobolSobolWtSobol.eps}
 		\includegraphics<3>[width = 6.5cm]{ProgramsImages/MVNSobolWtSobolErrBd.eps}
 	\end{tabular}
@@ -711,8 +719,8 @@ our assumptions hold
 				
 				\noindent
 				$\text{\parbox{4.5cm}{\raggedleft
-						\hfill For an Asian arithmetic mean option,  \alert{$d = 13$},
-						$\mu \approx \$6.1375$}} {\color{red}\biggr \}}$
+						\hfill For an Asian arithmetic mean option,  \alert{$d = 12$},
+						$\mu \approx \$13.1220$}} {\color{red}\biggr \}}$
 				
 				\bigskip
 				Scrambled Sobol' achieves $\Order(n^{-1})$ convergence for modest $n$ provided that the Brownian motion is constructed by \alert{principal component analysis (PCA)}, rather than time stepping
@@ -782,8 +790,8 @@ our assumptions hold
 			\medskip
 			\begin{tabular}{p{3cm}c}
 				& Time \tabularnewline
-				w/o control variates & $1.01$ s\tabularnewline
-				w/ Geometric Mean Call control variate & $0.26$ s
+				w/o control variates & $4.00$ s\tabularnewline
+				w/ Geometric Mean Call control variate & $1.97$ s
 			\end{tabular}}
 	\end{tabular}
 \end{frame}
@@ -815,7 +823,7 @@ our assumptions hold
 		\smallocite{RheGly12a} remove bias\\[2ex]
 		
 		\item[Multivariate Decomposition Method:] $\hmu = \hmu(f_{\fu_1}) + \hmu(f_{\fu_2}) + \cdots +\hmu(f_{\fu_L})$ \\
-		where the $\fu_k$ are the important coordinate indices \smallcite{Was13b}
+		where the $\fu_k$ are the important sets of coordinate indices \smallcite{Was13b}
 	\end{description}}
 \end{frame}
 
@@ -833,10 +841,18 @@ our assumptions hold
 	\vspace{-6ex}
 	\begin{itemize}
 		\item \alert{Bayesian cubature} provides data-based confidence intervals for $\hmu$
+
+		\item For \alert{IID Monte Carlo}, 
+		\begin{itemize} 
+			\item The Central Limit Theorem is an asymptotic---not finite-sample---result 
+			\item But $\abs{\mu - \hmu }= \abs{\algn^{\Rn}(f, \nu - \hnu)} \std(f)/\sqrt{n}$ can be bounded with high probability assuming a bound on $\kurt(f)$ \smallcites{HicEtal14a,BayEtal14a,Jia16a}
+			\end{itemize}
 		
-		\item For \alert{IID Monte Carlo}, $\abs{\mu - \hmu }= \abs{\algn^{\Rn}(f, \nu - \hnu)} \std(f)/\sqrt{n}$ can be bounded with high probability assuming a bound on $\kurt(f)$ \smallcites{HicEtal14a,BayEtal14a,Jia16a}
-		
-		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling, rigorous stopping criteria have been constructed in terms of the discrete Fourier Walsh/complex exponential coefficients of $f$ \smallcites{HicJim16a, JimHic16a, Li16a}
+		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling,
+		\begin{itemize}
+			\item Independent replications present a trade-off between number of replications and number of samples
+			\item But rigorous stopping criteria for a single sequence have been constructed in terms of the discrete Fourier Walsh/complex exponential coefficients of $f$ \smallcites{HicJim16a, JimHic16a, Li16a}
+		\end{itemize}  
 	\end{itemize}
 \end{frame}
 

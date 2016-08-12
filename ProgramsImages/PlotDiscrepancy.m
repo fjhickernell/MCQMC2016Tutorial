@@ -49,7 +49,7 @@ legend boxoff
 print -depsc L2Kernel.eps
 
 %% Plot L2 unweighted discrepancy for Sobol' points
-compUnWtdDisc = true;
+compUnWtdDisc = false;
 if compUnWtdDisc
    tic
    rng(47)
@@ -101,7 +101,7 @@ for k = 2:nd
    legendstuff{k+1} = ['\(d = ' int2str(dvec(k)) '\)'];
 end
 %legendstuff{nd+2} = '\(O(n^{-1/2})\)';
-legendstuff{nd+2} = 'IID, \(O(n^{-1/2}\)';
+legendstuff{nd+2} = 'IID, \(O(n^{-1/2})\)';
 legend(h([1 nd+1 2:nd nd+2]),legendstuff,'location','southwest')
 legend boxoff
 print -depsc UnwtL2Disc.eps
