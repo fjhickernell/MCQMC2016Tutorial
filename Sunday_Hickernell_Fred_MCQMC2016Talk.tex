@@ -124,7 +124,7 @@
 
 \frame{\titlepage}
 
-\section{Motivation}
+\section{Introduction}
 
 \begin{frame}
 	%\setbeameruncoveredtransp
@@ -162,7 +162,7 @@ our assumptions hold
 	\tabularnewline [-2.2ex] \arrayrulecolor{ltred}\toprule
 \tabularnewline [-1.5ex] 
 \vspace{-4ex}
-		\[ \begin{aligned} \mu &= \int_{\reals^d} f(\vx) \, \nu (\dif \vx) =  \text{option price}\\ f(\vx) & = \text{discounted payoff determined by innovations }\vx
+		\[ \begin{aligned} \mu &= \int_{\reals^d} f(\vx) \, \nu (\dif \vx) =  \text{option price}\\ f(\vx) & = \text{discounted payoff determined by market forces }\vx
 			\end{aligned} \] 
 		& \vspace{-2ex}
 		\only<1>{\shadegraph{\financePict}}\only<2->{\financePict}}
@@ -196,7 +196,7 @@ our assumptions hold
    \Var(f) & =  \text{\alert{variation} of the integrand} \ge 0 \\
 	\disc(\nu - \hnu) & =  \text{\alert{discrepancy} of the sampling measure }\\
 	 &  \qquad \qquad  \text{from the probability measure} \ge 0\\
-	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} of the integrand and} \\
+	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} between the integrand and} \\
 	&  \qquad \qquad  \text{the difference between the two measures}
 \\ & \hspace{3cm} \text{\alert{often ignored, but shouldn't be}}
 	\end{align*}
@@ -244,7 +244,8 @@ our assumptions hold
 			& \sleepPict
 	\end{tabular}
 	\vspace{-4ex}
-\[ \mu = \mu(f) = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu(f)][g(j) - \mu(g)]\]
+\begin{align*} \mu = \mu(f) &=  \text{population mean}  & \cov(f,g) &= \text{population covariance} \\ 
+& = \frac 1N \sum_{j=1}^N f(j) && = \frac 1N \sum_{i=1}^N [f(j) - \mu(f)][g(j) - \mu(g)] \end{align*}
 	\centerline{\redroundmathbox{\mu - \hmu  = 
 			\underbrace{-\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)}_{\textstyle\algn^\Dt(f,\nu - \hnu)}
 			\underbrace{ \sqrt{\frac{1-n/N}{\alert{n/N}}}}_{\textstyle\disc^\Dt(\nu - \hnu)}
@@ -328,7 +329,7 @@ our assumptions hold
 		\centerline{\redroundmathbox{\mu - \hmu = \cos(f,\text{error rep}) \disc^\Dt(\nu - \hnu) \norm[\cf]{f-f(\vone)}}}
 		
 		\vspace{-2ex}
-\begin{tabular}{m{4.5cm}m{7cm}}
+\begin{tabular}{m{4.5cm}>{\centering}m{7cm}}
 	\vspace{-4ex}
 \[\begin{aligned}\MoveEqLeft \disc^\Dt(\nu - \hnu) \\
 & \begin{cases} =  \Order(n^{-1/2}) \text{ for IID MC}\\
@@ -337,7 +338,7 @@ our assumptions hold
 	\end{aligned} \] 
 	\vspace{2ex}
 	
-	\noindent
+\only<3->{\noindent
 	$\text{\parbox{4.5cm}{\raggedleft
 		\hfill For some typical choice of \newline 
 		\phantom{a} \hfill $\va$, $\vb$, $\mSigma$, and $d=3$
@@ -345,9 +346,11 @@ our assumptions hold
 
 \vspace{2ex}
 
-\hspace{2ex}\parbox{4.2cm}{\raggedright \alert{Low discrepancy (quasi-Monte Carlo) sampling reduces cubature error}}
+\hspace{2ex}\parbox{4.2cm}{\raggedright \alert{Low discrepancy (quasi-Monte Carlo) sampling reduces cubature error}}}
 	&
-	\includegraphics[width = 7cm]{ProgramsImages/MVNIIDUSobol.eps}
+	\includegraphics<1>[width = 5.2cm]{ProgramsImages/IIDPoints.eps}
+	\includegraphics<2>[width = 5.2cm]{ProgramsImages/USobolPoints.eps}
+	\includegraphics<3>[width = 7cm]{ProgramsImages/MVNIIDUSobol.eps}
 \end{tabular}
 
 \end{frame}
@@ -405,21 +408,24 @@ our assumptions hold
 		&
 		\sleepPict
 	\end{tabular}
-	\vspace{-5ex}
-\[ \mu = \mu(f) = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu(f)][g(j) - \mu(g)]\]
-	\vspace{-1ex}	
+	\vspace{-3ex}
+%\[ \mu = \mu(f) = \frac 1N \sum_{j=1}^N f(j) , \qquad \cov(f,g) = \frac 1N \sum_{i=1}^N [f(j) - \mu(f)][g(j) - \mu(g)]\]
+%	\vspace{-1ex}	
+
 	\centerline{\redroundmathbox{\mu - \hmu  = \begin{cases} 
 			\hspace{1.1em} -\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) \hspace{1.9em}
 			 \sqrt{\frac{1-n/N}{\alert{n/N}}} \hspace{0.8em}
 			\std(f) & \text{web} \\[2ex]
 			\frac{- \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}
 	\end{cases}}}
-	\vspace{-3.5ex}
+	\vspace{-3ex}
 	\begin{itemize}
+		
+		\item The \alert{vast majority} of samples have $\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) = \Order(1/\sqrt{N})$, whereas your web survey is likely part of the \alert{awful minority} that does not
 		
 		\item The error of a web survey with $n_{\text{web}}$ samples is equivalent to the error of survey with   $n_{\text{SRS}} \approx \frac{n_{\text{web}}/N}{\corr^2\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)(1-n_{\text{web}}/N)}$ simple random samples 
 		
-		\item E.g., $n_{\text{web}} = \alert{1}$ \alert{million} distinct samples from a population of $N = 250$ million with a correlation of $0.05$ is about as valuable as $n_{\text{SRS}} = \alert{1.6}$ simple random samples
+		\item $n_{\text{web}} = \alert{1}$ \alert{million} distinct samples from a population of $N = 250$ million with a correlation of $0.05$ is about as valuable as $n_{\text{SRS}} = \alert{1.6}$ simple random samples
 		
 		
 	\end{itemize}
@@ -459,7 +465,7 @@ our assumptions hold
 		
 		\vspace{1.5ex}
 		
-		\noindent
+		\only<3>{\noindent
 		$\text{\parbox{4.5cm}{\raggedleft
 				\hfill For some typical choice of \newline 
 				\phantom{a}\hfill  $\va$, $\vb$, $\mSigma$, and $d=3$ \newline 
@@ -467,9 +473,11 @@ our assumptions hold
 		
 		\vspace{1.5ex}
 		
-		\alert{Randomized sampling, $\hnu$, may avoid the large error minority }
+		\alert{Randomized sampling, $\hnu$, may avoid the large error minority }}
 		&
-		\includegraphics[width = 7cm]{ProgramsImages/MVNIIDUSobolSobol.eps}
+    	\includegraphics<1>[width = 5.2cm]{ProgramsImages/USobolPoints.eps}
+    	\includegraphics<2>[width = 5.2cm]{ProgramsImages/SSobolPoints.eps}
+		\includegraphics<3>[width = 7cm]{ProgramsImages/MVNIIDUSobolSobol.eps}
 	\end{tabular}
 	
 \end{frame}
@@ -576,7 +584,7 @@ our assumptions hold
 	\vspace{-7.8ex}
 	\[
 	\begin{array}{rcl}
-		f  \sim \GP (0, s^2 C_{\vtheta}) & & \uncover<2->{f \in \cf \text{ w/ reproducing kernel } K_{\vtheta}} \tabularnewline \toprule
+		f  \sim \GP (0, s^2 C_{\vtheta}) & & \uncover<1->{f \in \cf \text{ w/ reproducing kernel } K_{\vtheta}} \tabularnewline \toprule
 		\multicolumn{3}{c}{\abs{\algn^{\Ba}}\disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f) = \abs{\mu - \hmu} \uncover<2->{=\abs{\algn^{\Dt}}\disc^{\Dt}(\nu - \hnu) \Var^{\Dt}(\only<2>{f}\only<3>{\alert{f - \tf_{\vy}}})}}
 			\tabularnewline
 		\text{with } 99\% \text{ confidence}& \le \text{ width}& \uncover<3->{\text{if }  \Var^{\Dt}(\alert{f - \tf_{\vy}}) \le \frac{2.58}{\alert{\sqrt{n}}} \Var^{\Dt}(\tf_{\vy})}
@@ -819,7 +827,9 @@ our assumptions hold
 	
 	If $f_{\fu}$ gets small as $\max \{k : k \in \fu\}$ gets large, then can use \alert{fewer} samples on the pieces of the  function that are \alert{more expensive to evaluate.}
 	\begin{description}[fred]
-		\item[Multi-Level Monte Carlo Method:] $\hmu = \hmu(f_{d_1}) + \hmu(f_{d_2} - f_{d_1}) + \cdots + \hmu(f_{d_L} - f_{d_{L-1}}) $ \\ $d_1 < \cdots < d_L$, \smallcites{Hei01a, Gil08b, Gil14a, Gil15a, HicMGRitNiu09a, NiuHic09b};
+		\item[Multi-Level Monte Carlo Method:] $\hmu = \hmu(f_{d_1}) + \hmu(f_{d_2} - f_{d_1}) + \cdots + \hmu(f_{d_L} - f_{d_{L-1}}) $ \\ 
+		%$d_1 < \cdots < d_L$, 
+		expect $\Var(f_{d_\ell} - f_{d_{\ell-1}}) \downarrow$ as $\ell \uparrow$, \smallcites{Hei01a, Gil08b, Gil14a, Gil15a, HicMGRitNiu09a, NiuHic09b};
 		\smallocite{RheGly12a} remove bias\\[2ex]
 		
 		\item[Multivariate Decomposition Method:] $\hmu = \hmu(f_{\fu_1}) + \hmu(f_{\fu_2}) + \cdots +\hmu(f_{\fu_L})$ \\
@@ -842,15 +852,16 @@ our assumptions hold
 	\begin{itemize}
 		\item \alert{Bayesian cubature} provides data-based confidence intervals for $\hmu$
 
-		\item For \alert{IID Monte Carlo}, 
+		\item For \alert{IID Monte Carlo}
 		\begin{itemize} 
 			\item The Central Limit Theorem is an asymptotic---not finite-sample---result 
 			\item But $\abs{\mu - \hmu }= \abs{\algn^{\Rn}(f, \nu - \hnu)} \std(f)/\sqrt{n}$ can be bounded with high probability assuming a bound on $\kurt(f)$ \smallcites{HicEtal14a,BayEtal14a,Jia16a}
 			\end{itemize}
 		
-		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling,
+		\item For \alert{digital net} (e.g., Sobol') and \alert{integration lattice} sampling
 		\begin{itemize}
 			\item Independent replications present a trade-off between number of replications and number of samples
+			
 			\item But rigorous stopping criteria for a single sequence have been constructed in terms of the discrete Fourier Walsh/complex exponential coefficients of $f$ \smallcites{HicJim16a, JimHic16a, Li16a}
 		\end{itemize}  
 	\end{itemize}
