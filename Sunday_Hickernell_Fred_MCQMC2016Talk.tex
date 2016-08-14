@@ -127,7 +127,7 @@
 \section{Introduction}
 
 \begin{frame}
-	\frametitle{August 12, 2106 News}
+	\frametitle{August 12, 2016 News}
 	\vspace{-3ex}
 	\includegraphics[width = 10cm]{ProgramsImages/WSJ_MonteCarlo.pdf}
 	
@@ -520,11 +520,11 @@ our assumptions hold
 				$\mu \approx \$13.1220$}} {\color{red}\biggr \}}$
 		
 		\bigskip
-	Scrambled Sobol' does not achieve $\Order(n^{-3/2})$ convergence because $f$ is \alert{not smooth enough}.
+	Scrambled Sobol' does not achieve $\Order(n^{-3/2+\epsilon})$ convergence because $f$ is \alert{not smooth enough}.
 		
 		\bigskip
 		
-		$f$ is not even smooth enough for $\Order(n^{-1})$ convergence, except by a delicate argument \smallcites{GriKuoSlo10, GriKuoSlo16}
+		$f$ is not even smooth enough for $\Order(n^{-1+\epsilon})$ convergence, except by a delicate argument \smallcites{GriKuoSlo10, GriKuoSlo16}
 		
 		&
 		\includegraphics[width = 7cm]{ProgramsImages/AsianCallIIDUSobolSobol.eps}
@@ -617,9 +617,9 @@ our assumptions hold
 	\]
 	\only<1>{\qquad \alert{Nice:\quad}$
 		\begin{array}{c@{\quad}ccccc}
-		\vy, \, \mC_{\vtheta} & \vw & \hmu & \text{width}& \hvtheta  \tabularnewline
+		\vy, \, C_{\vtheta} & \vw & \hmu & \text{width}& \hvtheta  \tabularnewline
 		\toprule
-		47 \vy, \, 29 \mC_{\vtheta} & \vw & 47 \hmu & 47 \text{width} & \hvtheta 
+		47 \vy, \, 29 C_{\vtheta} & \vw & 47 \hmu & 47 \text{width} & \hvtheta 
 		\end{array}$}
 	\only<3->{%
 		\\[-1ex]
