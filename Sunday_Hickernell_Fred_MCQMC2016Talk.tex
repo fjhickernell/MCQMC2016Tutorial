@@ -127,6 +127,19 @@
 \section{Introduction}
 
 \begin{frame}
+	\frametitle{August 12, 2106 News}
+	\vspace{-3ex}
+	\includegraphics[width = 10cm]{ProgramsImages/WSJ_MonteCarlo.pdf}
+	
+	\bigskip
+	
+	\hspace{1.7cm}\includegraphics[width = 10cm]{ProgramsImages/WSJ_ArtOwen.pdf}
+	
+	\hfill \hfill \alert{Can a more clever brute-forcing give us a better picture?}
+	
+\end{frame}
+
+\begin{frame}
 	%\setbeameruncoveredtransp
 	\frametitle{\textbf<1>{Error Analysis} for \textbf<2>{Quasi-Monte Carlo Methods}}
 	\vspace{-7ex}
@@ -194,11 +207,12 @@ our assumptions hold
 	 \redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, \nu(\dif\vx) - \sum_{i=1}^n f(\vx_i) w_i = \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 	&=  \redroundmathbox{\algn(f,\nu - \hnu) \, \disc(\nu - \hnu) \, \Var(f)} \\[1ex]
    \Var(f) & =  \text{\alert{variation} of the integrand} \ge 0 \\
-	\disc(\nu - \hnu) & =  \text{\alert{discrepancy} of the sampling measure }\\
-	 &  \qquad \qquad  \text{from the probability measure} \ge 0\\
-	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} between the integrand and} \\
-	&  \qquad \qquad  \text{the difference between the two measures}
-\\ & \hspace{3cm} \text{\alert{often ignored, but shouldn't be}}
+	\disc(\nu - \hnu) & =  \text{\alert{discrepancy} of the sampling measure }\\[-0.5ex]
+	 &  \qquad \qquad  \text{from the probability measure} \ge 0\\[-0.5ex]
+	 &  \qquad \qquad \qquad \qquad\alert{\text{expect this to track error as } n \to \infty} \\ 
+	\algn(f,\nu - \hnu) & =  \text{\alert{alignment} between the integrand and} \\[-0.5ex]
+	&  \qquad \qquad  \text{the difference between the two measures} \\[-0.5ex]
+ &\qquad \qquad \qquad \qquad \text{\alert{should not be ignored}}
 	\end{align*}
 			
 	\uncover<2>{\vspace{1ex}\centerline{\begin{tabular}{r@{\quad}@{\quad}c@{\qquad}c}
@@ -221,7 +235,7 @@ our assumptions hold
 	& \qquad  \norm[\cm]{\lambda} := \sup_{0 \ne f \in \cf} \frac{\abs{\int_{\cx} f(\vx) \, \lambda(\dif\vx)}}{\norm[\cf]{f}} \\
 \redroundmathbox{\mu - \hmu} &= \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx) \\
 	\uncover<2->{	& =  \redroundmathbox{%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[\cm]{\nu - \hnu} \norm[\cf]{f-L(f)}}}_{\textstyle \algn^\Dt(f,\nu - \hnu)} \, \underbrace{\norm[\cm]{\nu - \hnu}}_{\textstyle\disc^\Dt(\nu - \hnu)} \, \underbrace{\norm[\cf]{f}}_{\textstyle\Var^\Dt(f)}}}
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\norm[\cm]{\nu - \hnu} \norm[\cf]{f}}}_{\textstyle \algn^\Dt(f,\nu - \hnu)} \, \underbrace{\norm[\cm]{\nu - \hnu}}_{\textstyle\disc^\Dt(\nu - \hnu)} \, \underbrace{\norm[\cf]{f}}_{\textstyle\Var^\Dt(f)}}}
 	\end{align*}
 	\vspace{-4ex}
 	\uncover<2->{\begin{itemize}
@@ -284,7 +298,7 @@ our assumptions hold
 	\vspace{-3ex}
 	\begin{align*}
 	[\disc^\Dt(\nu - \hnu)]^2  &= \left(\frac 43\right)^d - \frac{2}n \sum_{i=1}^n \prod_{k=1}^d \left (\frac{3 - x_{ik}^2}{2} \right) + \frac{1}{n^2}\sum_{i,j=1}^n \prod_{k = 1}^d [2 - \max(x_{ik},x_{jk})] 
-	\only<2->{\\ &= \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2}
+	\only<2->{\\ &= \Bigl \lVert \bigl ( \norm[L^2]{\nu([\vzero,\cdot_\fu]) - \hnu([\vzero,\cdot_\fu])}\bigr )_{\emptyset \ne \fu \subseteq 1:d} \Bigr \rVert_2 \ \ \text{\alert{geometric interpretation}}}
 	\end{align*}
 	\only<1>{\vspace*{-1.8ex}
 		\centerline{\includegraphics[width = 6.5cm]{ProgramsImages/L2Kernel.eps}}}
@@ -346,7 +360,7 @@ our assumptions hold
 
 \vspace{2ex}
 
-\hspace{2ex}\parbox{4.2cm}{\raggedright \alert{Low discrepancy (quasi-Monte Carlo) sampling reduces cubature error}}}
+\hspace{2ex}\parbox{4.2cm}{\raggedright \alert{Low discrepancy sampling reduces cubature error}}}
 	&
 	\includegraphics<1>[width = 5.2cm]{ProgramsImages/IIDPoints.eps}
 	\includegraphics<2>[width = 5.2cm]{ProgramsImages/USobolPoints.eps}
@@ -362,7 +376,6 @@ our assumptions hold
 		\begin{align*}
 		\hnu & = \text{\alert{random} measure with probability }\Prob_{\hnu} \\
 		(\cf, \norm[\cf]{\cdot}) & \text{ as before, but } f \mapsto f(\vx) \text{ need not be bounded}\\
-		%& \qquad  L: \cf \to \reals \text{ is linear }, \quad L(f) \in \cf \ \ \forall f \in \cf  \\
 		\redroundmathbox{\mu - \hmu} &= 
 		  \redroundmathbox{\displaystyle%
 				\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{\disc(\nu- \hnu) \Var(f)}}_{\textstyle \algn^\Rn(f,\nu - \hnu)} \, 
@@ -421,7 +434,7 @@ our assumptions hold
 	\vspace{-3ex}
 	\begin{itemize}
 		
-		\item The \alert{vast majority} of samples have $\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) = \Order(1/\sqrt{N})$, whereas your web survey is likely part of the \alert{awful minority} that does not
+		\item The \alert{vast majority} of designs, $\{\vx_i\}_{i=1}^n$, have $\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) = \Order(1/\sqrt{N})$, but your web survey is likely one of the \alert{awful minority} that does not
 		
 		\item The error of a web survey with $n_{\text{web}}$ samples is equivalent to the error of survey with   $n_{\text{SRS}} \approx \frac{n_{\text{web}}/N}{\corr^2\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)(1-n_{\text{web}}/N)}$ simple random samples 
 		
@@ -473,7 +486,7 @@ our assumptions hold
 		
 		\vspace{1.5ex}
 		
-		\alert{Randomized sampling, $\hnu$, may avoid the large error minority }}
+		\alert{Randomized sampling, $\hnu$, may avoid the awful minority }}
 		&
     	\includegraphics<1>[width = 5.2cm]{ProgramsImages/USobolPoints.eps}
     	\includegraphics<2>[width = 5.2cm]{ProgramsImages/SSobolPoints.eps}

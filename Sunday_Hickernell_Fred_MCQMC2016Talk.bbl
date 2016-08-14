@@ -7,7 +7,7 @@
       author={Anitescu, M.},
       author={Chen, J.},
       author={Stein, M.},
-       title={An inversion-free estimating equation approach for gaussian
+       title={An inversion-free estimating equation approach for {G}aussian
   process models},
         date={2016},
      journal={J. Comput.\ Graph.\ Statist.},
@@ -43,7 +43,6 @@
       editor={Nuyens, D.},
        title={{M}onte {C}arlo and quasi-{M}onte {C}arlo methods: {MCQMC},
   {L}euven, {B}elgium, {A}pril 2014},
-    subtitle={Mcqmc, leuven, belgium, april 2014},
       series={Springer Proceedings in Mathematics and Statistics},
    publisher={Springer-Verlag, Berlin},
         date={2016},
@@ -176,7 +175,8 @@
       author={Heinrich, S.},
        title={Multilevel {M}onte {C}arlo methods},
         date={2001},
-   booktitle={Lssc},
+   booktitle={Large-scale scientific computing, {T}hird international
+  conference, {LSSC} 2001},
       editor={Margenov, S.},
       editor={Wasniewski, J.},
       editor={Yalamov, P.~Y.},
@@ -262,7 +262,6 @@
       author={\HickernellFJ, F.~J.},
       author={{Jim\'enez Rugama}, {\relax Ll}.~A.},
        title={Reliable adaptive cubature using digital sequences},
-    subtitle={Mcqmc, leuven, belgium, april 2014},
         date={2016},
    booktitle={{M}onte {C}arlo and quasi-{M}onte {C}arlo methods: {MCQMC},
   {L}euven, {B}elgium, {A}pril 2014},
@@ -272,7 +271,7 @@
       volume={163},
    publisher={Springer-Verlag, Berlin},
        pages={367\ndash 383},
-        note={to appear, arXiv:1410.8615 [math.NA]},
+        note={arXiv:1410.8615 [math.NA]},
 }
 
 \bib{HicEtal03}{article}{
@@ -331,7 +330,6 @@
       author={{Jim\'enez Rugama}, {\relax Ll}.~A.},
       author={\HickernellFJ, F.~J.},
        title={Adaptive multidimensional integration based on rank-1 lattices},
-    subtitle={Mcqmc, leuven, belgium, april 2014},
         date={2016},
    booktitle={{M}onte {C}arlo and quasi-{M}onte {C}arlo methods: {MCQMC},
   {L}euven, {B}elgium, {A}pril 2014},
@@ -341,7 +339,7 @@
       volume={163},
    publisher={Springer-Verlag, Berlin},
        pages={407\ndash 422},
-        note={to appear, arXiv:1411.1966},
+        note={arXiv:1411.1966},
 }
 
 \bib{Li16a}{thesis}{
