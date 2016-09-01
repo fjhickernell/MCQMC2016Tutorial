@@ -429,7 +429,7 @@ our assumptions hold
 			\hspace{1.1em} -\corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) \hspace{1.9em}
 			 \sqrt{\frac{1-n/N}{\alert{n/N}}} \hspace{0.8em}
 			\std(f) & \text{web} \\[2ex]
-			\frac{- \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \cov\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}
+			\frac{- \corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr) }{\std_{\hnu} \bigl( \corr\bigl(f, \bbone_{\{\vx_i\}_{i=1}^n}\bigr)\bigr)} \, \sqrt{\frac{1-n/N}{\alert{n}(1-1/N)}} \, \std(f)  & \text{simple random}
 	\end{cases}}}
 	\vspace{-3ex}
 	\begin{itemize}
@@ -664,25 +664,38 @@ our assumptions hold
 				\item Ill-conditioning for smoother kernels (faster convergence)
 				%\item Might not integrate constants exactly
 			\end{itemize}}
-		\only<3>{Confidence intervals succeed $\approx 98\%$ of the time}
-%		\only<2>{\\
-%		\vspace{3ex}	
-%	
-%		\noindent
-%		$\text{\parbox{4.5cm}{\raggedleft
-%				\hfill For some typical choice of \newline 
-%				\phantom{a}\hfill  $\va$, $\vb$, $\mSigma$, and $d=3$ \newline 
-%				$\mu \approx 0.6763$}}  {\color{red}\Biggr \}}$}
-%		
-%		\vspace{1.5ex}
-		
-			
-		
+		\only<3>{Confidence intervals succeed $\approx 98\%$ of the time}		
 		&
 		\only<1>{\vspace{-1ex}}\includegraphics<1>[width = 7cm]{ProgramsImages/Matern.eps}
 		\includegraphics<2>[width = 7cm]{ProgramsImages/MVNIIDUSobolSobolWtSobol.eps}
 		\includegraphics<3>[width = 6.5cm]{ProgramsImages/MVNSobolWtSobolErrBd.eps}
 	\end{tabular}
+	
+\end{frame}
+
+\againframe<2->{BayesCub}
+
+
+\begin{frame}
+	\frametitle{Randomized Bayesian Trio Identity}
+	\vspace*{-4ex}
+	$f \sim \GP (0, s^2C)$ and $\hnu$ is  \alert{random} (independent of $f$):
+	\vspace{-1ex}
+	\begin{align*}
+	\redroundmathbox{\mu - \hmu} 
+	& =  \redroundmathbox{\displaystyle%
+		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
+		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Rn\Ba}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
+	\end{align*}
+	For $\vw  = \vone/n$, and unbiased estimation:
+	\[
+	\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{\frac {\vone^T \tmC \vone}{n^2} - c_0 }, \qquad \tmC  = \Bigl(\Ex_{\hnu} C(\vx_i,\vx_j) \Bigr)_{i,j=1}^n
+	\]	
+	For some $\{\vx_i\}_{i=1}^n$, such as IID samples, scrambled nets and shifted integration lattices
+	\[
+	\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
+	\]	
+	which requires only $\Order(n)$ operations to evaluate \smallcite{Hic99b,HicYue00}
 	
 \end{frame}
 
@@ -884,31 +897,7 @@ our assumptions hold
 
 \thankyouframe
 
-\againframe<2->{BayesCub}
 
-
-\begin{frame}
-	\frametitle{Randomized Bayesian Trio Identity}
-	\vspace*{-4ex}
-	$f \sim \GP (0, s^2C)$ and $\hnu$ is  \alert{random} (independent of $f$):
-	\vspace{-1ex}
-	\begin{align*}
-	\redroundmathbox{\mu - \hmu} 
-	& =  \redroundmathbox{\displaystyle%
-		\underbrace{\frac{ \int_{\cx} f(\vx) \, (\nu - \hnu)(\dif\vx)}{s \sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}}_{\textstyle \algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn ( 0, 1 )} \, 
-		\underbrace{\sqrt{\Ex_{\hnu}\bigl(c_0 - 2 \vc^T \vw + \vw^T \mC \vw\bigr)}}_{\textstyle\disc^{\Rn\Ba}(\nu - \hnu)} \, \underbrace{s}_{\textstyle\Var^\Ba(f)}}
-	\end{align*}
-	For $\vw  = \vone/n$, and unbiased estimation:
-	\[
-	\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{\frac {\vone^T \tmC \vone}{n^2} - c_0 }, \qquad \tmC  = \Bigl(\Ex_{\hnu} C(\vx_i,\vx_j) \Bigr)_{i,j=1}^n
-	\]	
-	For some $\{\vx_i\}_{i=1}^n$, such as IID samples, scrambled nets and shifted integration lattices
-	\[
-	\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{ \frac {\vone^T\tvC_1}{n} - c_0 }, \qquad \tmC  = (\tvC_1, \ldots, \tvC_n)
-	\]	
-	which requires only $\Order(n)$ operations to evaluate \smallcite{Hic99b,HicYue00}
-	
-\end{frame}
 
 \begin{frame}[allowframebreaks]\frametitle{References}
 	\bibliography{FJH23,FJHown23}
