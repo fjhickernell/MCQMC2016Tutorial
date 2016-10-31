@@ -1,4 +1,4 @@
-function [K,kvec,k0] = kernelFun(x,whKer,shape,domain)
+function [K,kvec,k0] = kernelFun(x,whKer,shape,domain,BernPolynX,BernPolynOrder)
 [nx,d] = size(x);
 if nargin < 4
    domain = [zeros(1,d); ones(1,d)];
@@ -29,6 +29,34 @@ elseif strcmp(whKer,'Mat1')
       kvec = kvec.*(2 - exp(-tempc).*(1+tempc/2) ...
           - exp(-tempb).*(1+tempb/2));
    end
+elseif strcmp(whKer,'Fourier')
+    r = BernPolynOrder;
+	theta = shape;
+	kvec = [1; ones(nx-1,1)];
+	k0 = 1;
+	constMult = -theta^r*(-1)^(r/2)*(2*pi)^r/factorial(r);
+    bernX = BernPolynX*constMult;
+    if false
+        cvec = ones(nx,1);
+        for k=1:d
+            % slower than bsxfun
+            % cvec = cvec.*(1.0 + BernPolynX(:,k)*constMult); 
+            cvec = cvec.*bsxfun(@plus, ones(nx,1), bernX);
+        end
+    else
+        % more optimal
+        cvec = prod((1.0+bernX),2);
+    end
+    
+    % create circulant matrix
+    cvec = cvec';
+    n1 = nx-1;
+    K = cvec(mod(bsxfun(@plus,(0:n1)',0:n1),nx)+1);
 end
     
 end
+
+
+
+
+
