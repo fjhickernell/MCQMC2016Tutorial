@@ -197,7 +197,8 @@ classdef multivarGauss < handle
                end
             elseif strcmp(obj.cubMeth,'LatticeMLE')
                if realDim >= 1
-                  [prob,out] = cubMLE(obj.f,obj.n,[zeros(1,realDim); ones(1,realDim)],'Lattice1','Fourier');
+                  [prob,out] = cubMLE(obj.f,obj.n,[zeros(1,realDim); ones(1,realDim)],...
+                      'Lattice1','Fourier','Thompson');
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end

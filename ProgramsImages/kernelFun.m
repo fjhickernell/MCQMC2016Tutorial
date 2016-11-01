@@ -49,9 +49,9 @@ elseif strcmp(whKer,'Fourier')
     end
     
     % create circulant matrix
-    cvec = cvec';
     n1 = nx-1;
-    K = cvec(mod(bsxfun(@plus,(0:n1)',0:n1),nx)+1);
+    %K = cvec(mod(bsxfun(@plus,(0:n1)',0:n1),nx)+1);
+    K = cvec(nx-mod(bsxfun(@plus,(0:n1)',n1:-1:0),nx))';
 end
     
 end
