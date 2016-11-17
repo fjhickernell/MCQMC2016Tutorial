@@ -9,7 +9,10 @@ if nargin < 4
       end
    end
 end
-K = ones(nx);
+
+if ~strcmp(whKer,'Fourier')
+    K = ones(nx);
+end
 if strcmp(whKer,'sqExp') %all wrong
    kvec = ones(nx,1)*(sqrt(pi)/(2*shape))^d;
    for k = 1:d;
@@ -32,26 +35,15 @@ elseif strcmp(whKer,'Mat1')
 elseif strcmp(whKer,'Fourier')
     r = BernPolynOrder;
 	theta = shape;
-	kvec = [1; ones(nx-1,1)];
-	k0 = 1;
+	kvec = ones(nx,1);
+	k0 = 1.0;
 	constMult = -theta^r*(-1)^(r/2)*(2*pi)^r/factorial(r);
     bernX = BernPolynX*constMult;
-    if false
-        cvec = ones(nx,1);
-        for k=1:d
-            % slower than bsxfun
-            % cvec = cvec.*(1.0 + BernPolynX(:,k)*constMult); 
-            cvec = cvec.*bsxfun(@plus, ones(nx,1), bernX);
-        end
-    else
-        % more optimal
-        cvec = prod((1.0+bernX),2);
-    end
-    
-    % create circulant matrix
-    n1 = nx-1;
-    %K = cvec(mod(bsxfun(@plus,(0:n1)',0:n1),nx)+1);
-    K = cvec(nx-mod(bsxfun(@plus,(0:n1)',n1:-1:0),nx))';
+
+    cvec = prod((1.0+bernX),2);
+    % no need to explicitly create the matrix
+    % circulant matrix can be recovered with just one vector
+    K = cvec';
 end
     
 end
