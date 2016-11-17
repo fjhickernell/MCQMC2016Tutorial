@@ -6,18 +6,17 @@ if nargin < 4
    whKer = 'Mat1';
 end
 nx = size(x,1);
-n1 = nx-1;
+
 K = kernelFun(x,whKer,shape,domain,BernPolynX,BernPolynOrder);
 if strcmp(whKer,'Fourier')
-    cn = K(1,:);
-    wj = exp(2*pi*1i*(0:n1)'/nx);
-    V = fliplr(vander(wj));
-    eigval = V*cn';
-    eigvec = (1/sqrt(nx))*V;
+    cn = K; % only first row is given
+    eigval = real(fft(cn));
+    val = sum(log( eigval ))/nx + log(y'*ifft(fft(y)./eigval'));
 else
     [eigvec,eigval] = eig(K,'vector');
+    Vty = eigvec'*y;
+    %val = sum(log(eigval))/nx + log(Vty'*(Vty./eigval));
+    val = sum(log(eigval))/nx + Vty'*(Vty./eigval); %original code
 end
-Vty = eigvec'*y;
-val = sum(log(eigval))/nx + Vty'*(Vty./eigval);
-val = real(val);
+
 end
