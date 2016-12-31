@@ -12,6 +12,35 @@ Dick, J., Pillichshammer, F.: Digital Nets and Sequences: Discrepancy Theory
   and Quasi-{M}onte {C}arlo Integration.
 \newblock Cambridge University Press, Cambridge (2010)
 
+\bibitem{Hic97a}
+\HickernellFJ, F.J.: A generalized discrepancy and quadrature error bound.
+\newblock Math.\ Comp. \textbf{67}, 299--322 (1998).
+\newblock \doi{10.1090/S0025-5718-98-00894-1}
+
+\bibitem{Hic99a}
+\HickernellFJ, F.J.: Goodness-of-fit statistics, discrepancies and robust
+  designs.
+\newblock Statist.\ Probab.\ Lett. \textbf{44}, 73--78 (1999)
+
+\bibitem{Hla61}
+Hlawka, E.: Funktionen von beschr{\"a}nkter {V}ariation in der {T}heorie der
+  {G}leichverteilung.
+\newblock Ann. Mat. Pura Appl. \textbf{54}, 325--333 (1961)
+
+\bibitem{Kok42}
+Koksma, J.F.: Een algemeene stelling uit de theorie der gelijkmatige verdeeling
+  modulo 1.
+\newblock Mathematica B (Zutphen) \textbf{11}, 7--11 (1942/1943)
+
+\bibitem{Men16a}
+Meng, X.: Statistical paradises and paradoxes in big data (2016+).
+\newblock In preparation
+
+\bibitem{Nie92}
+Niederreiter, H.: Random Number Generation and Quasi-{M}onte {C}arlo Methods.
+\newblock CBMS-NSF Regional Conference Series in Applied Mathematics. SIAM,
+  Philadelphia (1992)
+
 \bibitem{SloJoe94}
 Sloan, I.H., Joe, S.: Lattice Methods for Multiple Integration.
 \newblock Oxford University Press, Oxford (1994)
