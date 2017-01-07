@@ -385,7 +385,8 @@ identity may be converted into a deterministic error bound by
 ignoring the confounding:  $\abs{\mu - \hmu}  \le \disc^\Dt(\nu - \hnu) \, \Var^{\Dt}(f)$.  
 Cubature error bounds of this form have a long history, dating back to the inequalities of 
 Koksma \cite{Kok42} and Hlawka \cite{Hla61}. See also the monograph of Niederreiter 
-\cite{Nie92}.
+\cite{Nie92}.  The confounding can be understood as the actual error divided by the 
+absolute worst-case error.
 
 For the big data sleep survey in Sec.\ \ref{FJH:sec:sleep}, $\cf$ is the space of all 
 real-valued functions on $\cx := \{1, \ldots, N\}$ with scaled $\ell^2$ norm 
@@ -520,33 +521,45 @@ cubature error for IID Monte Carlo.  From \eqref{FJH:eq:IIDL2disc} we see that t
 value of the discrepancy may depend strongly on the dimension, $d$.  We return 
 to this matter in Sec.\ ???
 
-
-The phrase ``quasi-Monte Carlo'' has two popular meanings: 
-\begin{enumerate}
-	\renewcommand{\labelenumi}{\roman{enumi})}
-	\item  a more careful choice of data sites than independent and identically distributed 
-	(IID) so that $\hnu$ better matches $\nu$, and 
-	\item an equally weighted rule, i.e., $w_1 = \cdots = w_n = 1/n$ in \eqref{AppxINT}.  
-\end{enumerate}
-This tutorial considers both meanings.   For the first meaning, when $\cx = [0,1]^d$ and 
-$\nu$ is the uniform measure, $\{x_1, \ldots, x_n\}$ is often chosen as 
+Quasi-Monte Carlo methods choose the data sites $\{\bsx_i\}_{i=1}^n$ to be dependent 
+and more evenly spread than IID points.  For integration over $\cx = [0,1]^d$ with 
+respect to the uniform measure, the data sites may be chosen to be
 \begin{itemize} 
-	\item a digital net \cite{DicPil10a}, such as that proposed by Sobol' \cite{}, Faure\cite{}, 
-	Niederreiter \cite{} or Niederreiter and Xing \cite{}, 
-	\item a node set of an integration lattice \cite{SloJoe94}, or 
-	\item a Halton set.  
+\item a digital net \cite{DicPil10a}, such as that proposed by Sobol' \cite{}, Faure \cite{}, 
+Niederreiter \cite{} or Niederreiter and Xing \cite{}, or 
+\item a node set of an integration lattice \cite{SloJoe94}.  
 \end{itemize}
-These points are more evenly distributed than IID $\cu[0,1]^d$ points (see Fig.\ ???), 
-which often yields smaller cubature errors, $\abs{\mu - \hmu}$.  For details on the 
+For details on the 
 constructions of such sets, see the references above and Pierre L'Ecuyer's tutorial 
-\cite{}.  Cubature methods based on these evenly distributed points are often called 
-quasi-Monte Carlo methods.  When $\cx \ne [0,1]^d$ and/or $\nu$ is not the uniform 
-measure, then one often resorts to transforming the integration variables or transforming 
-the original points (see ??).
+\cite{}.  The evenly spread data sites are often called \emph{low discrepancy} sets 
+because the discrepancy in \eqref{FJH:eq:L2disc} and its relatives is 
+$\Order(1/n^{1-\epsilon})$ as $n \to \infty$ for any positive $\varepsilon$.  Fig.\ 
+\ref{FJH:fig:plotsdiffpts} displays examples of IID and low discrepancy points.
+
+\begin{figure}
+	\centering
+	\includegraphics[height=5cm]{ProgramsImages/IIDPoints.eps} \quad
+	\includegraphics[height=5cm]{ProgramsImages/ShiftedLatticePoints.eps} \\
+	\includegraphics[height=5cm]{ProgramsImages/USobolPoints.eps} \quad
+	\includegraphics[height=5cm]{ProgramsImages/SSobolPoints.eps}
+	\caption{An illustration of IID points and three examples of low discrepancy points 
+	\label{FJH:fig:plotsdiffpts}}
+\end{figure}
+
+
 
 Graphs of discerpancy???
 
 \section{The Randomized Trio Identity for Cubature Error}
+
+\section{Multivariate Gaussian Probabilities}
+
+When $\cx \ne [0,1]^d$ and/or $\nu$ is not the uniform 
+measure, then one often resorts to transforming the integration variables or transforming 
+the original points (see ??).
+
+
+\
 
 
 \begin{example}[Multivariate Probabilities] \label{MultivarProbA} If $g$ is the probability density function of some random variable $Y$ with sample space $\cy$, and $\cz \subset \cy$, then 
