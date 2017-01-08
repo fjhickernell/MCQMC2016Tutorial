@@ -49,6 +49,8 @@ legend boxoff
 print -depsc L2Kernel.eps
 
 %% Plot L2 unweighted discrepancy for Sobol' points
+colorSequence = {MATLABBlue,MATLABOrange}
+
 compUnWtdDisc = false;
 if compUnWtdDisc
    tic
@@ -158,7 +160,7 @@ title('Sobol'' Points')
 print -depsc WtL2Disc.eps
 
 %% Plot L2 unweighted discrepancy for lattice points
-compUnWtdDiscLat = true;
+compUnWtdDiscLat = false;
 if compUnWtdDiscLat
    tic
    rng(47)
@@ -217,7 +219,7 @@ title('Lattice Points')
 print -depsc UnwtL2Disclat.eps
 
 %% Plot L2 weighted discrepancy for lattice points
-CompWtdDiscLat = true;
+CompWtdDiscLat = false;
 if CompWtdDiscLat
    tic
    rng(47)
