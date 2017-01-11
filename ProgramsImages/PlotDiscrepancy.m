@@ -292,5 +292,6 @@ title('Shifted Lattice Points')
 print -depsc WtL2Disclat.eps
 
 %% Save Data
-save discrepancyData
+% save discrepancyData
+save discrepancyData nvec nn dvec nd scdisc scwtddisc scdisclat scwtddisclat
 
