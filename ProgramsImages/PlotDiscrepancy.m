@@ -4,6 +4,7 @@ format long
 load discrepancyData
 
 %% Plot geometric interpretation
+myColorSequence = colorSequence([1:2 4:end]);
 rng(0)
 n=32;
 x = net(scramble(sobolset(2),'MatousekAffineOwen'),n);
@@ -12,7 +13,10 @@ whichin = (x(:,1) <= 0.6) & (x(:,2) <= 0.4);
 figure
 plot(x(~whichin,1),x(~whichin,2),'.')
 hold on
-plot(x(whichin,1),x(whichin,2),'.')
+h = plot(x(whichin,1),x(whichin,2),'.');
+gail.colorMarkerLinePlot(h,2,myColorSequence,markerSequence,markerSize, ...
+   {'none'})
+
 axis square
 axis([0 1 0 1])
 ticks = 0:0.2:1;
@@ -49,7 +53,6 @@ legend boxoff
 print -depsc L2Kernel.eps
 
 %% Plot L2 unweighted discrepancy for Sobol' points
-colorSequence = {MATLABBlue,MATLABOrange}
 
 compUnWtdDisc = false;
 if compUnWtdDisc
@@ -89,8 +92,13 @@ if compUnWtdDisc
    toc
 end
 figure
-h = loglog(nvec,scdisc,'.');
-hold on
+h(nd,1) = 0;
+for dd = 1:nd
+   h(dd) = loglog(nvec,scdisc(:,dd));
+   if dd == 1; hold on; end
+   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   {'-'})
+end
 h = [h; loglog(nvec([1 nn]),scdisc(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
 %h = [h; loglog(nvec([1 nn]),scdisc(1,nd)*[1 sqrt(nvec(1)/nvec(nn))],'--','color',get(h(nd),'color'))];
 h = [h; loglog(nvec([1 nn]),[1 sqrt(nvec(1)/nvec(nn))],'k-')];
@@ -106,7 +114,7 @@ end
 legendstuff{nd+2} = 'IID, \(O(n^{-1/2})\)';
 legend(h([1 nd+1 2:nd nd+2]),legendstuff,'location','southwest')
 legend boxoff
-title('Sobol'' Points')
+title('Scrambled Sobol'' Points')
 print -depsc UnwtL2Disc.eps
 
 %% Plot L2 weighted discrepancy for Sobol' points
@@ -143,8 +151,13 @@ if CompWtdDisc
    toc
 end
 figure
-h = loglog(nvec,scwtddisc,'.');
-hold on
+h(nd,1) = 0;
+for dd = 1:nd
+   h(dd) = loglog(nvec,scwtddisc(:,dd));
+   if dd == 1; hold on; end
+   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   {'-'})
+end
 h = [h; loglog(nvec([1 nn]),scwtddisc(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
 xlabel('\(n\)')
 ylabel('Scaled, Weighted DSC')
@@ -156,7 +169,7 @@ for k = 2:nd
 end
 legend(h([1 nd+1 2:nd]),legendstuff,'location','southwest')
 legend boxoff
-title('Sobol'' Points')
+title('Scrambled Sobol'' Points')
 print -depsc WtL2Disc.eps
 
 %% Plot L2 unweighted discrepancy for lattice points
@@ -198,8 +211,13 @@ if compUnWtdDiscLat
    toc
 end
 figure
-h = loglog(nvec,scdisclat,'.');
-hold on
+h(nd,1) = 0;
+for dd = 1:nd
+   h(dd) = loglog(nvec,scdisclat(:,dd));
+   if dd == 1; hold on; end
+   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   {'-'})
+end
 h = [h; loglog(nvec([1 nn]),scdisclat(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
 %h = [h; loglog(nvec([1 nn]),scdisc(1,nd)*[1 sqrt(nvec(1)/nvec(nn))],'--','color',get(h(nd),'color'))];
 h = [h; loglog(nvec([1 nn]),[1 sqrt(nvec(1)/nvec(nn))],'k-')];
@@ -215,7 +233,7 @@ end
 legendstuff{nd+2} = 'IID, \(O(n^{-1/2})\)';
 legend(h([1 nd+1 2:nd nd+2]),legendstuff,'location','southwest')
 legend boxoff
-title('Lattice Points')
+title('Shifted Lattice Points')
 print -depsc UnwtL2Disclat.eps
 
 %% Plot L2 weighted discrepancy for lattice points
@@ -252,8 +270,13 @@ if CompWtdDiscLat
    toc
 end
 figure
-h = loglog(nvec,scwtddisclat,'.');
-hold on
+h(nd,1) = 0;
+for dd = 1:nd
+   h(dd) = loglog(nvec,scwtddisclat(:,dd));
+   if dd == 1; hold on; end
+   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   {'-'})
+end
 h = [h; loglog(nvec([1 nn]),scwtddisclat(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
 xlabel('\(n\)')
 ylabel('Scaled, Weighted DSC')
@@ -265,7 +288,7 @@ for k = 2:nd
 end
 legend(h([1 nd+1 2:nd]),legendstuff,'location','southwest')
 legend boxoff
-title('Lattice Points')
+title('Shifted Lattice Points')
 print -depsc WtL2Disclat.eps
 
 %% Save Data

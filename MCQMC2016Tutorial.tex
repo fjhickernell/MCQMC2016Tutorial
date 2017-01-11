@@ -502,12 +502,14 @@ distributed (IID) with probability measure $\nu$, and $w_1 = \cdots = w_n = 1/n$
 the mean square discrepancy for 
 the reproducing Hilbert space case is
 \begin{equation*}
-[\disc^{\Dt}(\nu - \hnu)]^2  = \frac 1 n \left [ \int_{\cx} K(\bsx,\bsx) \, \nu(\D \bsx) - 
+\bbE \bigl\{[\disc^{\Dt}(\nu - \hnu)]^2 \bigr \}  = \frac 1 n \left [ \int_{\cx} K(\bsx,\bsx) \, 
+\nu(\D 
+\bsx) - 
 \int_{\cx \times \cx} K(\bsx,\bst) \, \nu(\D \bsx) \, \nu (\D \bst) \right ].
 \end{equation*}
 For the $L^2$ discrepancy in \eqref{FJH:eq:L2disc} this becomes 
 \begin{equation} \label{FJH:eq:IIDL2disc}
-[\disc^{\Dt}(\nu - \hnu)]^2  = \frac 1 n \left [ \left(\frac 32\right)^d - 
+\bbE \bigl\{[\disc^{\Dt}(\nu - \hnu)]^2 \bigr \} = \frac 1 n \left [ \left(\frac 32\right)^d - 
 \left(\frac 43\right)^d \right ].
 \end{equation}
 
@@ -533,8 +535,16 @@ For details on the
 constructions of such sets, see the references above and Pierre L'Ecuyer's tutorial 
 \cite{}.  The evenly spread data sites are often called \emph{low discrepancy} sets 
 because the discrepancy in \eqref{FJH:eq:L2disc} and its relatives is 
-$\Order(1/n^{1-\epsilon})$ as $n \to \infty$ for any positive $\varepsilon$.  Fig.\ 
-\ref{FJH:fig:plotsdiffpts} displays examples of IID and low discrepancy points.
+$\Order(1/n^{1-\epsilon})$ as $n \to \infty$ for any positive $\varepsilon$.  
+
+Fig.\ \ref{FJH:fig:plotsdiffpts} displays examples of IID and low discrepancy data sites.  
+Fig.\ \ref{FJH:fig:unwtdiscdiffpts} shows the decay of the discrepancies of these data 
+sites for various dimensions.  Although the decay of the discrepancy for lattice nodesets 
+and Sobol' points is $\Order(1/n^{1-\epsilon})$ for large enough $n$, the decay in Fig.\ 
+\ref{FJH:fig:unwtdiscdiffpts} appears to be 
+more like $\Order(1/\sqrt{n})$ for large dimensions and small $n$.   This dimension 
+dependence of the convergence rate is addressed later in ???.  
+
 
 \begin{figure}
 	\centering
@@ -548,18 +558,18 @@ $\Order(1/n^{1-\epsilon})$ as $n \to \infty$ for any positive $\varepsilon$.  Fi
 
 \begin{figure}
 	\centering
-	 \includegraphics[height=4cm]{ProgramsImages/UnwtL2Disc.eps} \qquad 
-	 \includegraphics[height=4cm]{ProgramsImages/UnwtL2DiscLat.eps}  
+	  \includegraphics[height=4cm]{ProgramsImages/UnwtL2DiscLat.eps}   \qquad 
+	  \includegraphics[height=4cm]{ProgramsImages/UnwtL2Disc.eps} 
 	\caption{The root mean square $L^2$ discrepancies given by \eqref{FJH:eq:L2disc} 
-	for randomly scrambled and shifted Sobol' sequences points and randomly shifted 
-	lattice sequence nodesets.  A variety of dimensions are shown.
+	for randomly shifted 
+	lattice sequence nodesets and randomly scrambled and shifted Sobol' sequences 
+	points.  A variety of dimensions are shown.
 		\label{FJH:fig:unwtdiscdiffpts}}
 \end{figure}
 
-	 \includegraphics[width = 5.5cm]{ProgramsImages/UnwtL2Disc.eps}
 
 
-Graphs of discerpancy???
+\textbf{Continue here}
 
 \section{The Randomized Trio Identity for Cubature Error}
 
@@ -637,6 +647,19 @@ The example above is an example o
 \subsection{Bayesian Versions of the Trio Error Identity}
 
 \subsection{Change of Variables}
+
+\begin{figure}
+	\centering
+	\includegraphics[height=4cm]{ProgramsImages/WtL2DiscLat.eps}   \qquad 
+	\includegraphics[height=4cm]{ProgramsImages/WtL2Disc.eps} 
+	\caption{The root mean square weighted $L^2$ discrepancies given by 
+	\eqref{FJH:eq:wtL2disc} 
+		for randomly shifted 
+		lattice sequence nodesets and randomly scrambled and shifted Sobol' sequences 
+		points.  A variety of dimensions are shown.
+		\label{FJH:fig:wtdiscdiffpts}}
+\end{figure}
+
 
 
 \section{Minimizing the Discrepancy of the Sampling Scheme, $\norm{\nu - \hnu}_{\cm}$}
