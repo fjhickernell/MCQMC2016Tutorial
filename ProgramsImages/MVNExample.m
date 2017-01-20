@@ -23,10 +23,8 @@ if exist('MVNProbExampleAllData.mat','file')
    MVNProbSobolGnArch = MVNProbSobolGn;
    MVNProbuSobolGnArch = MVNProbuSobolGn;
    MVNProbMLESobolGnArch = MVNProbMLESobolGn;
-   if exist('MVNProbMLELatticeGn', 'var')
-        MVNProbMLELatticeGnArch = MVNProbMLELatticeGn;
-   end
 end
+
 
 %% First compute a high accuracy answer
 nGold = 2^27;
@@ -47,9 +45,7 @@ if compGold
    tic 
    for i = 1:nRepGold
       i
-      tic
       muBestvec(1,i) = compProb(MVNProbBest); 
-      toc
    end
    toc
    muBest = mean(muBestvec);
@@ -147,7 +143,7 @@ nnMLE = numel(nvecMLE);
 MVNProbMLESobolGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
    'errMeth','n','cubMeth','SobolMLE','intMeth','Genz');
 compMLESobol = true;
-if exist('MVNProbExampleAllData.mat','file')
+if exist('MVNProbExampleData.mat','file')
    if sameProblem(MVNProbMLESobolGn,MVNProbMLESobolGnArch)
       disp('Already have MLE Sobol answer')
       compMLESobol = false;
@@ -157,48 +153,15 @@ if compMLESobol
    tic
    muMVNProbMLESobolGn = zeros(nnMLE,nRep);
    errbdvecMBVProbMLESobolGn(nnMLE,nRep) = 0;
-   parfor i = 1:nRep
+   for i = 1:nRep
       if i/1 == floor(i/1), i, end
-      tic
       [muMVNProbMLESobolGn(:,i), out] = compProb(MVNProbMLESobolGn); 
-      toc
       errbdvecMBVProbMLESobolGn(:,i) = out.ErrBd;
    end
    errvecMVNProbMLESobolGn = abs(muBest - muMVNProbMLESobolGn);
    errmedMVNProbMLESobolGn = median(errvecMVNProbMLESobolGn,2);
    errtopMVNProbMLESobolGn = quantile(errvecMVNProbMLESobolGn,1-alpha,2);
    toc
-end
-
-%% Try MLE Bayseian cubature with Fourier kernel and Rank1 Lattice points
-nvecMLE = 2.^(7:11)';
-nnMLE = numel(nvecMLE);
-MVNProbMLELatticeGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
-   'errMeth','n','cubMeth','LatticeMLE','intMeth','Genz');
-compMLELattice = true;
-if exist('MVNProbExampleData.mat','file') % force to compute all the time
-   if sameProblem(MVNProbMLELatticeGn,MVNProbMLELatticeGnArch)
-      disp('Already have MLE Fourier Lattice answer')
-      compMLELattice = true;
-   end
-end
-if compMLELattice
-   datetime
-   tic
-   muMVNProbMLELatticeGn = zeros(nnMLE,nRep);
-   errbdvecMBVProbMLELatticeGn(nnMLE,nRep) = 0;
-   parfor i = 1:nRep
-      if i/1 == floor(i/1), i, end
-      tic
-      [muMVNProbMLELatticeGn(:,i), out] = compProb(MVNProbMLELatticeGn); 
-      toc
-      errbdvecMBVProbMLELatticeGn(:,i) = out.ErrBd;
-   end
-   errvecMVNProbMLELatticeGn = abs(muBest - muMVNProbMLELatticeGn);
-   errmedMVNProbMLELatticeGn = median(errvecMVNProbMLELatticeGn,2);
-   errtopMVNProbMLELatticeGn = quantile(errvecMVNProbMLELatticeGn,1-alpha,2);
-   toc
-   datetime
 end
 
 %% Save output
