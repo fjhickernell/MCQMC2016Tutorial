@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{{#1}}
 \providecommand{\urlprefix}{URL }
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -7,10 +7,34 @@
   \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
 
+\bibitem{Dia88a}
+Diaconis, P.: {B}ayesian numerical analysis.
+\newblock In: S.S. Gupta, J.O. Berger (eds.) Statistical decision theory and
+  related topics {IV}, {P}apers from the 4th {P}urdue Symp., {W}est
+  {L}afayette, {I}ndiana 1986, vol.~1, pp. 163--175. Springer-Verlag, New York
+  (1988)
+
 \bibitem{DicPil10a}
 Dick, J., Pillichshammer, F.: Digital Nets and Sequences: Discrepancy Theory
   and Quasi-{M}onte {C}arlo Integration.
 \newblock Cambridge University Press, Cambridge (2010)
+
+\bibitem{Gen93}
+Genz, A.: Comparison of methods for the computation of multivariate normal
+  probabilities.
+\newblock Computing Science and Statistics \textbf{25}, 400--405 (1993)
+
+\bibitem{GriKuoSlo10}
+Griebel, M., Kuo, F.Y., Sloan, I.H.: The smoothing effect of the {ANOVA}
+  decomposition.
+\newblock J. Complexity \textbf{26}, 523---551 (2010).
+\newblock \doi{10.1016/j.jco.2010.04.003}
+
+\bibitem{GriKuoSlo16}
+Griebel, M., Kuo, F.Y., Sloan, I.H.: The {ANOVA} decomposition of a non-smooth
+  function of infinitely many variables can have every term smooth.
+\newblock Math.\ Comp.  (2016+).
+\newblock In press
 
 \bibitem{Hic97a}
 \HickernellFJ, F.J.: A generalized discrepancy and quadrature error bound.
@@ -40,6 +64,20 @@ Meng, X.: Statistical paradises and paradoxes in big data (2016+).
 Niederreiter, H.: Random Number Generation and Quasi-{M}onte {C}arlo Methods.
 \newblock CBMS-NSF Regional Conference Series in Applied Mathematics. SIAM,
   Philadelphia (1992)
+
+\bibitem{OHa91a}
+{O'H}agan, A.: {B}ayes-{H}ermite quadrature.
+\newblock J. Statist.\ Plann.\ Inference \textbf{29}, 245--260 (1991)
+
+\bibitem{RasGha03a}
+Rasmussen, C.E., Ghahramani, Z.: Bayesian {M}onte {C}arlo.
+\newblock In: S.~Thrun, L.K. Saul, K.~Obermayer (eds.) Advances in {N}eural
+  {I}nformation {P}rocessing {S}ystems, vol.~15, pp. 489--496. MIT Press (2003)
+
+\bibitem{Rit00a}
+Ritter, K.: Average-Case Analysis of Numerical Problems, \emph{Lecture Notes in
+  Mathematics}, vol. 1733.
+\newblock Springer-Verlag, Berlin (2000)
 
 \bibitem{SloJoe94}
 Sloan, I.H., Joe, S.: Lattice Methods for Multiple Integration.

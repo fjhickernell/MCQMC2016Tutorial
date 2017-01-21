@@ -4,7 +4,6 @@ format long
 load discrepancyData
 
 %% Plot geometric interpretation
-myColorSequence = colorSequence([1:2 4:end]);
 rng(0)
 n=32;
 x = net(scramble(sobolset(2),'MatousekAffineOwen'),n);
@@ -14,7 +13,7 @@ figure
 plot(x(~whichin,1),x(~whichin,2),'.')
 hold on
 h = plot(x(whichin,1),x(whichin,2),'.');
-gail.colorMarkerLinePlot(h,2,myColorSequence,markerSequence,markerSize, ...
+gail.colorMarkerLinePlot(h,2,noYcolorSequence,markerSequence,markerSize, ...
    {'none'})
 
 axis square
@@ -96,7 +95,7 @@ h(nd,1) = 0;
 for dd = 1:nd
    h(dd) = loglog(nvec,scdisc(:,dd));
    if dd == 1; hold on; end
-   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   gail.colorMarkerLinePlot(h(dd),dd,noYcolorSequence,markerSequence,markerSize, ...
    {'-'})
 end
 h = [h; loglog(nvec([1 nn]),scdisc(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
@@ -155,7 +154,7 @@ h(nd,1) = 0;
 for dd = 1:nd
    h(dd) = loglog(nvec,scwtddisc(:,dd));
    if dd == 1; hold on; end
-   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   gail.colorMarkerLinePlot(h(dd),dd,noYcolorSequence,markerSequence,markerSize, ...
    {'-'})
 end
 h = [h; loglog(nvec([1 nn]),scwtddisc(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
@@ -215,7 +214,7 @@ h(nd,1) = 0;
 for dd = 1:nd
    h(dd) = loglog(nvec,scdisclat(:,dd));
    if dd == 1; hold on; end
-   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   gail.colorMarkerLinePlot(h(dd),dd,noYcolorSequence,markerSequence,markerSize, ...
    {'-'})
 end
 h = [h; loglog(nvec([1 nn]),scdisclat(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];
@@ -274,7 +273,7 @@ h(nd,1) = 0;
 for dd = 1:nd
    h(dd) = loglog(nvec,scwtddisclat(:,dd));
    if dd == 1; hold on; end
-   gail.colorMarkerLinePlot(h(dd),dd,myColorSequence,markerSequence,markerSize, ...
+   gail.colorMarkerLinePlot(h(dd),dd,noYcolorSequence,markerSequence,markerSize, ...
    {'-'})
 end
 h = [h; loglog(nvec([1 nn]),scwtddisclat(1,1)*[1 nvec(1)/nvec(nn)],'--','color',get(h(1),'color'))];

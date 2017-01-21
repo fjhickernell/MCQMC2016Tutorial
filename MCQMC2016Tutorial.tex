@@ -75,11 +75,44 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
+\newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error as a 
+product of three terms: the variation of the integrand, the discrepancy of the sampling 
+measure, and the confounding. This identity shows how the integrand and the sampling 
+measure each contribute to the cubature error.  }	
+
+\newcommand{\FJHLessonOne}{The quality of a sampling scheme is important, not 
+	merely the sample size.  Systematic sampling, even simple random sampling, may yield 
+	a 
+	much smaller error than haphazard sampling. }	
+
+\newcommand{\FJHLessonTwo}{Quasi-Monte Carlo methods replace IID data sites by 
+those that are more evenly spread than IID points, such as
+Sobol' sequences and integration lattice nodeset sequences.  These sequences of evenly 
+spread sampling measures yield discrepancies and cubature errors that decay to zero at 
+a faster rate than those of IID sequences. }	
+
+\newcommand{\FJHLessonThree}{Randomizing your sampling measure, not only may 
+eliminate bias, but it may help you improve accuracy by avoiding the awful minority of 
+possible sampling measures. }
+
+\newcommand{\FJHLessonFour}{Well-chosen variable transformations may reduce 
+cubature error by producing an integrand with a smaller variation than the original. }
+
+\newcommand{\FJHLessonFive}{The benefits of sampling measures with lower 
+discrepancy are limited to those problems where the integrand is well-behaved enough to 
+have 
+finite variation.}
+
+\newcommand{\FJHLessonSix}{??. }
+
+
+	
 	\newtheorem{FJHLesson}{Lesson}
 \newcommand{\corr}{\mathrm{corr}}
 \newcommand{\std}{\textup{std}}
 \newcommand{\Dt}{\textup{D}}
 \newcommand{\Rn}{\textup{R}}
+\newcommand{\Ba}{\textup{B}}
 
 
 \newcommand{\mC}{\mathsf{C}}
@@ -140,7 +173,7 @@
 \allowdisplaybreaks
 
 
-\title*{Error Analysis of Quasi-Monte Carlo Methods}
+\title*{Error Analysis for Quasi-Monte Carlo Methods}
 \author{Fred J. Hickernell}
 \institute{Fred J. Hickernell
 \at Department of Applied Mathematics,  Illinois Institute of Technology, 10 W. 32$^{\text{nd}}$ Street, RE 208, Chicago, IL 60616, USA 
@@ -154,18 +187,33 @@ Monte Carlo methods are used to approximate multivariate integrals that cannot b
 \begin{equation}
 \mu = \int_{\cx} f(\bsx) \, \nu(\D \bsx), \label{INT} \tag{INT}
 \end{equation}
-where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a \emph{probability} measure.  Here, $\mu$ is the mean of $f(\bsX)$, where the random variable $\bsX$ has probability measure $\nu$.  Monte Carlo methods approximate $\mu$ by a weighted average of values of $f$ at a finite number of data sites, $\bsx_1, \ldots, \bsx_n$:
+where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a 
+\emph{probability} measure.  Here, $\mu$ is the mean of $f(\bsX)$, where the random 
+variable $\bsX$ has probability measure $\nu$.  Monte Carlo methods approximate 
+$\mu$ by a weighted average of values of $f$ at a finite number of data sites (points, 
+nodes), $\bsx_1, \ldots, \bsx_n$:
 \begin{equation} \label{AppxINT} \tag{MC}
 \hmu = \sum_{i=1}^n f(\bsx_i) w_i = \int_{\cx} f(\bsx) \, \hnu(\D \bsx), \qquad \sum_{i=1}^n  w_i = \hnu(\cx) = 1.
 \end{equation}
-The sampling measure, $\hnu$, assigns a weight $w_i$ to the function value at the $i^{\text{th}}$ data site, and may be written as $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$, where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$.  For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the weights may be deterministic or random.  Later, we impose further constraints.
+The sampling measure, $\hnu$, assigns a weight $w_i$ to the function value at the 
+$i^{\text{th}}$ data site, and lies in the vector space
+\begin{equation} \label{FJH:eq:sampmeaset}
+\cm_{\textup{S}} := \left \{\sum_{i=1}^n w_i \delta_{\bsx_i} : w_1, \ldots, w_n \in \R,\ \bsx_1, 
+\ldots, \bsx_n \in \calX, \ n \in \N \right \},
+\end{equation}
+where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$.  
+For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the 
+weights may be deterministic or random.  Later, we impose further constraints.
 
 This tutorial describes how to characterize and analyze the error, $\mu - \hmu$.  Specifically, we ask
 \emph{
 \begin{list}{}{\setlength\leftmargin{7ex}\setlength\labelwidth{5ex}}
-\item[Q1.] How do good sampling schemes, $\hnu$, make the error, $\mu - \hmu$, smaller?
-\item[Q2.] How can the error be decreased by re-casting the problem, say with a different $f$ or $\nu$?
-\item[Q3.] How many samples, $n$, are required to meet a specified error tolerance?
+\item[Question 1.] How do good sampling schemes, $\hnu$, make the error, $\mu - 
+\hmu$, smaller?
+\item[Question 2.] How can the error be decreased by re-casting the problem, say with a 
+different $f$ or $\nu$?
+\item[Question 3.] How many samples, $n$, are required to meet a specified error 
+tolerance?
 \end{list}}
 \noindent The aim is to summarize some known---but perhaps not widely 
 known---results.  We introduce and illustrate these results by examples.
@@ -174,8 +222,8 @@ known---results.  We introduce and illustrate these results by examples.
 Did you get enough sleep last night?  Did you get more sleep than the average person?  
 How much sleep did the average person get? The answer to this last question is simply 
 $\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ denotes the hours of sleep of individual 
-$j$ in a population of $N$ individuals.  For a large population, such as the adult 
-population of the United States, collecting the data is difficult. So you might resort to a 
+$j$ in a population of $N$ individuals.  For a large population, such as the $\approx 250$ 
+million adults in the United States, collecting the data is difficult. So you might resort to a 
 web survey, where you receive responses from individuals $x_1, \ldots, x_n$.  The error of 
 your sample mean, $\widehat{\mu} = n^{-1} \sum_{i=1}^n f(x_i)$, may be expressed as a 
 product of three quantities:
@@ -188,10 +236,10 @@ product of three quantities:
 - 1 \right) \\
 & = \underbrace{-\corr(f, \bbone_{\{x_i\}_{i=1}^n})}_{\algn^\Dt(f,\nu - \hnu)} \,
 \underbrace{\sqrt{\frac{1 - n/N}{n/N}}}_{\disc^\Dt(\nu - \hnu)} \, 
-\underbrace{\std(f)}_{\Var^\Dt(f)}, 
+\underbrace{\std(f)}_{\Var^\Dt(f)}.
 \label{FJH:eq:surveydettrio}
 \end{align}
-where the population covariance of two functions $f$ and $g$, with respective 
+Here, the population covariance of two functions $f$ and $g$, with respective 
 population means $\mu(f)$ and $\mu(g)$, is defined as 
 \begin{equation*}
 \Cov(f,g) : = \frac 1N \sum_{j=1} [f(j) - \mu(f)] [g(j) - \mu(g)], \qquad 
@@ -210,24 +258,28 @@ and the probability measure $\nu$ is the uniform measure over the sample space $
 n^{-1} \sum_{i=1}^n \delta_{x_i}$.  The three terms that comprise the trio identity have the 
 following meanings:
 \begin{description}
-	\item[$\Var(f)$:] measures the \emph{variation} of the integrand from a typical value. 
+	\item[$\Var(f)$] measures the \emph{variation} of the integrand from a typical value. 
 	In 	this case, $\Var(f)$ corresponds to the standard deviation of $f$ and the typical 
 	value	is the mean of $f$. The variation is positively homogeneous, i.e., $\Var(cf)  = 
 	\abs{c} \Var(f)$.  The variation is \emph{not} the variance.
-	\item [$\disc(\nu - \hnu)$:] measures the \emph{discrepancy} of the sampling 
+	\item [$\disc(\nu - \hnu)$] measures the \emph{discrepancy} of the sampling 
 	measure 
 	from the probability measure that defines the integral.  In this case, the discrepancy 
 	depends only on the sample fraction, $n/N$.
-	\item [$\algn(f,\nu - \hnu)$:] measures the \emph{confounding} between the 
+	\item [$\algn(f,\nu - \hnu)$] measures the \emph{confounding} between the 
 	integrand and the difference between the measure defining the integral and the 
 	sampling measure.  In this case the confounding lies between plus and minus one.
 \end{description}
 The superscript $\Dt$ in \eqref{FJH:eq:surveydettrio} denotes a \emph{deterministic} 
-version of the trio identity, which is defined in general in ???  Other versions of the trio 
-identity will be introduced later.
+version of the trio identity, which is defined in general in Sec.\ \ref{FJH:sec:dettrio}. 
+Other versions of the trio identity are introduced later.
 
-For the web survey example one might expect $\Var(f)$ to be one or two hours or so.  It 
-is inherent quality of what we are measuring and is not affected by our sampling 
+\begin{FJHLesson}
+	\FJHLessonZero
+\end{FJHLesson}
+
+For the web survey example one might expect $\Var^\Dt(f)$ to be one or two hours.  It 
+is an inherent quality of what we are measuring and is not affected by our sampling 
 scheme.  The discrepancy in this example will be quite large unless our survey includes a 
 significant proportion of the population.  One might hope to make  the confounding 
 small.  This will happen if the set of individuals who complete the survey 
@@ -237,7 +289,8 @@ population average.  It is difficult to estimate how small the confounding might
 
 An alternative to the web survey is a simple random sample.  In this 
 case, we may use a 
-\emph{randomized} version of the trio identity, which is defined in general in ???.  Starting 
+\emph{randomized} version of the trio identity, which is defined in general in Sec.\  
+\ref{FJH:sec:rndtrio}.  Starting 
 from \eqref{FJH:eq:surveydettrio}, the 
 error of a sleep survey using a simple random sample without replacement is
 \begin{align}
@@ -266,7 +319,7 @@ the confounding will be no greater than $1/\sqrt{\alpha}$ by Chebyshev's inequal
 sampling scheme generated by a web survey is in the sample space of the simple 
 random survey, which is all possible choices of $n$ out of $N$ individuals.  Unless the 
 web survey has a value of $\corr(f, \bbone_{\{x_i\}_{i=1}^n})$ 
-on the order of $\Order(1/\sqrt{N})$, then it is one of the ``unfortunate minority'' of 
+on the order of $\Order(1/\sqrt{N})$, then it is one of the ``awful minority'' of 
 sampling schemes.
 
 While the randomized confounding may be larger than in the deterministic case, 
@@ -283,22 +336,33 @@ samples.  For example, an exceedingly successful web survey with $n_{\textup{web
 (approximately the US adult population) with a correlation as small as $0.05$ is about as 
 valuable as $n_{\textup{SRS}} = 1.6$ simple random samples.
 
-This example cautions against becoming too enthralled with big data. Unless the sample 
-fraction is close to one or the correlation between 
+This example illustrates a danger with assigning too much importance to big data. Unless 
+the 
+sample fraction is close to one or the correlation between 
 your sampling scheme and what you are measuring can be made tiny, a large quantity of 
 data may give a worse answer than a small quantity of carefully collected data.
 
 \begin{FJHLesson}
-	Systematic sampling may yield a much smaller error than haphazard sampling.
+	\FJHLessonOne
 \end{FJHLesson}
 
-\section{The Deterministic Trio Identity for Cubature Error}
+The trio identity, in the two forms that we have seen so far, begins to answer Question 1 
+in the introduction.  The main way to choose a good sampling scheme is to choose one 
+with small discrepancy, since this is the main measure of sample quality.   However, the 
+confounding is also influenced by the choice of sampling scheme, and this term should 
+not be ignored.
+
+The initial answer to Question 2 in the introduction is that it may help to reduce the 
+variation of the integrand.  This can be done, for example, by a change of variables.  An 
+example of a useful variable transformation is provided in Section ??
+
+\section{The Deterministic Trio Identity for Cubature Error} \label{FJH:sec:dettrio}
 The two versions of the trio identity introduced by example in the previous section may 
 be defined in generality. We begin with the deterministic version.  
 
 The integrand is 
-assumed to lie in some Banach space of 
-functions, $(\cf,\norm{\cdot}_{\cf})$, where function evaluation at any point  in the 
+assumed to lie in some Banach space, $(\cf,\norm{\cdot}_{\cf})$, where function 
+evaluation at any point  in the 
 domain,  $\cx$, is a 
 bounded, linear functional.  This means that $\sup_{f \in \cf} \abs{f(\bst)}/\norm{f}_{\cf} < 
 \infty$ for all $\bst \in \cx$ and that $\int_{\cx} f(\bsx) \, \delta_{\bst}(\D\bsx) =f(\bst)$ 
@@ -316,11 +380,11 @@ have finite integrals:
 \cm : = \biggl \{\text{signed measures } \eta : \int_{\cx} f(\bsx) \, \eta(\D\bsx) < \infty \ \ 
 \forall f \in \cf \biggr \}.
 \end{equation*}
-It is assumed that $\nu \in \cm$ so that our integral of interest is defined.  Since function 
-evaluation is bounded, $\cm$ includes the Dirac measures and also any 
-sampling measure, $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$.  Define the subspace  
+We assume that $\nu \in \cm$ so that our integral of interest is defined.  Since function 
+evaluation is bounded, $\cm$ includes $\cm_{\textup{S}}$ the vector space of all 
+sampling measures.  Define the subspace  
 \begin{equation} \label{FJH:eq:Mperpdef}
-\cm_\bot : = \left \{\eta \in \cm :  \int_{\cx} L(f) \, \eta(\D\bsx) = 0  \ \forall f \in \cf
+\cm_\bot : = \left \{\eta \in \cm :  L(f) \eta(\cx) = 0  \ \forall f \in \cf
 \right\}.
 \end{equation} 
 A semi-norm on $\cm_\bot$ is induced by the norm on $\cf$, which provides the 
@@ -343,14 +407,15 @@ Finally, define the confounding as
 The above definitions allow us to establish the deterministic trio identity for cubature 
 error.
 
-\begin{theorem}[Deterministic Trio Error Identity]  For the spaces of integrands and 
+\begin{theorem}[Deterministic Trio Error Identity]  \label{FJH:thm:dtrio} For the spaces 
+of integrands and 
 measures defined above, and for the above definitions of variation, discrepancy, and 
 confounding, the following error identity holds for all $f \in \cf$ and $\nu - \hnu  \in 
 \cm_\bot$: 
 \begin{equation} \tag{DTRIO} \label{FJH:eq:dtrio}
 \mu - \hmu  = \algn^\Dt(f,\nu - \hnu) \, \disc^\Dt(\nu - \hnu) \, \Var^{\Dt}(f).
 \end{equation}
-Moreover, $\abs{\algn(f,\nu - \hnu)} \le 1$. 
+Moreover, $\abs{\algn^\Dt(f,\nu - \hnu)} \le 1$. 
 \end{theorem}
 \begin{proof}  The proof of this identity follows directly from the definitions above, by 
 noting that for all $f \in \cf$ and $\nu - \hnu  \in \cm_\bot$, the error can be written as a 
@@ -435,7 +500,7 @@ form \cite{Hic99a}
 \nonumber
 & = \int_{\cx \times \cx} K(\bsx,\bst) \, \nu(\D \bsx) \, \nu (\D \bst)  \\
 & \qquad \qquad - 2 \sum_{i=1}^n w_i 
-\int_{\cx} K(\bsx,\bsx_i) \, \nu(\D \bsx)+ \sum_{i,j = 1}^n w_iw_jK(\bsx_i,\bsx_j).
+\int_{\cx} K(\bsx_i,\bst) \, \nu(\D \bst)+ \sum_{i,j = 1}^n w_iw_jK(\bsx_i,\bsx_j).
 \end{align}
 The computational cost to evaluate the discrepancy is $\Order(n^2)$ times the cost of 
 evaluating the reproducing kernel at a point. 
@@ -546,6 +611,11 @@ more like $\Order(1/\sqrt{n})$ for large dimensions and small $n$.   This dimens
 dependence of the convergence rate is addressed later in ???.  
 
 
+\begin{FJHLesson}
+	\FJHLessonTwo
+\end{FJHLesson}
+
+
 \begin{figure}
 	\centering
 	\includegraphics[height=5cm]{ProgramsImages/IIDPoints.eps} \qquad
@@ -567,86 +637,413 @@ dependence of the convergence rate is addressed later in ???.
 		\label{FJH:fig:unwtdiscdiffpts}}
 \end{figure}
 
+\section{The Randomized Trio Identity for Cubature Error} \label{FJH:sec:rndtrio}
+For the randomized version of the trio identity, we again assume that the integrands lie in 
+a Banach space, $(\cf,\norm{\cdot}_{\cf})$, and that this Banach space contains 
+constant functions.  This time we do not require 
+function evaluation to be a bounded linear functional on $\cf$, however it is assumed 
+that $\int_{\cx} f(\bsx) \, \nu(\D\bsx)$ is defined  for all $f \in \cf$.  The definitions of the 
+bounded linear functional $L$ and the variation in the deterministic case in  
+\eqref{FJH:eq:detvardef} apply here as well.
+
+Now endow, $\cm_{\textup{S}}$, the vector space of all sampling measures, with a 
+probability distribution.  This means that the placement of the data sites, the number of 
+data sites, and the choice of the weights may all be random.  We require that 
+the following two conditions are satisfied:
+\begin{subequations} \label{FJH:eq:randMcond}
+\begin{gather}
+\bbE_{\hnu} \biggabs{\int_{\cx} f(\bsx) \,  \hnu(\D \bsx)}^2 < \infty \qquad \forall f \in \cf, \\
+\label{FJH:eq:randMcondB}
+L(f) [\nu(\calX) - \hnu(\calX)] = 0  \qquad \text{almost surely}.
+\end{gather}
+\end{subequations}
+The first of these conditions implies that $\int_{\cx} f(\bsx) \,  \hnu(\D \bsx)$ exists 
+almost surely for every $f \in \cf$.  
+
+The randomized discrepancy is  defined as the worst  normalized root mean squared 
+error:
+\begin{equation} \label{FJH:eq:rnddiscdef}
+\disc^\Rn(\nu - \hnu) : =\sup_{f \in \cf : f \ne 0} \frac{\displaystyle \sqrt{\bbE_{\hnu}
+\biggabs{\int_{\cx} 
+		f(\bsx) \, (\nu - \hnu)(\D \bsx)}^2}}{\norm{f}_{\cf}}.
+\end{equation}
+The randomized discrepancy does not depend on the particular instance of the 
+sampling measure but on the distribution of the sampling measure. 
+
+Finally, define the confounding as 
+\begin{equation} \label{FJH:eq:rndconfdef}
+\algn^\Rn(f,\nu - \hnu): =  \begin{cases} \displaystyle 
+\frac{\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D 
+	\bsx)}{\Var^\Dt(f)\disc^\Rn(\nu - \hnu)},  & 
+\Var^\Dt(f)\disc^\Rn(\nu - \hnu) \ne 0, \\[2ex]
+0, & \text{otherwise}.
+\end{cases}
+\end{equation}
+The above definitions allow us to establish the randomized trio identity for cubature 
+error.
+
+\begin{theorem}[Randomized Trio Error Identity]  \label{FJH:thm:rtrio} For the spaces of 
+integrands and 
+	measures defined above, and for the above definitions of variation, discrepancy, and 
+	confounding, the following error identity holds for all $f \in \cf$ and $\hnu  \in 
+	\cm_{\textup{S}}$: 
+	\begin{equation} \tag{RTRIO} \label{FJH:eq:rtrio}
+	\mu - \hmu  = \algn^\Rn(f,\nu - \hnu) \, \disc^\Rn(\nu - \hnu) \, \Var^{\Dt}(f) \quad 
+	\text{almost surely}.
+	\end{equation}
+	Moreover, $\Ex_{\hnu} \abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$ for all $f \in 
+	\cf$. 
+\end{theorem}
+\begin{proof}  For all $f \in \cf$ and $\hnu  \in \cm_{\textup{S}}$, the error can be 
+written as the single integral in \eqref{FJH:eq:err_as_int} almost surely. 	If $\Var^{\Dt}(f) 
+= 0$, then $f = L(f)$, and $\mu - \hmu$ vanishes almost surely due to condition 
+\eqref{FJH:eq:randMcondB}.  If 
+$\disc^\Rn(\nu - \hnu) = 0$, then $\mu - \hmu$
+	vanishes almost surely by \eqref{FJH:eq:rnddiscdef}.  Thus, for $\Var^{\Dt}(f) 
+	\disc^\Rn(\nu - \hnu) = 
+	0$ 
+	the trio identity holds. If $\Var^{\Dt}(f) \disc^\Rn(\nu - \hnu) \ne 0$, then the trio 
+	identity also holds by the definition of the confounding.
+	
+	Next, we analyze the magnitude of the confounding for $\Var^{\Dt}(f) \disc^\Dt(\nu - 
+	\hnu) \ne 0$: 
+	\begin{align*}
+	\bbE \abs{\algn^\Rn(f,\nu - \hnu)}^2 & = 
+	\frac{\bbE \biggl \lvert\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D 
+		\bsx) \biggr \rvert^2 }{[\Var^\Dt(f)\disc^\Dt(\nu - \hnu)]^2} \quad \text{by 
+		\eqref{FJH:eq:rndconfdef}}\\
+	& = \frac{\bbE \biggl \lvert\displaystyle\int_{\cx} [f(\bsx) - L(f)] \, (\nu - \hnu)(\D 
+		\bsx) \biggr \rvert^2}{[\norm{f-L(f)}_{\cf}\disc^\Dt(\nu - \hnu)]^2} \quad \text{by 
+		\eqref{FJH:eq:detvardef} and \eqref{FJH:eq:randMcondB}} \\
+	& \le 1 \quad \text{by \eqref{FJH:eq:rnddiscdef}},
+	\end{align*}
+	since $\Var^{\Dt}(f) \ne 0$ and so $f - L(f) \ne 0$.
+\end{proof}
+
+Consider simple Monte Carlo, where the approximation to the integral is an equally 
+weighted average using IID sampling $\bsx_1, \bsx_2, \ldots \sim 
+\nu$ without 
+replacement. Let the sample size be fixed at $n$.
+Let $\cf = L^{2,\nu}$, the space of functions that are square integrable with respect to 
+the measure $\nu$, and let $L(f)$ be the mean of $f$.  Then the variation of $f$ is just 
+its standard 
+deviation, $\std(f)$.  The randomized discrepancy is 
+$1/\sqrt{n}$, which allows for a random sample size.  The randomized 
+confounding is 
+\begin{align*}
+\algn^\Rn(f,\nu - \hnu) = \frac{-1}{ \sqrt{n}\, \std(f)}    \sum_{i=1}^n [f(\bsx_i) - 
+\mu].
+\end{align*}
+This is similar to the randomized trio identity for the big data survey in 
+\eqref{FJH:eq:surveyrndtrio}.
+
+There is no simple form for the randomized discrepancy for arbitrary sampling schemes 
+and reproducing kernel Hilbert spaces like there is in the deterministic setting.  The 
+randomized discrepancy can sometimes be conveniently calculated or bounded for 
+spaces of integrands that are represented by series expansions, and the randomized 
+sampling schemes for the bases of these expansions have special properties.  See ??? 
+for examples.
+
+It is instructive to contrast the variation, discrepancy, and confounding in the 
+deterministic and randomized settings.   For some integrand, $f$, and some sampling 
+measure, $\hnu$, satisfying the 
+conditions defining both \eqref{FJH:eq:dtrio}  and \eqref{FJH:eq:rtrio}:
+\begin{itemize}
+	\item the variation in both settings is the same,
+	
+	\item the randomized discrepancy 
+	must be no greater than the deterministic discrepancy by definition, and thus
+	
+	\item the randomized confounding must be no less than the deterministic 
+	confounding.  
+\end{itemize}
+Theorem \ref{FJH:thm:dtrio} states that the deterministic confounding is never greater 
+than one in magnitude.  By contrast, Theorem \ref{FJH:thm:rtrio} 
+only states that the expected value of the magnitude of the randomized confounding is 
+no greater than one.  The randomize confounding may be arbitrarily large, but Markov's 
+inequality implies that it may be larger than $1/\sqrt{\alpha}$ with  probability no greater 
+than $\alpha$.  The big data survey example illustrated the differences in the 
+deterministic and randomized trio identities.  The next example illustrates this further.
+
+\section{Multivariate Gaussian Probabilities} \label{FJH:sec:Gauss}
+Consider the $d$-variate integral corresponding to the probability of a 
+$\cn(\bszero,\mathsf{\Sigma})$ random variable lying inside the box $[\bsa,\bsb]$:
+\begin{equation} \label{FJH:eq:MVN}
+\mu = \int_{[\bsa,\bsb]} \frac{\exp\bigl(- \frac 12 \bsz^T \mathsf{\Sigma}^{-1} \bsz 
+\bigr)}{\sqrt{(2 \pi)^d \det(\mathsf{\Sigma})}} \, \D \bsz = \int_{[0,1]^{d-1}} f(\bsx) \, \D 
+\bsx,
+\end{equation}
+where $\mathsf{\Sigma} = \mathsf{L}\mathsf{L}^T$ is the Cholesky decomposition of 
+the covariance matrix, $\mathsf{L} = \bigl(l_{jk}\bigr)_{j,k=1}^d$, is a lower triangular 
+matrix, and
+\begin{align*}
+\alpha_1 & = \Phi(a_1), \qquad \beta_1  = \Phi(b_1), \\
+\alpha_j(x_1, \ldots, x_{j-1}) &= \Phi\left(\frac{1}{l_{jj}} \left(a_j - \sum_{k=1}^{j-1} 
+l_{jk}\Phi^{-1}(\alpha_k + x_k(\beta_k-\alpha_k))\right)\right), \ j =2, \ldots, d,\\
+\beta_j(x_1, \ldots, x_{j-1}) &= \Phi\left(\frac{1}{l_{jj}} \left(b_j - \sum_{k=1}^{j-1} 
+l_{jk}\Phi^{-1}(\alpha_k + x_k(\beta_k-\alpha_k))\right)\right), \ j =2, \ldots, d, \\
+f(\bsx) &= \prod_{j=1}^{d} [\beta_j(\bsx) - \alpha_j(\bsx)].
+\end{align*}
+Genz \cite{Gen93} developed the clever transformation of variables above that turns the 
+multivariate Gaussian probability into an integral over the unit cube.  Not only is the 
+dimension decreased by one, but the integrand is typically made less peaky and more 
+favorable to cubature methods.
+
+The left plot of Fig.\ \ref{FJH:fig:MVNfig} shows the absolute errors in computing the the 
+multivariate 
+Gaussian probability via the Genz transformation for 
+\[
+   \bsa  = \begin{pmatrix}
+   -6 \\ -2 \\ -2
+   \end{pmatrix}, \quad
+      \bsb  = \begin{pmatrix}
+   5 \\ 2 \\ 1
+   \end{pmatrix}, \quad
+   \mathsf{\Sigma} = \begin{pmatrix} 16 & 4 & 4 \\ 4 &  2 &  1.5 \\
+  4 & 1.5 &  1.3125 \end{pmatrix}, \quad
+   \mathsf{L} = \begin{pmatrix} 4 & 0 & 0 \\ 1 &  1 &  0 \\
+1 & 0.5 &  0.25 \end{pmatrix}, 
+\]
+by IID sampling, unscrambled Sobol' sequences, and scrambled Sobol' sequences.   
+Multiple random scramblings of a very large scrambled Sobol' set was used to infer that 
+$\mu \approx 0.6763373243578$.   For the two randomized sampling schemes $100$ 
+replications were taken.  The marker denotes the median error and the tip of the stem 
+extending above the marker denotes the worst $90\%$ error.
+
+\begin{figure}
+	\centering
+	\includegraphics[width = 5cm]{ProgramsImages/MVNIIDUSobolSobol.eps} \qquad 
+	\includegraphics[width = 5cm]{ProgramsImages/MVNSobolGenzAff.eps}
+	\caption{The error of an example of the multivariate Gaussian probability in 
+	\eqref{FJH:eq:MVN}.  The left side shows the result of Genz's transformation and 
+	different sampling schemes.  The right side shows the scrambled Sobol' sampling 
+	using different transforamtions.
+	\label{FJH:fig:MVNfig}}
+\end{figure}
+
+The error for IID sampling decays like $\Order(1/\sqrt{n})$, which is the same rate of 
+decay of the randomized discrepancy for IID sampling, as mentioned in the previous 
+section.  The error for  Sobol' sampling 
+decays at the $\Order(1/n^{1-\epsilon})$ rate corresponding to the deterministic $L^2$
+discrepancy defined in \eqref{FJH:eq:L2disc}.  
+
+The error for randomly scrambled Sobol' 
+sampling decays at a rate of roughly $\Order(1/n^{3/2- \epsilon})$, which corresponds to 
+the randomized discrepancy for this sampling scheme \cite{???}.  Thus, not only do we 
+see how the more evenly spaced Sobol' points improve upon IID sampling, but 
+randomizing the Sobol' points while preserving their even structure provides further 
+improvement to the rate of decay of the error.
+
+Since unscrambled Sobol' sampling is one element in the space of sampling measures,
+$\calM_{\textup{S}}$, how can one explain the poor decay of the cubature error with 
+respect to the other sampling measures  in  $\calM_{\textup{S}}$.  Applying the 
+randomized trio identity \eqref{FJH:eq:rtrio} to  unscrambled 
+Sobol' sampling, it appears that although $\disc^\Rn(\nu - \hnu) = \Order(1/n^{3/2- 
+\epsilon})$, it must be true that  $\algn^\Rn(f,\nu - \hnu) = \Order(1/n^{1/2- \epsilon})$, 
+which is huge  in comparison to most sampling measures in
+$\calM_{\textup{S}}$. 
+
+\begin{FJHLesson}
+\FJHLessonThree
+\end{FJHLesson}
+
+An alternative to the Genz transformation above is an affine transformation to compute 
+the multivariate Gaussian probability:
+\begin{equation*}
+\bsz = \bsa + (\bsb-\bsa) \circ \bsx, \quad g(\bsx) =  \frac{\exp\bigl(- 
+\frac 12 \bsz^T
+\mathsf{\Sigma}^{-1} \bsz 
+	\bigr)}{\sqrt{(2 \pi)^d \det(\mathsf{\Sigma})}} \, \prod_{j=1}^d (b_j - a_j), \quad \mu = 
+	\int_{[0,1]^{d}} g(\bsx) \, \D \bsx,
+\end{equation*} 
+where $\circ$ denotes the Hadamard (term-by-term) product.  The right plot in Fig.\ 
+\ref{FJH:fig:MVNfig} shows that the error using the affine 
+transformation is much worse than that using the Genz transformation even though the 
+two convergence rates are the same.  Difference in the magnitudes of the errors is 
+mainly because $\Var^{\Dt}(g)$ is greater than $\Var^{\Dt}(f)$.  This illustrates another 
+lesson that provides a partial answer to Question 2 in the introduction.
+
+\begin{FJHLesson} \label{FJH:eq:lessonfour}
+	\FJHLessonFour
+\end{FJHLesson}
+
+
+\section{Option Pricing}
+The prices of financial derivatives can often be modeled by high dimensional integrals.  If 
+the underlying asset is described in terms of a Brownian motion, $B$, at times $t_1, 
+\ldots, t_d$, then $\bsZ = (B(t_1), \ldots, B(t_d)) \sim \cn(\bszero, \mathsf{\Sigma})$, 
+where $\mathsf{\Sigma}  = \bigl( \min(t_j,t_k) \bigr)_{j,k=1}^d$, and the fair price of the 
+option is
+\begin{equation*}
+\mu = \int_{\R^d} \textup{payoff}(\bsz) \, \frac{\exp\bigl(- \frac 12 \bsz^T 
+\mathsf{\Sigma}^{-1} 
+\bsz 
+\bigr)}{\sqrt{(2 \pi)^d \det(\mathsf{\Sigma})}} \, \D \bsz = \int_{[0,1]^{d}} f(\bsx) \, \D \bsx 
+\end{equation*}
+where the function $\textup{payoff}(\cdot)$ describes the discounted payoff of the 
+option, 
+\begin{equation*}
+f(\bsx) = \textup{payoff}(\bsz), \qquad \bsz = \mathsf{L}^T \begin{pmatrix}
+\Phi^{-1}(x_1) \\ \vdots \\ \Phi^{-1}(x_d)
+\end{pmatrix}, 
+\end{equation*}
+and $\mathsf{L}$ is any square matrix satisfying $\mathsf{\Sigma} = \mathsf{L} 
+\mathsf{L}^T$.
+
+
+Fig.\ \ref{FJH:fig:AsianOpt} shows the cubature error using IID sampling, unscrambled 
+Sobol' sampling, and scrambled Sobol' sampling for the Asian arithmetic mean call option 
+with the following parameters:
+\begin{gather*}
+\textup{payoff}(\bsz) = \max \left( \frac 1d \sum_{j=1}^d S_j - K, 0\right)\E^{-rT}, \quad
+S_j = S_0 \exp\bigl( (r - \sigma^2/2) t_j + \sigma z_j\bigr),
+\\
+T = 1, \quad d = 12, \quad S_0 = K = 100, \quad r =  0.05, \quad \sigma = 0.5, \\
+t_j = jT/d, \ j = 1, \ldots, d
+\end{gather*}
+The convergence rate for IID and unscrambled Sobol' sampling are the same as in Fig.\ 
+\ref{FJH:fig:MVNfig} for the previous example of multivariate probabilities.  However, 
+although scrambling the Sobol' set improves the accuracy, it does not improve the 
+convergence rate. 
+
+
+\begin{figure}
+	\centering
+		\includegraphics[width = 5.5cm]{ProgramsImages/AsianCallIIDUSobolSobol.eps} 
+		\qquad
+		\includegraphics[width = 5.5cm]{ProgramsImages/AsianCallSobolPCADiff.eps}
+		\caption{Cubature error for the price of an Asian arithmetic mean option using 
+		different sampling 
+		schemes. \label{FJH:fig:AsianOpt}}
+\end{figure}
+
+The convergence rate for scrambled Sobol' sampling, $\hnu$,  is poorer than hoped for 
+because 
+$f$ is not smooth enough for $\Var^{\Dt}(f)$ to be finite in the case 
+where $\disc^\Rn(\nu - \hnu) = \Order(N^{-3/2 +\epsilon})$.  Less 
+stringent conditions on $f$ are required for $\disc^\Dt(\nu - \hnu) = 
+\Order(N^{-1 +\epsilon})$.  Even these requirements cannot 
+be ensured for option pricing examples like that above except by a rather delicate 
+argument \cite{GriKuoSlo10, GriKuoSlo16}.
+
+\begin{FJHLesson}
+	\FJHLessonFive
+\end{FJHLesson}
+
+The left plot in Fig.\ \ref{FJH:fig:MVNfig} chooses $\mathsf{L} = 
+\mathsf{V}\mathsf{\Lambda}^{1/2}$, where the columns of $\mathsf{V}$ are the 
+eigenvectors of $\mathsf{\Sigma}$, and the diagonal elements of the diagonal matrix  
+$\mathsf{\Lambda}$ are the eigenvalues of $\mathsf{\Sigma}$.  This is also called a 
+principal component analysis (PCA) construction.  The advantage is that the main part of 
+the 
+Brownian motion affecting the option payoff is concentrated in the smaller dimensions.  
+The right plot of Fig.\ 
+\ref{FJH:fig:MVNfig} contrasts the cubature error for two choices of  $\mathsf{L}$:  one 
+chosen by the PCA construction and the other coming from the Cholesky decomposition 
+of $\mathsf{\Sigma}$.  This latter choice corresponds to constructing the Brownian 
+motion by time 
+differencing.  The Cholesky decomposition of $\mathsf{\Sigma}$ gives poorer rate of 
+convergence, illustrating again Lesson \ref{FJH:eq:lessonfour}.
+
+
+\section{Bayesian Versions of the Trio Error Identity}
+An alternative to a deterministic integrand, as has been assumed so far, is to assume an 
+integrand that is a stochastic process.  Random input functions have been assumed by 
+Diaconis \cite{Dia88a}, O'Hagan \cite{OHa91a}, Ritter \cite{Rit00a}, Rasmussen and 
+Ghahramani \cite{RasGha03a}, and others. Specifically, suppose that $f \sim \GP (0, 
+s^2C_{\bstheta})$, a zero mean Gaussian process.  The covariance of 
+this  Gaussian process is $s^2C_{\bstheta}$, where $s$ is a scale parameter, and 
+$C_{\bstheta}:\cx \times \cx \to \R$ is defined by a shape parameter $\bstheta$.  The 
+sample space for this Gaussian process, $\calF$, does not enter significantly into the 
+analysis.  Define the vector space of measures 
+\begin{equation*}
+\cm = \left\{\eta :  \int_{\calX^2} C_\bstheta(\bsx,\bst) 
+\, \eta(\D \bsx) \eta(\D \bst) < \infty, \ \ \int_{\calX^2} C_\bstheta(\bsx,\bst) 
+\, \eta(\D \bsx) < \infty \ \ \forall \bst \in \cx \right \},
+\end{equation*}
+and let $C_{\bstheta}$ be such that $\cm$ contains both $\nu$ and the Dirac measures 
+$\delta_{\bst}$ for all $\bst \in \cx$. 
+
+For a 
+deterministic sampling measure, $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$, the cubature 
+error, $\mu - \hmu$, is distributed as $\cn \bigl(0 , s^2(c_0 - 
+2 \bsc^T \bsw + \bsw ^T \mC \bsw) \bigr)$, where 
+\begin{gather*}
+c_0  = \int_{\calX^2} C_\bstheta(\bsx,\bst) \, \nu(\D \bsx) \nu(\D \bst), \qquad \bsc = 
+\biggl( 
+\int_{\cx} 
+C_\bstheta(\bsx_i,\bst) \,\nu(\D \bst) \biggr)_{i=1}^n, \\
+\mC  = \bigl( C_\bstheta(\bsx_i,\bsx_j) \bigr)_{i,j=1}^n, \qquad \bsw = \bigl(w_i 
+\bigr)_{i=1}^n.
+\end{gather*}
+The dependence of $c_0$, $\bsc$, and $\mC$ on $\bstheta$ is suppressed in the 
+notation for simplicity. We 
+define the Bayesian variation and discrepancy as 
+\begin{subequations} \label{FJH:eq:btriodef}
+\begin{gather}
+\label{FJH:eq:btriodefa}
+\Var^{\Ba}(f)  = s, \qquad \disc^{\Ba}(\nu - \hnu) = \sqrt{c_0 - 
+	2 \bsc^T \bsw + \bsw ^T \mC \bsw},\\
+\algn^{\Ba}(f,\nu - \hnu) :=\frac{ \int_{\cx} 
+	f(\bsx) \, (\nu - \hnu)(\D\bsx)}{s \sqrt{c_0 - 2 \bsc^T \bsw + \bsw ^T \mC \bsw}}
+\end{gather}
+\end{subequations}
+
+\begin{theorem}[Bayesian Trio Error Identity]  \label{FJH:thm:btrio} Let the integrand be 
+an instance of a zero mean Gaussian process with covariance $s^2C_{\bstheta}$ and 
+that is drawn from a sample space 
+$\calF$.  For the  variation, discrepancy, and 
+	confounding defined in \eqref{FJH:eq:btriodef}, the following error identity holds: 
+	\begin{equation} \tag{BTRIO} \label{FJH:eq:btrio}
+	\mu - \hmu  = \algn^\Ba(f,\nu - \hnu) \, \disc^\Ba(\nu - \hnu) \, \Var^{\Ba}(f) \quad 
+	\text{almost surely}.
+	\end{equation}
+	Moreover, $\algn^\Ba(f,\nu - \hnu) \sim \cn(0,1)$. 
+\end{theorem}
+\begin{proof}  Although $\int_{\cx} f(\bsx) \, \nu(\D \bsx)$ and $f(\bst) = \int_{\cx} 
+f(\bsx) \, \delta_\bst (\D \bsx)$ may not exist for all $f \in \cf$, these two quantities exist 
+almost surely because $\bbE_f [\int_{\cx} f(\bsx) \, \nu(\D \bsx)]^2 = c_0$, and 
+$\bbE_f [f(\bsx)]^2 = C(\bsx,\bsx)$ are both well defined and finite.
+
+The proof of the Bayesian trio identity follows directly from the definitions above.  The 
+distribution of the confounding follows from the distribution of the cubature error.
+\end{proof}
+
+So far, the cubature weights have been kept arbitrary.  The choice of weights that 
+minimizes the Bayesian discrepancy in \eqref{FJH:eq:btriodefa} is $\bsw = 
+\mathsf{C}^{-1} \bsc$, which results in $\disc^{\Ba}(\nu - \hnu) = \sqrt{c_0 - \bsc ^T 
+\mC^{-1} \bsc}$ and $\mu - \hmu \sim \cn \bigl(0 , s^2(c_0 - \bsc ^T 
+\mC^{-1} \bsc) \bigr)$.  However, computing the weights requires $\Order(n^3)$ 
+operations 
+unless $\mathsf{C}$ has some special structure.  This computational cost is significant 
+and may be a deterrent to the use of optimal weights unless the weights are 
+precomputed. For smoother covariance functions, $C_\bstheta$, there is often a 
+challenge of $\mathsf{C}$ being ill-conditioned.
+
+
+The \emph{conditional} distribution of the cubature error, $\mu - \hmu$, given the 
+observed data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\cn \bigl( \bsy^T (\mC^{-1}\bsc - 
+\bsw) , s^2(c_0 - \bsc ^T \mC^{-1} \bsc) \bigr)$.  To remove the bias one should again 
+choose $\bsw = \mathsf{C}^{-1} \bsc$.  This also makes the conditional distribution of 
+the cubature error the same as the unconditional distribution of the cubature error.
+
+
+
+
+
+%\item $\disc^\Ba(\nu - \hnu) =  \disc^\Dt(\nu - \hnu)$  if  $C_{\vtheta} = K$	
+
+
 
 
 \textbf{Continue here}
 
-\section{The Randomized Trio Identity for Cubature Error}
 
-\section{Multivariate Gaussian Probabilities}
+\section{Dimension Dependence of the Cubature Error}
 
-When $\cx \ne [0,1]^d$ and/or $\nu$ is not the uniform 
-measure, then one often resorts to transforming the integration variables or transforming 
-the original points (see ??).
+Tractability
 
 
-\
-
-
-\begin{example}[Multivariate Probabilities] \label{MultivarProbA} If $g$ is the probability density function of some random variable $Y$ with sample space $\cy$, and $\cz \subset \cy$, then 
-\[
-\Prob(Y \in \cz) = \int_{\cz} g(\bsy) \, \D \bsy.
-\]
-This integral may be put in the form of \eqref{INT}---perhaps via a change of variables.  
-For example (normal probability)
-\end{example}
-
-\begin{example}[Option Pricing]
-\end{example}
-
-\begin{example}[Sensitvity Analysis]
-\end{example}
-
-
-
-\section{The Trio Cubature Error Identity}
-The \emph{trio identity}, first introduced by  \cite{Meng}, can describe various characterizations of the cubature error:
-\begin{equation}
-\mu - \hmu = \algn(f,\nu - \hnu) \disc(\nu - \hnu)  \Var(f). \label{trio}\tag{TRIO}
-\end{equation}
-This section derives various versions of this identity.  Here,
-\begin{itemize}
-\item $\algn(f,\nu - \hnu)$ measures the \emph{alignment} of the integrand with the difference between the measure defining the integral and the sampling measure,
-\item $\disc(\eta)$ is the size of the measure $\eta$, so $\disc(\nu - \hnu)$ measures the \emph{discrepancy} of the sampling measure from the probability measure defining the integral, or equivalently,  and 
-\item $\Var(f)$ measures the \emph{variation} of of the integrand from a constant value.
-\end{itemize}
-In general, we prefer these quantities to small, which keeps the cubature error small.  Better sampling schemes decrease the discrepancy.  A reformulation of the problem may yield an integrand with smaller variation.  The alignment is essentially scale invariant, while the discrepancy and variation are positively homogeneous.  For all $c_1, c_2, \in \R$,
-\begin{gather*}
-\algn(c_1f,c_2(\nu - \hnu)) =  \sign(c_1 c_2) \algn(f,\nu - \hnu) \\
-\disc(c_2(\nu-\hnu))  = \abs{c_2} \disc(\nu-\hnu), \qquad  \Var(c_1f) =  \abs{c_1}\Var(f).
-\end{gather*}
-
-One may view the sampling scheme and integrand and as \emph{deterministic}.  
-Alternatively, one may also consider \emph{randomized} sampling schemes and/or take a 
-\emph{Bayesian} view of the integrand as a sample of a stochastic process.  All possible 
-combinations lead to variations of \eqref{trio}.  Here we use more general concepts of 
-the discrepancy and the variation than are common.  The goal is to unify the 
-presentation of the error analysis.
-
-
-
-
-The left side of the cubature error trio identity depends only on $f$, $\nu$, and $\hnu$, whereas the right side also depends on the space of integrands, $\cf$.  Changing $\cf$ generally changes all three terms in the right side of the trio identity---the variation, discrepancy, and cosine---because the definition of $\cm$ and its norm depends on $\cf$.  However, their product, which does not depend on $\cf$, remains the same.  Thus
-
-\subsection{Reproducing Kernel Hilbert Spaces}
-When $\cf$ is a Hilbert space with reproducing kernel $K$, the discrepancy takes a simple, explicit form in terms of $K$.  The reproducing kernel is the unique function, $K: \cx \times \cx \to \R$ satisfying these two properties:
-\begin{equation}
-K(\cdot,\bst) \in \cf \quad \forall \bst \in \cx, \qquad f(\bst) = \ip[\cf]{K(\cdot,\bst)}{f} \quad \forall f \in \cf, \ \bst \in \cx.
-\end{equation}
-The Riesz Representation Theorem allows one to write the representer of cubature error as 
-\begin{equation}
-\eta_{\err}(\bst) = \ip[\cf]{K(\cdot,\bst)}{\eta_{\err}} = \int_{\cx} K(\bsx,\bst) \, (\nu - \hnu)(\D\bsx).
-\end{equation}
-Thus, 
-
-\subsection{The Koksma-Hlawka Error Bound Inequality}
-The example above is an example o
-
-\subsection{The Randomized Trio Error Identity}
-
-\subsection{Bayesian Versions of the Trio Error Identity}
-
-\subsection{Change of Variables}
 
 \begin{figure}
 	\centering
@@ -660,20 +1057,19 @@ The example above is an example o
 		\label{FJH:fig:wtdiscdiffpts}}
 \end{figure}
 
-
-
-\section{Minimizing the Discrepancy of the Sampling Scheme, $\norm{\nu - \hnu}_{\cm}$}
-
-Tractability
-
-\section{Minimizing the Variation of the Integrand, $\norm{f - L(f)}_{\cf}$}
-
-\section{Minimizing the Cosine, $\algn(f - L(f),\nu - \hnu)$}
+\section{Variable Transformations}
 
 \section{Adaptive Cubature}
 Via Bayesian approach
 
 Via our approach
+
+
+\section{Discussion}
+\FJHLessonZero \FJHLessonOne \FJHLessonTwo \FJHLessonThree \FJHLessonFour 
+\FJHLessonFive
+
+
 
 Various ideas
 \begin{itemize}
@@ -696,7 +1092,8 @@ Suppose that $f:\cx \to \R$ is a Gaussian process with mean $m$ and covariance k
 \end{equation*}
 Furthermore, the joint probability density function of $\bigl(\int_{\cx} f(\bsx) \, (\nu -\hnu)(\D \bsx), f(\bsx_1), \ldots, f(\bsx_n)\bigr)$ is $\tvarrho$, defined as 
 \begin{align*}
-\tvarrho (\tbsy) &= \frac{\exp\bigl(-\frac 12 (\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m t\bsone) \bigr)}{\sqrt{(2 \pi)^{n+1} \det(\tmC)}}, \quad \tbsy = (y_i)_{i=0}^n \in \R^{n+1}, \\
+\tvarrho (\tbsy) &= \frac{\exp\bigl(-\frac 12 (\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m 
+\tbsone) \bigr)}{\sqrt{(2 \pi)^{n+1} \det(\tmC)}}, \quad \tbsy = (y_i)_{i=0}^n \in \R^{n+1}, \\
  \tmC &= \begin{pmatrix} c_0 & \bsc^T \\ \bsc & \mC \end{pmatrix}, \qquad \tbsone = \bigl(1 - \bsone^T\bsw,  1, \ldots, 1 \bigr)^T, \\
  c_0 &= \int_{\cx^2} C(\bsx,\bst) \, (\nu -\hnu)(\D\bsx)(\nu -\hnu)(\D\bst) \\ 
  & = \int_{\cx^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst) - 2 \sum_{i=1}^n w_i \int_{\cx} C(\bsx_i,\bsx) \, \nu (\D\bsx) +  \sum_{i,j=1}^n w_i w_j C(\bsx_i,\bsx_j)\\
