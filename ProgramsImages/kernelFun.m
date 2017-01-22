@@ -2,7 +2,7 @@ function [K,kvec,k0] = kernelFun(x,whKer,shape,domain)
 [nx,d] = size(x);
 if nargin < 4
    domain = [zeros(1,d); ones(1,d)];
-   if nargin < 3;
+   if nargin < 3
       shape = 1;
       if nargin < 2
          whKer = 'sqExp';
@@ -12,7 +12,7 @@ end
 K = ones(nx);
 if strcmp(whKer,'sqExp') %all wrong
    kvec = ones(nx,1)*(sqrt(pi)/(2*shape))^d;
-   for k = 1:d;
+   for k = 1:d
       K = K.*exp(-(shape*bsxfun(@minus,x(:,k),x(:,k)')).^2);
       kvec = kvec.*(erf(shape*x(:,k)) + erf(shape*(1 - x(:,k))));
    end
@@ -21,7 +21,7 @@ elseif strcmp(whKer,'Mat1')
    shdiffdom = shape*diffdom;
    k0 = prod((- 6 + 4*shdiffdom +exp(-shdiffdom).*(6 + 2*shdiffdom))./shdiffdom.^2);
    kvec = ones(nx,1)*(2^d/prod(shdiffdom));
-   for k = 1:d;
+   for k = 1:d
       tempa = shape*abs(bsxfun(@minus,x(:,k),x(:,k)'));
       K = K.*exp(-tempa).*(1 + tempa);
       tempb = shape*(x(:,k)-domain(1,k));

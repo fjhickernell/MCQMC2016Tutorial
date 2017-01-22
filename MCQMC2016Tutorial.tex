@@ -104,6 +104,8 @@ have
 finite variation.}
 
 \newcommand{\FJHLessonSix}{??. }
+\newlength{\FJHfigheight}
+\setlength{\FJHfigheight}{4 cm}
 
 
 	
@@ -115,6 +117,7 @@ finite variation.}
 \newcommand{\Ba}{\textup{B}}
 
 
+\newcommand{\MLE}{\text{MLE}}
 \newcommand{\mC}{\mathsf{C}}
 \newcommand{\Ex}{\mathbb{E}}
 \newcommand{\Prob}{\mathbb{P}}
@@ -554,8 +557,8 @@ $L^2$-discrepancy.
 
 \begin{figure}
 	\centering
-	\includegraphics[height = 4cm]{ProgramsImages/L2Kernel.eps}\qquad
-	\includegraphics[height = 4cm]{ProgramsImages/LocalDiscrep.eps}
+	\includegraphics[height = \FJHfigheight]{ProgramsImages/L2Kernel.eps}\qquad
+	\includegraphics[height = \FJHfigheight]{ProgramsImages/LocalDiscrep.eps}
 	\caption{The left depicts the reproducing kernel in \eqref{FJH:eq:L2Kdef} for the 
 	$L^2$-discrepancy 
 	for $d=1$.  The right depicts the geometric interpretation of the discrepancy.
@@ -618,18 +621,19 @@ dependence of the convergence rate is addressed later in ???.
 
 \begin{figure}
 	\centering
-	\includegraphics[height=5cm]{ProgramsImages/IIDPoints.eps} \qquad
-	\includegraphics[height=5cm]{ProgramsImages/ShiftedLatticePoints.eps} \\
-	\includegraphics[height=5cm]{ProgramsImages/USobolPoints.eps} \qquad
-	\includegraphics[height=5cm]{ProgramsImages/SSobolPoints.eps}
+	\includegraphics[height=\FJHfigheight]{ProgramsImages/IIDPoints.eps} \qquad
+	\includegraphics[height=\FJHfigheight]{ProgramsImages/ShiftedLatticePoints.eps} \\
+	\includegraphics[height=\FJHfigheight]{ProgramsImages/USobolPoints.eps} \qquad
+	\includegraphics[height=\FJHfigheight]{ProgramsImages/SSobolPoints.eps}
 	\caption{An illustration of IID points and three examples of low discrepancy points 
 	\label{FJH:fig:plotsdiffpts}}
 \end{figure}
 
 \begin{figure}
 	\centering
-	  \includegraphics[height=4cm]{ProgramsImages/UnwtL2DiscLat.eps}   \qquad 
-	  \includegraphics[height=4cm]{ProgramsImages/UnwtL2Disc.eps} 
+	  \includegraphics[height=\FJHfigheight]{ProgramsImages/UnwtL2DiscLat.eps}   
+	  \qquad 
+	  \includegraphics[height=\FJHfigheight]{ProgramsImages/UnwtL2Disc.eps} 
 	\caption{The root mean square $L^2$ discrepancies given by \eqref{FJH:eq:L2disc} 
 	for randomly shifted 
 	lattice sequence nodesets and randomly scrambled and shifted Sobol' sequences 
@@ -776,14 +780,18 @@ $\cn(\bszero,\mathsf{\Sigma})$ random variable lying inside the box $[\bsa,\bsb]
 where $\mathsf{\Sigma} = \mathsf{L}\mathsf{L}^T$ is the Cholesky decomposition of 
 the covariance matrix, $\mathsf{L} = \bigl(l_{jk}\bigr)_{j,k=1}^d$, is a lower triangular 
 matrix, and
-\begin{align*}
+\begin{align}
+\nonumber
 \alpha_1 & = \Phi(a_1), \qquad \beta_1  = \Phi(b_1), \\
+\nonumber
 \alpha_j(x_1, \ldots, x_{j-1}) &= \Phi\left(\frac{1}{l_{jj}} \left(a_j - \sum_{k=1}^{j-1} 
 l_{jk}\Phi^{-1}(\alpha_k + x_k(\beta_k-\alpha_k))\right)\right), \ j =2, \ldots, d,\\
+\nonumber
 \beta_j(x_1, \ldots, x_{j-1}) &= \Phi\left(\frac{1}{l_{jj}} \left(b_j - \sum_{k=1}^{j-1} 
 l_{jk}\Phi^{-1}(\alpha_k + x_k(\beta_k-\alpha_k))\right)\right), \ j =2, \ldots, d, \\
-f(\bsx) &= \prod_{j=1}^{d} [\beta_j(\bsx) - \alpha_j(\bsx)].
-\end{align*}
+f_{\textup{Genz}}(\bsx) &= \prod_{j=1}^{d} [\beta_j(\bsx) - \alpha_j(\bsx)]. 
+\label{FJH:eq:Genz}
+\end{align}
 Genz \cite{Gen93} developed the clever transformation of variables above that turns the 
 multivariate Gaussian probability into an integral over the unit cube.  Not only is the 
 dimension decreased by one, but the integrand is typically made less peaky and more 
@@ -812,8 +820,9 @@ extending above the marker denotes the worst $90\%$ error.
 
 \begin{figure}
 	\centering
-	\includegraphics[width = 5cm]{ProgramsImages/MVNIIDUSobolSobol.eps} \qquad 
-	\includegraphics[width = 5cm]{ProgramsImages/MVNSobolGenzAff.eps}
+	\includegraphics[height = \FJHfigheight]{ProgramsImages/MVNIIDUSobolSobol.eps} 
+	\qquad 
+	\includegraphics[height = \FJHfigheight]{ProgramsImages/MVNSobolGenzAff.eps}
 	\caption{The error of an example of the multivariate Gaussian probability in 
 	\eqref{FJH:eq:MVN}.  The left side shows the result of Genz's transformation and 
 	different sampling schemes.  The right side shows the scrambled Sobol' sampling 
@@ -849,19 +858,35 @@ $\calM_{\textup{S}}$.
 
 An alternative to the Genz transformation above is an affine transformation to compute 
 the multivariate Gaussian probability:
-\begin{equation*}
-\bsz = \bsa + (\bsb-\bsa) \circ \bsx, \quad g(\bsx) =  \frac{\exp\bigl(- 
+\begin{gather}
+\label{FJH:eq:aff}
+\bsz = \bsa + (\bsb-\bsa) \circ \bsx, \quad f_{\textup{aff}}(\bsx) =  \frac{\exp\bigl(- 
 \frac 12 \bsz^T
 \mathsf{\Sigma}^{-1} \bsz 
-	\bigr)}{\sqrt{(2 \pi)^d \det(\mathsf{\Sigma})}} \, \prod_{j=1}^d (b_j - a_j), \quad \mu = 
-	\int_{[0,1]^{d}} g(\bsx) \, \D \bsx,
-\end{equation*} 
+	\bigr)}{\sqrt{(2 \pi)^d \det(\mathsf{\Sigma})}} \, \prod_{j=1}^d (b_j - a_j), \\
+\nonumber
+\mu = 
+	\int_{[0,1]^{d}} f_{\textup{aff}}(\bsx) \, \D \bsx,
+\end{gather} 
 where $\circ$ denotes the Hadamard (term-by-term) product.  The right plot in Fig.\ 
 \ref{FJH:fig:MVNfig} shows that the error using the affine 
 transformation is much worse than that using the Genz transformation even though the 
-two convergence rates are the same.  Difference in the magnitudes of the errors is 
-mainly because $\Var^{\Dt}(g)$ is greater than $\Var^{\Dt}(f)$.  This illustrates another 
+two convergence rates are the same.  Fig.\ \ref{FJH:fig:GenzAfffig} shows the two 
+integrands.  The difference in the magnitudes of the errors is 
+mainly because $\Var^{\Dt}(f_{\textup{aff}})$ is greater than 
+$\Var^{\Dt}(f_{\textup{Genz}})$.  This illustrates another 
 lesson that provides a partial answer to Question 2 in the introduction.
+
+\begin{figure}
+	\centering
+	\includegraphics[height = \FJHfigheight]{ProgramsImages/GenzFun.eps} \qquad 
+	\includegraphics[height = \FJHfigheight]{ProgramsImages/AffineFun.eps}
+	\caption{Two different integrands that can be used to compute multivariate normal 
+	probabilities.  The left integrand is defined in \eqref{FJH:eq:Genz}, and the right 
+	integrand is defined in  \eqref{FJH:eq:aff}.
+		\label{FJH:fig:GenzAfffig}}
+\end{figure}
+
 
 \begin{FJHLesson} \label{FJH:eq:lessonfour}
 	\FJHLessonFour
@@ -909,9 +934,11 @@ convergence rate.
 
 \begin{figure}
 	\centering
-		\includegraphics[width = 5.5cm]{ProgramsImages/AsianCallIIDUSobolSobol.eps} 
+		\includegraphics[height = \FJHfigheight] 
+		{ProgramsImages/AsianCallIIDUSobolSobol.eps} 
 		\qquad
-		\includegraphics[width = 5.5cm]{ProgramsImages/AsianCallSobolPCADiff.eps}
+		\includegraphics[height = \FJHfigheight] 
+		{ProgramsImages/AsianCallSobolPCADiff.eps}
 		\caption{Cubature error for the price of an Asian arithmetic mean option using 
 		different sampling 
 		schemes. \label{FJH:fig:AsianOpt}}
@@ -967,7 +994,7 @@ $\delta_{\bst}$ for all $\bst \in \cx$.
 For a 
 deterministic sampling measure, $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$, the cubature 
 error, $\mu - \hmu$, is distributed as $\cn \bigl(0 , s^2(c_0 - 
-2 \bsc^T \bsw + \bsw ^T \mC \bsw) \bigr)$, where 
+2 \bsc^T \bsw + \bsw ^T \mC \bsw) \bigr)$ \cite{??}, where 
 \begin{gather*}
 c_0  = \int_{\calX^2} C_\bstheta(\bsx,\bst) \, \nu(\D \bsx) \nu(\D \bst), \qquad \bsc = 
 \biggl( 
@@ -1020,16 +1047,79 @@ and may be a deterrent to the use of optimal weights unless the weights are
 precomputed. For smoother covariance functions, $C_\bstheta$, there is often a 
 challenge of $\mathsf{C}$ being ill-conditioned.
 
-
 The \emph{conditional} distribution of the cubature error, $\mu - \hmu$, given the 
 observed data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\cn \bigl( \bsy^T (\mC^{-1}\bsc - 
 \bsw) , s^2(c_0 - \bsc ^T \mC^{-1} \bsc) \bigr)$.  To remove the bias one should again 
 choose $\bsw = \mathsf{C}^{-1} \bsc$.  This also makes the conditional distribution of 
 the cubature error the same as the unconditional distribution of the cubature error.
 
+The fact that the cubature error is a normal random variable allows us to use function 
+values perform useful inference, namely, 
+\begin{equation} \label{FJH:eq:MLEBdOne}
+\Prob_f\bigl[\abs{\mu - \hmu} \le 2.58 
+\disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f)\bigr] = 99\%.
+\end{equation}
+However, unlike our use of random sampling measures that are drawn using carefully 
+crafted random number generators, there is no assurance that our integrand is actually 
+drawn from a Gaussian process whose covariance we have fixed in advanced.  
+
+The covariance, $s^2 C_{\bstheta}$, should be estimated, and one way to do so is to use 
+maximum likelihood estimation (MLE), using the function values drawn for the purpose of 
+estimating the integral.  The log-likelihood function for the data $ \{f(\bsx_i )= 
+y_i\}_{i=1}^n$ is the probability density
+\begin{equation*}
+\ell(s,\bstheta | \bsy) = - \frac 12 s^2 \bsy^T \mathsf{C_{\bstheta}}^{-1} \bsy -\frac 12  
+\log \bigl(
+\det(\mathsf{C_{\bstheta}}) \bigr) - \frac n2 \log(s^2) + \text{constants}.
+\end{equation*}
+Maximizing with respect to $s$, yields 
+\[
+s_\MLE =  \sqrt{\frac 1n \bsy^T \mathsf{C_{\bstheta_\MLE}}^{-1} \bsy}
+\]
+Plugging this into the log likelihood leads to 
+\[
+\bstheta_\MLE =  \argmin_\bstheta \left[\frac 1n \log \bigl(\det(\mathsf{C_{\bstheta}}) 
+\bigr) 
++ \log\bigl(\bsy^T \mathsf{C_{\bstheta}}^{-1} \bsy \bigr)  \right ]
+\]
+Using MLE estimates, the probabilistic error 
+bound in \eqref{FJH:eq:MLEBdOne} becomes
+\begin{multline} \label{FJH:eq:MLEBdTwo}
+\Prob_f\left[\abs{\mu - \hmu} \le 2.58 
+\sqrt{\frac 1n \left(c_{0,\bstheta_\MLE} - \bsc_{\bstheta_\MLE} ^T 
+	\mC_{\bstheta_\MLE}^{-1} \bsc_{\bstheta_\MLE} \right)  \left(\bsy^T 
+	\mathsf{C}_{\bstheta_\MLE}^{-1} \bsy\right)}\right] \\
+ = 
+99\%.
+\end{multline}
+Note that the value of $\bstheta_\MLE$ and the above Bayesian cubature error bounds  
+is unchanged by replacing  $C_\bstheta$ by a positive multiple of itself.  
+
+Let's revisit the multivariate normal probability example of Section \ref{FJH:sec:Gauss}, 
+and perform Bayesian cubature with a covariance kernel with modest smoothness from 
+the Mat\'ern  family:
+\begin{equation} \label{FJH:eq:Matern}
+C_\theta(\bsx,\bst) = \prod_{j=1}^d \left(1 + 
+\theta\abs{x_j-t_j}\right) \exp\left(-\theta\abs{x_j-t_j}\right)
+\end{equation}
+A two-dimensional example of this covariance kernel is plotted in Fig.\ 
+\ref{FJH:fig:MVNcubMLE}.
 
 
-
+\begin{figure}
+	\centering
+		\includegraphics[height = \FJHfigheight] 
+{ProgramsImages/Matern.eps} 
+\\[2ex]
+\includegraphics[height = \FJHfigheight] 
+{ProgramsImages/MVNIIDUSobolSobolWtSobol.eps}
+\qquad
+\includegraphics[height = \FJHfigheight] 
+{ProgramsImages/MVNSobolWtSobolErrBd.eps}
+\caption{Cubature error for the price of an Asian arithmetic mean option using 
+	different sampling 
+	schemes. \label{FJH:fig:MVNcubMLE}}
+\end{figure}
 
 %\item $\disc^\Ba(\nu - \hnu) =  \disc^\Dt(\nu - \hnu)$  if  $C_{\vtheta} = K$	
 
@@ -1047,8 +1137,8 @@ Tractability
 
 \begin{figure}
 	\centering
-	\includegraphics[height=4cm]{ProgramsImages/WtL2DiscLat.eps}   \qquad 
-	\includegraphics[height=4cm]{ProgramsImages/WtL2Disc.eps} 
+	\includegraphics[height=\FJHfigheight]{ProgramsImages/WtL2DiscLat.eps}   \qquad 
+	\includegraphics[height=\FJHfigheight]{ProgramsImages/WtL2Disc.eps} 
 	\caption{The root mean square weighted $L^2$ discrepancies given by 
 	\eqref{FJH:eq:wtL2disc} 
 		for randomly shifted 

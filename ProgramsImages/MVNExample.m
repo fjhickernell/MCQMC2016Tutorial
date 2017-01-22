@@ -149,6 +149,7 @@ if exist('MVNProbExampleData.mat','file')
       compMLESobol = false;
    end
 end
+compMLESobol = true; %force recomputation
 if compMLESobol
    tic
    muMVNProbMLESobolGn = zeros(nnMLE,nRep);
