@@ -7,6 +7,12 @@
   \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
 
+\bibitem{AniCheSte16a}
+Anitescu, M., Chen, J., Stein, M.: An inversion-free estimating equation
+  approach for {G}aussian process models.
+\newblock J. Comput.\ Graph.\ Statist.  (2016).
+\newblock \doi{10.1080/10618600.2016.1164056}
+
 \bibitem{Dia88a}
 Diaconis, P.: {B}ayesian numerical analysis.
 \newblock In: S.S. Gupta, J.O. Berger (eds.) Statistical decision theory and
@@ -68,6 +74,12 @@ Niederreiter, H.: Random Number Generation and Quasi-{M}onte {C}arlo Methods.
 \bibitem{OHa91a}
 {O'H}agan, A.: {B}ayes-{H}ermite quadrature.
 \newblock J. Statist.\ Plann.\ Inference \textbf{29}, 245--260 (1991)
+
+\bibitem{ParEtal17a}
+Parker, R.J., Reigh, B.J., Gotwalt, C.M.: Approximate likelihood methods for
+  estimation and prediction in {G}aussian process regression models for
+  computer experiments (2016).
+\newblock Submitted for publication
 
 \bibitem{RasGha03a}
 Rasmussen, C.E., Ghahramani, Z.: Bayesian {M}onte {C}arlo.
