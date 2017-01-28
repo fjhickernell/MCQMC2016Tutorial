@@ -128,7 +128,7 @@ finite variation.}
 
 
 	
-	\newtheorem{FJHLesson}{Lesson}
+\newtheorem{FJHLesson}{Lesson}
 \newcommand{\corr}{\mathrm{corr}}
 \newcommand{\std}{\textup{std}}
 \newcommand{\Dt}{\textup{D}}
@@ -225,7 +225,8 @@ $i^{\text{th}}$ data site, and lies in the vector space
 \end{equation}
 where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$.  
 For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the 
-weights may be deterministic or random.  Later, we impose further constraints.  We are 
+weights may be deterministic or random.  Later, we impose some constraints to facilitate 
+the analysis.  We are 
 particularly interested in sampling measures that choose the data sites more cleverly 
 than independently and identically distributed (IID).  Such sampling measures are the 
 hallmark of quasi-Monte Carlo methods.
@@ -245,11 +246,14 @@ results by examples.
 \section{Big Data Survey} \label{FJH:sec:sleep} 
 Did you get enough sleep last night?  Did you get more sleep than the average person?  
 How much sleep did the average person get? The answer to this last question is simply 
+the sum
 $\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ denotes the hours of sleep of individual 
 $j$ in a population of $N$ individuals.  For a large population, such as the $\approx 250$ 
-million adults in the United States, collecting the data is difficult. So you might resort to a 
-web survey, where you receive responses from individuals $x_1, \ldots, x_n$.  The error of 
-your sample mean, $\widehat{\mu} = n^{-1} \sum_{i=1}^n f(x_i)$, may be expressed as a 
+million adults in the United States, an exhaustive sample is difficult to obtain. So you 
+might resort to a 
+web survey, where individuals $x_1, \ldots, x_n$ respond.  The error of 
+your sample mean, $\widehat{\mu} = n^{-1} \sum_{i=1}^n f(x_i)$, may be decomposed as 
+a 
 product of three quantities:
 \begin{align}
 \nonumber
@@ -307,8 +311,8 @@ is an inherent quality of what we are measuring and is not affected by our sampl
 measure.  The discrepancy in this example will be quite large unless our survey includes a 
 significant proportion of the population.  One might hope to make  the confounding 
 small.  This will happen if the set of individuals who complete the survey 
-is only weakly correlated with the number of hours of sleep.  Unfortunately, those who  
-complete web surveys might tend to be those who are sleeping less than the 
+is only weakly correlated with the number of hours of sleep.  Unfortunately, those  
+completing web surveys might tend to be those who sleep less than the 
 population average.  It is difficult to estimate how small the confounding might be.  
 
 An alternative to the web survey is a simple random sample.  In this 
@@ -345,7 +349,7 @@ simple random survey.  Unless the
 web survey has $\corr(f, \bbone_{\{x_i\}_{i=1}^n}) = \Order(N^{-1/2})$, then it is one of 
 the ``awful minority'' of possible sampling measures.
 
-For this example, $\algn^\Rn(f,\nu - \hnu)$ may be larger than $\algn^\Rn(f,\nu - \hnu)$, 
+For this example, $\algn^\Rn(f,\nu - \hnu)$ may be larger than $\algn^\Dt(f,\nu - \hnu)$, 
 but  $\disc^\Rn(\nu - \hnu)$ is $\Order(N^{-1/2})$ the size of $\disc^\Dt(\nu - 
 \hnu)$.  Comparing \eqref{FJH:eq:surveyrndtrio} with 
 \eqref{FJH:eq:surveydettrio}, we conclude that for a large population, a web survey with 
@@ -885,21 +889,20 @@ $\calM_{\textup{S}}$.
 	order of the confounding. \label{FJH:tab:Conf}}
 \begin{equation*}
 \begin{array}{r@{\quad }c@{\quad }r@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
-\multicolumn{3}{r@{\quad}}{\text{Setting}}  & \Dt & \Rn & \Dt & \Rn\\
-\multicolumn{3}{r@{\quad}}{\text{Possible }\hnu} & \textup{Arbitrary} & \textup{IID} & 
+\multicolumn{3}{r@{\quad}}{\text{Setting}}   & \Rn & \Dt & \Rn\\
+\multicolumn{3}{r@{\quad}}{\text{Possible }\hnu} &  \textup{IID} & 
 \textup{Sobol'}&  \textup{Scr.\ Sobol'}\\
- \hnu & \mu - \hmu & \disc& \Order(1) & \Order(n^{-1/2}) & 
+ \hnu & \mu - \hmu & \disc & \Order(n^{-1/2}) & 
 \Order(n^{-1+\epsilon}) & 
 \Order(n^{-3/2+\epsilon})\\
 \hline 
-\textup{Worst} & \Order(1) & \algn & \Order(1) & \Order(n^{1/2}) & \\
-\textup{IID} & \Order(n^{-1/2}) & \algn & \Order(n^{-1/2}) & \Order(1) & \\
-\textup{Worst Sobol'}& \Order(n^{-1+\epsilon}) & \algn & \Order(n^{-1+\epsilon}) & 
+\textup{Worst} & \Order(1) & \algn &  \Order(n^{1/2}) & \\
+\textup{IID} & \Order(n^{-1/2}) & \algn & \Order(1) & \\
+\textup{Worst Sobol'}& \Order(n^{-1+\epsilon}) & \algn & 
 \Order(n^{-1/2+\epsilon}) & \Order(1) 
 &\Order(n^{1/2+\epsilon})\\
 \textup{Scr.\ Sobol'} &\Order(n^{-3/2+\epsilon}) & \algn 
-&\Order(n^{-3/2+\epsilon})&\Order(n^{-1+\epsilon})&\Order(n^{-1/2+\epsilon})&\Order(1) 
-\\
+&\Order(n^{-1+\epsilon})&\Order(n^{-1/2+\epsilon})&\Order(1) 
 \end{array}
 \end{equation*}
 \end{table}
@@ -1149,8 +1152,7 @@ bound in \eqref{FJH:eq:MLEBdOne} becomes
 \sqrt{\frac 1n \left(c_{0,\bstheta_\MLE} - \bsc_{\bstheta_\MLE} ^T 
 	\mC_{\bstheta_\MLE}^{-1} \bsc_{\bstheta_\MLE} \right)  \left(\bsy^T 
 	\mathsf{C}_{\bstheta_\MLE}^{-1} \bsy\right)}\right] \\
- = 
-99\%.
+ = 99\%.
 \end{multline}
 Note that the value of $\bstheta_\MLE$ and the above Bayesian cubature error bounds  
 is unchanged by replacing  $C_\bstheta$ by a positive multiple of itself.  
