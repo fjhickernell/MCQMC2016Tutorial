@@ -108,7 +108,7 @@ measures have discrepancies and cubature errors that decay to zero at
 a faster rate than the case of IID sampling. }
 
 \newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy for reproducing 
-kernel Hilbert spaces has a simple explict form involving three terms. }	
+kernel Hilbert spaces has a simple, explict form involving three terms. }	
 
 \newcommand{\FJHLessonThree}{Randomizing your sampling measure, not only may 
 eliminate bias, but it may help you improve accuracy by avoiding the awful minority of 
@@ -363,11 +363,12 @@ samples.  So, an exceedingly successful web survey with $n_{\textup{web}} =
 (approximately the US adult population) with a correlation as small as $0.05$ is about as 
 valuable as $n_{\textup{SRS}} = 1.6$ simple random samples.
 
-This example illustrates a danger with being enamored with big data. Unless 
+This example illustrates a danger with treating big data as a cure all. Unless 
 the 
 sample fraction is close to one or the correlation between 
 your sampling measure and what you are measuring can be made tiny, a large quantity of 
-data may give a worse answer than a small quantity of carefully collected data.
+data may give a worse estimate of the population mean than a small quantity of carefully 
+collected data.
 
 \begin{FJHLesson}
 	\FJHLessonOne
@@ -377,14 +378,13 @@ data may give a worse answer than a small quantity of carefully collected data.
 The two versions of the trio identity introduced by example in the previous section may 
 be defined in generality. We begin with the deterministic version.  
 
-The integrand is 
-assumed to lie in some Banach space, $(\cf,\norm{\cdot}_{\cf})$, where function 
+Suppose that the integrand lies in some Banach space, $(\cf,\norm{\cdot}_{\cf})$, where 
+function 
 evaluation at any point  in the 
 domain,  $\cx$, is a 
 bounded, linear functional.  This means that $\sup_{f \in \cf} \abs{f(\bst)}/\norm{f}_{\cf} < 
 \infty$ for all $\bst \in \cx$ and that $\int_{\cx} f(\bsx) \, \delta_{\bst}(\D\bsx) =f(\bst)$ 
-for all $f \in \cf, \ \bst \in \cx$, where $\delta_{\bst}$ denotes the Dirac measure 
-concentrated at $\bst$.  Let $L :\cf \to \R$ be some bounded 
+for all $f \in \cf, \ \bst \in \cx$.  Let $L :\cf \to \R$ be some bounded 
 linear functional.  If $L(f) \ne 0$ for any $f$, then $\cf$ is assumed to contain all 
 constant functions.  The deterministic discrepancy is defined as 
 \begin{equation}  \label{FJH:eq:detvardef}
@@ -397,9 +397,9 @@ have finite integrals:
 \cm : = \biggl \{\text{signed measures } \eta : \int_{\cx} f(\bsx) \, \eta(\D\bsx) < \infty \ \ 
 \forall f \in \cf \biggr \}.
 \end{equation*}
-We assume that $\nu \in \cm$ so that our integral of interest is defined.  Since function 
-evaluation is bounded, $\cm$ includes $\cm_{\textup{S}}$ the vector space of all 
-sampling measures.  Define the subspace  
+We assume that our integral of interest is defined, so $\nu \in \cm$.  Since function 
+evaluation is bounded, $\cm$ includes $\cm_{\textup{S}}$ defined in 
+\eqref{FJH:eq:sampmeaset}.  Define the subspace  
 \begin{equation} \label{FJH:eq:Mperpdef}
 \cm_\bot : = \left \{\eta \in \cm :  L(f) \eta(\cx) = 0  \ \forall f \in \cf
 \right\}.
@@ -421,7 +421,7 @@ Finally, define the confounding as
 0, & \text{otherwise}.
 \end{cases}
 \end{equation}
-The above definitions allow us to establish the deterministic trio identity for cubature 
+The above definitions lead to the deterministic trio identity for cubature 
 error.
 
 \begin{theorem}[Deterministic Trio Error Identity]  \label{FJH:thm:dtrio} For the spaces 
@@ -484,8 +484,8 @@ $\bignorm{\sum_{i=1}^N u_i \delta_{i}}_{\cm_\bot} : =
 	discrepancy and confounding in \eqref{FJH:eq:surveydettrio} follow from these 
 	choices.
 
-When $\cf$ is a Hilbert space with reproducing kernel $K$, the discrepancy takes a 
-simple, explicit form in terms of $K$.  The reproducing kernel is the unique function, $K: 
+When $\cf$ is a Hilbert space with reproducing kernel $K$, the discrepancy has an 
+explicit expression in terms of $K$.  The reproducing kernel is the unique function, $K: 
 \cx \times \cx \to \R$ satisfying these two properties:
 \begin{equation}
 K(\cdot,\bst) \in \cf \quad \forall \bst \in \cx, \qquad f(\bst) = \ip[\cf]{K(\cdot,\bst)}{f} 
@@ -520,12 +520,12 @@ form \cite{Hic99a}
 \int_{\cx} K(\bsx_i,\bst) \, \nu(\D \bst)+ \sum_{i,j = 1}^n w_iw_jK(\bsx_i,\bsx_j).
 \end{align}
 The computational cost to evaluate the discrepancy is $\Order(n^2)$ times the cost of 
-evaluating the reproducing kernel at a point. 
+evaluating the reproducing kernel at a point in $\cx \times \cx$. 
 
 \begin{FJHLesson} \FJHLessonTwoHalf \end{FJHLesson}
 
 In the RKHS case, the confounding corresponds to 
-the cosine of the angle between the integrand, $f$, and the representer of the error, 
+the cosine of the angle between the integrand, $f$, and the cubature error representer, 
 $\eta_{\err}$.  This cosine is no greater than one in magnitude, as expected.
 
 A particular example of this RKHS setting corresponds to 
@@ -543,9 +543,11 @@ variation is
 \partial^\fraku f : = \frac{\partial^{\lvert\fraku\rvert} f}{\partial \bsx_\fraku} \biggr 
 \rvert_{\bsx_{\bar{\fraku}} = \bsone}.
 \end{equation*}
-Here $1\!:\!d : = \{1, \ldots, d\}$, $x_\fraku := (x_k)_{k \in \fraku}$, and $\bar{\fraku}$ 
+Here $1\!:\!d$ means  $= \{1, \ldots, d\}$, $x_\fraku$ means $(x_k)_{k \in \fraku}$, and 
+$\bar{\fraku}$ 
 denotes the complement of $\fraku$.  
-The square discrepancy for the case where $w_i = 1/n$ is
+The square discrepancy for the equally weighted case where $w_1 = \cdots = w_n = 1/n$ 
+is
 \begin{align}
 \nonumber
 [\disc^\Dt(\nu - \hnu)]^2  &= \left(\frac 43\right)^d - \frac{2}n \sum_{i=1}^n \prod_{k=1}^d 
@@ -605,11 +607,11 @@ the formulas above, the convergence of the discrepancy to zero for IID sampling 
 \infty$ is  $\Order(n^{-1/2})$, which is consistent with the expected convergence of the 
 cubature error for IID Monte Carlo.  From \eqref{FJH:eq:IIDL2disc} we see that the 
 value of the discrepancy may depend strongly on the dimension, $d$.  We return 
-to this matter in Sec.\ ???
+to this matter in Sec.\  \ref{FJH:sec:Tract}.
 
 Quasi-Monte Carlo methods stick with sampling measures of the form  $\hnu = 
 n^{-1}\sum_{i=1}^n \delta_{\bsx_i}$, but choose the data sites $\{\bsx_i\}_{i=1}^n$ to be 
-better than IID in a way lowers the discrepancy significantly.  For 
+better than IID in a way that lowers the discrepancy significantly.  For 
 integration over $\cx = [0,1]^d$ with 
 respect to the uniform measure, these \emph{low discrepancy} data sites may come from
 \begin{itemize} 
@@ -626,12 +628,16 @@ $\Order(n^{-1+\epsilon})$ as $n \to \infty$ for any positive $\epsilon$ for thes
 discrepancy data sites \cite{bibid}.  
 
 Fig.\ \ref{FJH:fig:plotsdiffpts} displays examples of IID and low discrepancy data sites.  
-Fig.\ \ref{FJH:fig:unwtdiscdiffpts} shows how the discrepancies of these data 
-sites decay for various dimensions.  Although the decay for the low discrepancy points is 
+Fig.\ \ref{FJH:fig:unwtdiscdiffpts} the rates of decay for the $L^2$ discrepancy for 
+various dimensions.  The root mean square discrepancy is computed 
+empirically for each family of randomized data sites.    For comparison sake the 
+discrepancies are scaled by 
+dividing by their values for $n=1$.  Although the 
+decay for the low discrepancy points is 
 $\Order(n^{-1+\epsilon})$ for large enough $n$, the decay in Fig.\ 
 \ref{FJH:fig:unwtdiscdiffpts} appears to be 
 more like $\Order(n^{-1/2})$ for large dimensions and small $n$.   This dimension 
-dependence of the convergence rate is addressed later in ???.  
+dependence of the convergence rate is addressed later in Sec.\  \ref{FJH:sec:Tract}. 
 
 
 \begin{FJHLesson}
@@ -837,8 +843,8 @@ Gaussian probability via the Genz transformation for
    \mathsf{L} = \begin{pmatrix} 4 & 0 & 0 \\ 1 &  1 &  0 \\
 1 & 0.5 &  0.25 \end{pmatrix}, 
 \]
-by IID sampling, unscrambled Sobol' sequences, and scrambled Sobol' sequences 
-\cite{??}.   
+by IID sampling, unscrambled Sobol' sequences, and scrambled Sobol' sequences   
+\cite{Owe95, Owe98c}.
 Multiple random scramblings of a very large scrambled Sobol' set was used to infer that 
 $\mu \approx 0.6763373243578$.   For the two randomized sampling measures $100$ 
 replications were taken.  The marker denotes the median error and the top of the stem 
@@ -856,57 +862,62 @@ extending above the marker denotes the worst $90\%$ error.
 	\label{FJH:fig:MVNfig}}
 \end{figure}
 
-The error for IID sampling decays like $\Order(n^{-1/2})$, which is the same rate of 
-decay of the randomized discrepancy for IID sampling.  The error for  Sobol' sampling 
-decays at the $\Order(n^{-1+\epsilon})$ rate that corresponds to the decay rate for 
-deterministic $L^2$
-discrepancy defined in \eqref{FJH:eq:L2disc}.  
-
-The error for randomly scrambled Sobol' 
+The cubature errors for the three kinds of sampling decay at the same rates as their 
+corresponding discrepancies.  The IID error tracks the rate of decay of its randomized 
+discrepancy as noted above.  The cubature  error for  Sobol' 
+sampling decays at the same rate as its deterministic $L^2$ discrepancy defined in 
+\eqref{FJH:eq:L2disc}.  The error for randomly scrambled Sobol' 
 sampling decays at a rate of roughly $\Order(n^{-3/2+\epsilon})$, which corresponds to 
-the randomized discrepancy for this sampling measure \cite{???}.  Not only do we 
-see how the more evenly spaced Sobol' points improve upon IID sampling, but 
+the randomized discrepancy for this sampling measure \cite{HeiHicYue02a,Owe97}.  
+Not only do the more evenly spaced Sobol' points improve upon IID sampling, but 
 randomizing the Sobol' points while preserving their even structure provides further 
 improvement to the rate of decay of the error.
 
-The orders of the confounding in Table \ref{FJH:tab:Conf} may be used to explain the 
-benefits of randomization.  
-
-Since unscrambled Sobol' sampling is one element in the space of sampling measures,
-$\calM_{\textup{S}}$, how can one explain the poor decay of the cubature error with 
-respect to the other sampling measures  in  $\calM_{\textup{S}}$.  Applying the 
-randomized trio identity \eqref{FJH:eq:rtrio} to  unscrambled 
-Sobol' sampling, it appears that although $\disc^\Rn(\nu - \hnu) = \Order(n^{-3/2+ 
-\epsilon})$, it must be true that  $\algn^\Rn(f,\nu - \hnu) = \Order(n^{-1/2 + \epsilon})$, 
-which is huge  in comparison to most sampling measures in
-$\calM_{\textup{S}}$. 
+The orders of the confounding in Table \ref{FJH:tab:Conf} help explain the 
+benefits of randomization.  We consider cubature rules based on equally weighted 
+averages of integrand values at $n$ data sites, and we consider two sample spaces of 
+sampling measures, $\cm_{\textup{S}}$.  In both cases $\algn^\Rn(\nu - \hnu)$ is 
+typically $\Order(1)$, but it might be much larger or smaller depending on the particular 
+$\hnu$.  When $\cm_{\textup{S}}$ corresponds to IID random data sites, the 
+randomized, $\disc^\Rn(\nu - \hnu) = \Order(n^{-1/2})$, as noted in Sec.\ 
+\ref{FJH:sec:rndtrio}.  A poor 
+arbitrary choice of data sites produces a cubature error of $\Order(1)$ because 
+$\algn^\Rn(\nu - \hnu)$ is an atypically high $\Order(n^{1/2})$.  
+However, both plain unscrambled Sobol', as well as scrambled Sobol' sampling yield 
+atypically low $\algn^\Rn(\nu - \hnu)$ and correspondingly low cuabure errors.  For 
+scrambled Sobol' sampling, the randomized discrepancy is $\disc^\Rn(\nu - \hnu) 
+=\Order(n^{-3/2 + 
+\epsilon})$, which is also the convergence rate for $\sqrt{\Ex_{\hnu}\bigl[\disc^\Dt(\nu - 
+\hnu)\bigr ]^2}$ for scrambled 
+Sobol' sampling under sufficient integrand smoothness \cite{HicHon98a, HicYue00}.
+While $\cm_{\textup{S}}$ for scrambled Sobol' sampling measures includes unscrambled 
+Sobol' 
+sampling, $\algn^\Rn(\nu - \hnu)$ for unscrambled Sobol' sampling is atypically high, 
+which then produces an atypically high
+cubature error compared to the average for scrambled Sobol' sampling.
 
 \begin{table}
-	\caption{Confounding orders for deterministic (D) and random (R) settings and 
-	different sets of equi-weighted 
-	sampling measures. Sufficient smoothness of the integrand is assumed.
-	The order of the error equals the order of the discrepancy times the 
-	order of the confounding. \label{FJH:tab:Conf}}
-\begin{equation*}
-\begin{array}{r@{\quad }c@{\quad }r@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
-\multicolumn{3}{r@{\quad}}{\text{Setting}}   & \Rn & \Dt & \Rn\\
-\multicolumn{3}{r@{\quad}}{\text{Possible }\hnu} &  \textup{IID} & 
-\textup{Sobol'}&  \textup{Scr.\ Sobol'}\\
- \hnu & \mu - \hmu & \disc & \Order(n^{-1/2}) & 
-\Order(n^{-1+\epsilon}) & 
-\Order(n^{-3/2+\epsilon})\\
-\hline 
-\textup{Worst} & \Order(1) & \algn &  \Order(n^{1/2}) & \\
-\textup{IID} & \Order(n^{-1/2}) & \algn & \Order(1) & \\
-\textup{Worst Sobol'}& \Order(n^{-1+\epsilon}) & \algn & 
-\Order(n^{-1/2+\epsilon}) & \Order(1) 
-&\Order(n^{1/2+\epsilon})\\
-\textup{Scr.\ Sobol'} &\Order(n^{-3/2+\epsilon}) & \algn 
-&\Order(n^{-1+\epsilon})&\Order(n^{-1/2+\epsilon})&\Order(1) 
-\end{array}
-\end{equation*}
+	\caption{Confounding orders for randomized settings and 
+		different sets of equi-weighted 
+		sampling measures. Sufficient smoothness of the integrand is assumed.
+		The order of the error equals the order of the discrepancy times the 
+		order of the confounding. \label{FJH:tab:Conf}}
+	\begin{equation*}
+	\begin{array}{r@{\quad }c@{\quad }r@{\quad}c@{\quad}c@{\quad}c@{\quad}c}
+	&&&&\text{Typical} &&\text{Typical}\\
+	\multicolumn{3}{r@{\quad}}{\hnu} &  \textup{Worst} &  \textup{IID} &
+	\textup{Sobol'}&  \textup{Scr.\ Sobol'}\\
+	\cm_{\textup{S}} & \disc^\Rn & \mu - \hmu & \Order(1) & \Order(n^{-1/2}) & 
+	\Order(n^{-1+\epsilon}) & 
+	\Order(n^{-3/2+\epsilon})\\
+	\hline 
+	\textup{IID} & \Order(n^{-1/2}) & \algn^\Rn & \Order(n^{1/2})  & \Order(1) 
+	&\Order(n^{-1/2+\epsilon}) &\Order(n^{-1+\epsilon}) \\
+	\textup{Scr.\ Sobol'} &\Order(n^{-3/2+\epsilon}) & \algn^\Rn 
+	& & &\Order(n^{1/2+\epsilon})&\Order(1) 
+	\end{array}
+	\end{equation*}
 \end{table}
-
 
 
 \begin{FJHLesson}
@@ -1282,7 +1293,7 @@ Randomized Bayesian
 \textbf{Continue here}
 
 
-\section{Dimension Dependence of the Cubature Error}
+\section{Dimension Dependence of the Cubature Error} \label{FJH:sec:Tract}
 
 Tractability
 
