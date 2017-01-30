@@ -93,7 +93,7 @@ error tolerance?}
 
 
 \newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error as a 
-product of three terms: the variation of the integrand, the discrepancy of the sampling 
+product of three factors: the variation of the integrand, the discrepancy of the sampling 
 measure, and the confounding. This identity shows how the integrand and the sampling 
 measure each contribute to the cubature error.  }	
 
@@ -108,7 +108,7 @@ measures have discrepancies and cubature errors that decay to zero at
 a faster rate than the case of IID sampling. }
 
 \newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy for reproducing 
-kernel Hilbert spaces has a simple, explict form involving three terms. }	
+kernel Hilbert spaces has a simple, explict form involving three factors. }	
 
 \newcommand{\FJHLessonThree}{Randomizing your sampling measure, not only may 
 eliminate bias, but it may help you improve accuracy by avoiding the awful minority of 
@@ -135,6 +135,10 @@ finite variation.}
 \newcommand{\Rn}{\textup{R}}
 \newcommand{\Ba}{\textup{B}}
 \newcommand{\tbsk}{\tilde{\bsk}}
+\newcommand{\filC}{\widehat{C}}
+\newcommand{\filc}{\widehat{c}}
+\newcommand{\filbsc}{\widehat{\bsc}}
+\newcommand{\filmC}{\widehat{\mathsf{C}}}
 
 \newcommand{\MLE}{\text{MLE}}
 \newcommand{\mC}{\mathsf{C}}
@@ -283,7 +287,8 @@ The expression of the error as a product of three quantities in
 \cite{Men16a}.  In this example the integral, $\mu$, corresponds to a sum, 
 and the probability measure $\nu$ is the uniform measure over the sample space $\{1, 
 \ldots, N\}$.  The sampling measure corresponding to the web survey is $\hnu = 
-n^{-1} \sum_{i=1}^n \delta_{x_i}$.  The three terms that comprise the trio identity have the 
+n^{-1} \sum_{i=1}^n \delta_{x_i}$.  The three factors that comprise the trio identity have 
+the 
 following meanings:
 \begin{description}
 	\item[$\Var(f)$] measures the \emph{variation} of the integrand from a typical value. 
@@ -374,7 +379,7 @@ collected data.
 	\FJHLessonOne
 \end{FJHLesson}
 
-\section{The Deterministic Trio Identity for Cubature Error} \label{FJH:sec:dettrio}
+\section{A Deterministic Trio Identity for Cubature Error} \label{FJH:sec:dettrio}
 The two versions of the trio identity introduced by example in the previous section may 
 be defined in generality. We begin with the deterministic version.  
 
@@ -599,7 +604,8 @@ For the $L^2$ discrepancy in \eqref{FJH:eq:L2disc} this becomes
 \left(\frac 43\right)^d \right ].
 \end{equation}
 
-In all versions of the trio identity, the discrepancy is the key term that should converge to 
+In all versions of the trio identity, the discrepancy is the key factor that should converge 
+to 
 zero as the sample size tends to infinity.  The variation is independent of the sample 
 size, and the confounding may decrease, increase or oscillate with increasing $n$.  From 
 the formulas above, the convergence of the discrepancy to zero for IID sampling as $n 
@@ -667,7 +673,7 @@ dependence of the convergence rate is addressed later in Sec.\  \ref{FJH:sec:Tra
 		\label{FJH:fig:unwtdiscdiffpts}}
 \end{figure}
 
-\section{The Randomized Trio Identity for Cubature Error} \label{FJH:sec:rndtrio}
+\section{A Randomized Trio Identity for Cubature Error} \label{FJH:sec:rndtrio}
 For the randomized version of the trio identity, we assume that the integrands lie in 
 a Banach space, $(\cf,\norm{\cdot}_{\cf})$ that contains 
 constant functions.  We assume
@@ -939,7 +945,7 @@ the multivariate Gaussian probability:
 where $\circ$ denotes the Hadamard (term-by-term) product.  The right plot in Fig.\ 
 \ref{FJH:fig:MVNfig} shows that the error using the affine 
 transformation is much worse than that using the Genz transformation even though the 
-two convergence rates are the same.  Fig.\ \ref{FJH:fig:GenzAfffig} shows the two 
+two convergence rates are the same.  Fig.\ \ref{FJH:fig:GenzAff} shows the two 
 integrands.  The difference in the magnitudes of the errors is 
 mainly because $\Var^{\Dt}(f_{\textup{aff}})$ is greater than 
 $\Var^{\Dt}(f_{\textup{Genz}})$.  This illustrates another 
@@ -953,7 +959,7 @@ lesson that provides a partial answer to Question 2 in the introduction.
 	\caption{Two different integrands that can be used to compute multivariate normal 
 	probabilities.  The left integrand is defined in \eqref{FJH:eq:Genz}, and the right 
 	integrand is defined in  \eqref{FJH:eq:aff}.
-		\label{FJH:fig:GenzAfffig}}
+		\label{FJH:fig:GenzAff}}
 \end{figure}
 
 
@@ -962,7 +968,7 @@ lesson that provides a partial answer to Question 2 in the introduction.
 \end{FJHLesson}
 
 
-\section{Option Pricing}
+\section{Option Pricing} \label{FJH:sec:OptPrice}
 The prices of financial derivatives can often be modeled by high dimensional integrals.  If 
 the underlying asset is described in terms of a Brownian motion, $B$, at times $t_1, 
 \ldots, t_d$, then $\bsZ = (B(t_1), \ldots, B(t_d)) \sim \cn(\bszero, \mathsf{\Sigma})$, 
@@ -993,7 +999,7 @@ with the following parameters:
 S_j = S_0 \exp\bigl( (r - \sigma^2/2) t_j + \sigma z_j\bigr),
 \\
 T = 1, \quad d = 12, \quad S_0 = K = 100, \quad r =  0.05, \quad \sigma = 0.5, \\
-t_j = jT/d, \ j = 1, \ldots, d
+t_j = jT/d, \quad j = 1\!:\!d
 \end{gather*}
 The convergence rate for IID and unscrambled Sobol' sampling are the same as in Fig.\ 
 \ref{FJH:fig:MVNfig} for the previous example of multivariate probabilities.  However, 
@@ -1042,7 +1048,7 @@ differencing.  The Cholesky decomposition of $\mathsf{\Sigma}$ gives poorer rate
 convergence, illustrating again Lesson \ref{FJH:eq:lessonfour}.
 
 
-\section{Bayesian Versions of the Trio Error Identity}
+\section{A Bayesian Trio  Identity for Cubature Error} \label{FJH:sec:BayesTrio}
 An alternative to a deterministic integrand, as has been assumed so far, is to assume an 
 integrand that is a stochastic process.  Random input functions have been assumed by 
 Diaconis \cite{Dia88a}, O'Hagan \cite{OHa91a}, Ritter \cite{Rit00a}, Rasmussen and 
@@ -1218,6 +1224,8 @@ made by Anitescu, Chen, and Stein \cite{AniCheSte16a}, Parker, Reich and Gotwalt
 \url{http://www.probabilistic-numerics.org}, of which Bayesian cubature is an example, 
 holds promise that deserves further exploration.
 
+\section{A Deterministic Interpretation of Bayesian Cubature} 
+\label{FJH:sec:DetBayesInterp}
 The advantage of the Bayesian approach is that there is an upper bound on the cubature 
 error that depends on the function data obtained in the process of computing $\hmu$ 
 (see \eqref{FJH:eq:MLEBdTwo}), an not on an unknown norm of the integrand as is the 
@@ -1285,19 +1293,150 @@ The volume of this ellipsoid is proportional to $\sqrt{\det(\mathsf{K}_\bstheta)
 	$C_\bstheta$ replaced by $K_\bstheta$.  This provides a determnistic interpretation of 
 	the best choice of the shape parameter.
 
+\section{A Randomized Trio Identity for Cubature Error}
 
-Randomized Bayesian
+So far, we have presented three versions of the trio identity: a deterministic verion  in 
+Theorem \ref{FJH:thm:dtrio}, a randomzied version in Theorem \ref{FJH:thm:rtrio}, and a 
+Bayesian 
+version in Theorem \ref{FJH:thm:btrio}.  The fourth and final version is a randomized 
+Bayesian trio identity.  The variation remains unchanged from the Bayesian definition in 
+\eqref{FJH:eq:btriodefa}.  
+The randomized Bayesian discrepancy and confounding are defined as follows:
+\begin{subequations} \label{FJH:eq:rbtriodef}
+	\begin{gather}
+	\label{FJH:eq:bbtriodefa}
+\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{\Ex_{\hnu}  \bigl(c_0 - 
+		2 \bsc^T \bsw + \bsw ^T \mC \bsw \bigr)},\\
+	\algn^{\Rn\Ba}(f,\nu - \hnu) :=\frac{ \int_{\cx} 
+		f(\bsx) \, (\nu - \hnu)(\D\bsx)}{s  \sqrt{\Ex_{\hnu}  \bigl(c_0 - 
+			2 \bsc^T \bsw + \bsw ^T \mC \bsw \bigr)}}.
+	\end{gather}
+\end{subequations}
+The proof of the randomized Bayesian trio error identity is similar to the proofs of the 
+other trio identities and is omitted.
 
+\begin{theorem}[Randomized Bayesian Trio Error Identity]  \label{FJH:thm:rbtrio} Let 
+the integrand be 
+	an instance of a zero mean Gaussian process with covariance $s^2C_{\bstheta}$ and 
+	that is drawn from a sample space $\calF$.  Let the sampling measure be drawn 
+	randomly from $\cm_{\textup{S}}$ according to some probability distribution.  For the  
+	variation defined in \eqref{FJH:eq:btriodefa}, and the discrepancy and 
+	confounding defined in \eqref{FJH:eq:rbtriodef}, the following error identity holds: 
+	\begin{equation} \tag{RBTRIO} \label{FJH:eq:rbtrio}
+	\mu - \hmu  = \algn^{\Rn\Ba}(f,\nu - \hnu) \, \disc^{\Rn\Ba}(\nu - \hnu) \, \Var^{\Ba}(f) 
+	\quad 
+	\text{almost surely}.
+	\end{equation}
+	Moreover, $\algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn(0,1)$. 
+\end{theorem}
 
+When the cubature weights are all equal to $1/n$, i.e., $\bsw = \bsone/n$, then it is 
+often possible to compute 
+$\disc^{\Rn\Ba}(\nu - \hnu)$ in terms of the Bayesian discrepancy for a filtered kernel 
+when the randomized data sites satisfy a natural 
+property.  Suppose that $\bsx_i =\bspsi (\bsz_i)$ for $i = 1 \!:\!n$, where 
+$\{\bsz_i\}_{i=1}^n$ are deterministic data sites, and $\bspsi :\cx \to \cx$ is a random 
+function.  For example, for IID sampling on $\cx$, $\bspsi(\bsx) = \bsDelta_\bsx$, where 
+$\bsDelta_\bsx$ is a random point distributed according to $\nu$ and depending on 
+$\bsx$.  For uniform random shifts modulo $\bsone$ on the unit cube, 
+which are applied to nodesets of lattices, $\bspsi(\bsx) = \bsx + \bsDelta \bmod \bsone$, 
+where $\bsDelta \sim \cu[0,1]^d$.  For randomly scrambled digital sequences there also 
+exists such a $\bspsi$, but its definition is more complex.  Furthermore, assume that for 
+any IID random variables $\bsX, \bsZ \sim \nu$,  the random variables $\bspsi(\bsX), 
+\bspsi(\bsZ)$ are also IID with probability measure $\nu$.  In addition, for any $(\bsx, 
+\bst) \in \cx \times \cx$ suppose that  $\bigl(\bspsi(\bsx), \bspsi(\bst) \bigr)$ and 
+$\bigl(\bspsi(\bspsi(\bsx)), \bspsi(\bspsi(\bst)) \bigr)$ have the same probability measure.
 
-\textbf{Continue here}
+Define a filtered version of the covariance kernel as $\filC(\bsx,\bst) = \Ex_{\bspsi} 
+C\bigl(\bspsi(\bsx), \bspsi(\bst) \bigr)$.  Here the dependence on $\bstheta$ is 
+suppressed.  Then the terms that comprise randomized 
+Bayesian discrepancy are
+\begin{subequations} \label{FJH:eq:filCvecmatdef}
+	\begin{gather}
+	 \Ex_{\bspsi}(c_0)  = c_0 =  \int_{\calX^2} C(\bsx,\bst) \, \nu(\D \bsx) \nu(\D 
+	 \bst) = 
+	 \int_{\calX^2} \filC(\bsx,\bst) \, \nu(\D \bsx) \nu(\D \bst) =: \filc_0, \\
+	 \Ex_{\bspsi}(\bsc) = 
+	\biggl( \int_{\cx} 
+	\Ex_{\bspsi}\bigl[C(\bspsi(\bsz_i),\bst)] \,\nu(\D \bst) \biggr)_{i=1}^n = 
+	\biggl( \int_{\cx} 
+	\filC(\bsz_i,\bst) \,\nu(\D \bst) \biggr)_{i=1}^n = : \filbsc, \\
+	 \Ex_{\bspsi}(\mC)  = \biggl(  \Ex_{\bspsi} 
+	 C\bigl(\bspsi(\bsz_i), \bspsi(\bsz_j) \bigr) \biggr)_{i,j=1}^n = \Bigl( \filC(\bsz_i,\bsz_j) 
+	 \Bigr)_{i,j=1}^n =: \filmC.
+	\end{gather}
+\end{subequations}
+Thus, the randomized Bayesian discrepancy based on the kernel $C$ with random data 
+sites $\{\bsx_i = \bspsi(\bsz_i)\}_{i=1}^n$ is the same as the Bayesian discrepancy based 
+on the filtered kernel, $\filC$, with deterministic data sites $\{\bsz_i\}_{i=1}^n$.  That is, 
+\begin{multline}
+\disc^{\Rn\Ba}\biggl(\nu - \frac 1n \sum_{i=1}^n \delta_{\bspsi(\bsz_i)} ; C\biggr) = 
+\disc^{\Rn\Ba}\biggl(\nu - \frac 1n \sum_{i=1}^n \delta_{\bspsi(\bsz_i)} ; \filC\biggr) \\
+=
+\disc^{\Ba}\biggl(\nu - 
+\frac 1n \sum_{i=1}^n \delta_{\bsz_i} ; \filC \biggr)
+\end{multline}
+This relationship is used to determine the decay of the discrepancies of randomized low 
+discrepancy data sites in several contexts, including \cite{???}
 
+It was noted in Sec.\ \ref{FJH:sec:DetBayesInterp} that when the reproducing kernel, 
+$K$, in the deterministic setting is numerically the same as the covariance kernel, $C$, 
+in the Bayesian setting, then $\disc^\Dt(\nu - \hnu)$ is numerically the same as 
+$\disc^\Ba(\nu - \hnu)$.  This equality extends to the randomized setting in that 
+\begin{equation*}
+\bigl[\disc^{\Rn}(\nu - \hnu)\bigr]^2 \le \Ex_{\hnu} \bigl[\disc^\Dt(\nu - \hnu)\bigr]^2 = 
+\Ex_{\hnu} \bigl[\disc^\Ba(\nu - 
+\hnu)\bigr]^2 = \bigl[\disc^{\Rn\Ba}(\nu - \hnu)\bigr]^2.
+\end{equation*}
 
-\section{Dimension Dependence of the Cubature Error} \label{FJH:sec:Tract}
+\section{Dimension Dependence of the Cubature Error and Discrepancy} 
+\label{FJH:sec:Tract}
+The statements about the rates of decay of discrepancy and cubature error as the 
+sample size increases have so far ignored the dependence on the dimension of the 
+integration domain.  On the one hand, Fig.\ \ref{FJH:fig:AsianOpt} on the left shows a 
+clear error 
+decay rate of $\Order(n^{-1 + \epsilon})$ for low discrepancy sampling for the option 
+pricing problem with dimension $12$.  However, Fig.\ \ref{FJH:fig:unwtdiscdiffpts} shows 
+that the discrepancy for these scrambled Sobol' points does not decay like $\Order(n^{-1 
++ \epsilon})$ for moderate $n$.  
 
-Tractability
+There has been a tremendous effort to 
+understand the effect of the dimension of the integration problem on the convergence 
+rate.  Sloan and Wo\'zniakowski \cite{SloWoz97} pointed out how
+the sample size required to achieve a desired error tolerance could grow exponentially 
+with 
+dimension.  Such problems are called \emph{intractable}.  This led to a search for 
+settings where the sample size required to attain achieve a desired error tolerance only 
+grows polynomially with dimension (\emph{tractable} problems) or is independent of the 
+dimension (\emph{strongly tractable} problems). The three volume masterpiece by Novak 
+and Wo\'zniakowski \cite{NovWoz08a,NovWoz10a,NovWoz12a} and the references cited 
+therein contain necessary and sufficient conditions for tractability.  A parallel idea is that 
+of \emph{effective dimension}, introduced by Caflisch, Morokoff, 
+and Owen \cite{CafMorOwe97} and developed further in \cite{LiuOwe04a}.
 
-
+Here we provide a glimpse into those situations where the dimension of the problem does 
+not have an adverse effect on the convergence rate of the cubature error and the 
+discrepancy.  Let's generalize the reproducing kernel used to define the 
+$L^2$ discrepancy in \eqref{FJH:eq:L2Kdef}, as well as the corresponding 
+variation and the discrepancy for equi-weighted sampling measures:
+\begin{gather*} \label{FJH:eq:wtL2Kdef}
+K(\bsx,\bst) =\prod_{k = 1}^d [1 + \gamma_k^2\{1 - \max(x_k,t_k)\}], \\
+\Var^\Dt(f) = \Bigl \lVert \bigl (\gamma_{\fraku}^{-1}
+\lVert\partial^{\fraku} f\rVert_{L^2}\bigr )_{\fraku \ne \emptyset} \Bigr \rVert_2 \qquad
+\gamma_{\fraku} = \prod_{k \in \fraku} \gamma_k,
+\end{gather*}
+\begin{multline} \label{FJH:eq:wtL2disc}
+\bigl[\disc^\Dt(\nu - \hnu)\bigr]^2 = \prod_{k=1}^d\Bigl(1 + \frac{\gamma_k^2}{3}\Bigr)
+- \frac{2}{n} \sum_{i=1}^n \prod_{k=1}^d \left (1 + \frac{\gamma_k^2(1 - 
+x_{ik}^2)}{2} \right) \\ + \frac{1}{n^2}\sum_{i,j=1}^n \prod_{k = 1}^d [1 + 
+\gamma_k^2( 1 - \max(x_{ik},x_{jk}))]
+\end{multline}
+For $\gamma_1 = \cdots = \gamma_d = 1$, we recover the situation in Sec.\ 
+\ref{FJH:sec:dettrio}, where the decay rate of the discrepancy was dimension dependent 
+for moderate sample sizes.  However if $\gamma_k^2 = 
+k^{-3}$, then the discrepancies for randomly shifted lattice nodesets and scrambled   
+Sobol' sequences show only a slight dimension dependence, as shown in Fig.\ 
+\ref{FJH:fig:wtdiscdiffpts}.
 
 \begin{figure}
 	\centering
@@ -1311,7 +1450,55 @@ Tractability
 		\label{FJH:fig:wtdiscdiffpts}}
 \end{figure}
 
-\section{Variable Transformations}
+When the weights $\gamma_k$ decay with $k$, the discrepancy depends \emph{less} 
+on how evenly the data sites appear in projections involving the higher coordinates.  On 
+the other hand, the variation in this case gives 
+\emph{heavier} weight to the $\partial^{\fraku} f$ with 
+$\fraku$ involving large $k$.  For the cubature error decay to mirror the decay of the 
+discrepancy shown in Fig.\ \ref{FJH:fig:wtdiscdiffpts}, the integrand must depend only 
+slightly on the coordinates with higher indices, so that the variation will be modest.
+
+\section{Variable Transformations to Reduce Cubature Error}
+
+The same integral $\mu$ can often written in multiple ways by making variable 
+transformations.  This can be advantageous if a variable transformation reduces the 
+variation of the integrand.  An example of this is shown in Fig.\ \ref{FJH:fig:GenzAff} for 
+computing the multivariate normal probability in Sec.\ \ref{FJH:sec:Gauss}.  Another 
+example is shown in Fig.\ \ref{FJH:fig:AsianOpt} for computing option prices  in Sec.\ 
+\ref{FJH:sec:OptPrice}.  In that example, the preferred variable transformation causes 
+the integrand to depend less on the higher numbered coordinates, which fits the situation 
+described in the previous section where the discrepancy and cubature error become 
+nearly dimension-independent when the variance defined in terms of decreasing 
+coordinate weights also be comes dimension-independent.
+
+Importance sampling is a method for improving the accuracy of IID Monte Carlo 
+methods, but it can also be useful for quasi-Monte Carlo methods, which are based on 
+low discrepancy sequences.  We describe importance sampling disguised as a variable 
+transformation.  Since such sequences are typically generated to mimic the 
+uniform measure on 
+the unit cube, $[0,1]^d$, we consider the integral $\mu = \int_{[0,1]^{d}} g(\bst) \, 
+\D\bst$.  If $\zeta: [0,1] \to [0,1]$ is a differentiable, increasing, onto function, then $\mu 
+= \int_{[0,1]^{d}} f(\bsx) \, 
+\D\bsx$, where $f(\bsx) = g\bigl(\zeta(x_1), \ldots, \zeta(x_d) \bigr) \zeta'(x_1) \cdots 
+\zeta'(x_d)$.  
+If $\zeta$ can be chosen to make $\Var^\Dt(f) < \Var^\Dt(g)$, then the cubature error 
+for approximating the integral of $f$ will generally be smaller than for approximating the 
+integral of $g$.  The choice of variable 
+transformation is more of an art than a science.
+
+Control variates can be used to make the variation of the integrand smaller for 
+quasi-Monte Carlo methods as well as for IID Monte Carlo methods.  This involves 
+integrating the function $f - \bsbeta^T \bsg$ instead of $f$, where $\bsg$ is a vector of 
+integrands whose integral is $\bszero$.  The choice of the 
+control variate coefficientm $\bsbeta$, is subtle for low discrepancy sampling measures 
+\cite{HicEtal03}, but an effective method has been 
+developed \cite{HicEtal17a}.
+
+MDM
+
+
+\textbf{Continue here}
+
 
 \section{Adaptive Cubature}
 Via Bayesian approach

@@ -13,6 +13,11 @@ Anitescu, M., Chen, J., Stein, M.: An inversion-free estimating equation
 \newblock J. Comput.\ Graph.\ Statist.  (2016).
 \newblock \doi{10.1080/10618600.2016.1164056}
 
+\bibitem{CafMorOwe97}
+Caflisch, R.E., Morokoff, W., Owen, A.: Valuation of mortgage backed securities
+  using {B}rownian bridges to reduce effective dimension.
+\newblock J. Comput.\ Finance \textbf{1}, 27--46 (1997)
+
 \bibitem{Dia88a}
 Diaconis, P.: {B}ayesian numerical analysis.
 \newblock In: S.S. Gupta, J.O. Berger (eds.) Statistical decision theory and
@@ -62,6 +67,16 @@ Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
   for quadrature.
 \newblock Math.\ Comp. \textbf{68}, 767--791 (1999)
 
+\bibitem{HicEtal17a}
+\HickernellFJ, F.J., {Jim\'enez Rugama}, {\relax Ll}.A., Li, D.: Adaptive
+  quasi-{M}onte {C}arlo methods (2016+).
+\newblock In preparation
+
+\bibitem{HicEtal03}
+\HickernellFJ, F.J., Lemieux, C., Owen, A.B.: Control variates for
+  quasi-{M}onte {C}arlo.
+\newblock Statist.\ Sci. \textbf{20}, 1--31 (2005)
+
 \bibitem{HicYue00}
 \HickernellFJ, F.J., Yue, R.X.: The mean square discrepancy of scrambled
   $(t,s)$-sequences.
@@ -77,6 +92,10 @@ Koksma, J.F.: Een algemeene stelling uit de theorie der gelijkmatige verdeeling
   modulo 1.
 \newblock Mathematica B (Zutphen) \textbf{11}, 7--11 (1942/1943)
 
+\bibitem{LiuOwe04a}
+Liu, R., Owen, A.B.: Estimating mean dimensionality.
+\newblock J. Amer.\ Statist.\ Assoc. \textbf{101}, 712---721 (2006)
+
 \bibitem{Men16a}
 Meng, X.: Statistical paradises and paradoxes in big data (2016+).
 \newblock In preparation
@@ -85,6 +104,24 @@ Meng, X.: Statistical paradises and paradoxes in big data (2016+).
 Niederreiter, H.: Random Number Generation and Quasi-{M}onte {C}arlo Methods.
 \newblock CBMS-NSF Regional Conference Series in Applied Mathematics. SIAM,
   Philadelphia (1992)
+
+\bibitem{NovWoz08a}
+Novak, E., Wo{\'{z}}niakowski, H.: Tractability of Multivariate Problems
+  {V}olume I: {L}inear Information.
+\newblock No.~6 in EMS Tracts in Mathematics. European Mathematical Society,
+  Z\"urich (2008)
+
+\bibitem{NovWoz10a}
+Novak, E., Wo{\'{z}}niakowski, H.: Tractability of Multivariate Problems
+  {V}olume II: {S}tandard Information for Functionals.
+\newblock No.~12 in EMS Tracts in Mathematics. European Mathematical Society,
+  Z\"urich (2010)
+
+\bibitem{NovWoz12a}
+Novak, E., Wo{\'{z}}niakowski, H.: Tractability of Multivariate Problems:
+  Volume III: {S}tandard Information for Operators.
+\newblock No.~18 in EMS Tracts in Mathematics. European Mathematical Society,
+  Z\"urich (2012)
 
 \bibitem{OHa91a}
 {O'H}agan, A.: {B}ayes-{H}ermite quadrature.
@@ -124,5 +161,10 @@ Ritter, K.: Average-Case Analysis of Numerical Problems, \emph{Lecture Notes in
 \bibitem{SloJoe94}
 Sloan, I.H., Joe, S.: Lattice Methods for Multiple Integration.
 \newblock Oxford University Press, Oxford (1994)
+
+\bibitem{SloWoz97}
+Sloan, I.H., Wo\'zniakowski, H.: An intractability result for multiple
+  integration.
+\newblock Math.\ Comp. \textbf{66}, 1119--1124 (1997)
 
 \end{thebibliography}
