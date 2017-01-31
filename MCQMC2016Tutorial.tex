@@ -87,8 +87,18 @@
 	sampling measure, and the confounding. This identity shows how the integrand and 
 	the sampling measure each contribute to the cubature error.  }	
 
-	
-	
+\newcommand{\FJHLessonSix}{The trio identity has four versions, depending on whether the 
+integrand is deterministic or Bayesian and whether the sampling measure is deterministic or 
+random.  }
+
+\newcommand{\FJHLessonSeven}{Although it has traditionally been excluded from cubature 
+error analysis, the confounding helps explain why the cubature error may decay to zero 
+much faster or more slowly than the discrepancy.  }
+
+\newcommand{\FJHLessonNine}{Bayesian cubature has a purely deterministic alternative 
+interpretation.  }
+
+
 	
 \newcommand{\FJHQOne}{How do good sampling measures, $\hnu$, make 
 the error, $\mu - \hmu$, smaller?}
@@ -124,6 +134,18 @@ say with a different $f$ or $\nu$?}
 \newcommand{\FJHLessonFour}{Well-chosen variable transformations may reduce 
 	cubature error by producing an integrand with a smaller variation than the original. }
 
+\newcommand{\FJHLessonEight}{The cubature error for high dimensional problems can often 
+be reduced by arranging for 
+the integrand to depend mainly on only several of the coordinates.  Moreover, those should 
+preferably be the lower indexed coordinates. }
+
+\newcommand{\FJHLessonTwelve}{Common variance reduction techniques used for IID 
+Monte Carlo may also be applied for low discrepancy sampling measures. }
+
+\newcommand{\FJHLessonThirteen}{Infinite dimensional problems may be efficiently solved 
+by 
+multi-level methods or multivariate decomposition methods, which approximate the integral 
+by a sum of finite dimensional integrals. }
 
 
 
@@ -131,12 +153,16 @@ say with a different $f$ or $\nu$?}
 \newcommand{\FJHQThree}{How many samples, $n$, are required to meet a specified 
 error tolerance?}
 
+\newcommand{\FJHLessonTen}{Bayesian cubature, which assumes the integrand to be a 
+Gaussian process, provides data-based probabilistic error bounds. }
+
+\newcommand{\FJHLessonEleven}{Automatic stopping criteria for (quasi-) Monte Carlo 
+simulations have been developed for integrands that are not too wild. }
 
 
 
 
 
-\newcommand{\FJHLessonSix}{??. }
 \newlength{\FJHfigheight}
 \setlength{\FJHfigheight}{4 cm}
 
@@ -220,7 +246,17 @@ error tolerance?}
 \email{hickernell@iit.edu}}
 \maketitle
 
-\abstract{.} 
+\abstract{Monte Carlo methods approximate integrals by sample averages 
+of integrand values.  Quasi-Monte Carlo methods choose data sites that are not independent 
+and identically distributed to make the approximations more accurate.  This article describes 
+the trio identity for cubature error, which is a product of three factors: the variation, the 
+discrepancy, and the 
+confounding.  Each of these factors measures a  
+different contribution to the cubature error.  The trio identity has different versions, depending 
+on whether  the integrand is deterministic or Bayesian and whether the sampling measure is 
+deterministic or random.  Both theory and examples are used to show how low discrepancy 
+sampling may reduce cubature error and how rewriting the integral in terms of a different 
+integrand may also reduce the cubature error.} 
 
 \section{Introduction}
 Monte Carlo methods are used to approximate multivariate integrals that cannot be evaluated analytically, i.e.,  integrals of the form
@@ -228,9 +264,10 @@ Monte Carlo methods are used to approximate multivariate integrals that cannot b
 \mu = \int_{\cx} f(\bsx) \, \nu(\D \bsx), \label{INT} \tag{INT}
 \end{equation}
 where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a 
-\emph{probability} measure.  Here, $\mu$ is the mean of $f(\bsX)$, where the random 
-variable $\bsX$ has probability measure $\nu$.  These methods approximate 
-$\mu$ by a weighted average of values of $f$ at a finite number of data sites (points, 
+\emph{probability} measure.  Here, $\mu$ represents the weighted average of the integrand or 
+$\Ex[f(\bsX)]$, where the random variable $\bsX$ has probability measure $\nu$.  Monte 
+Carlo methods take the form of a weighted average of values of $f$ at a finite number of data 
+sites (points, 
 nodes), $\bsx_1, \ldots, \bsx_n$:
 \begin{equation} \label{AppxINT} \tag{MC}
 \hmu = \sum_{i=1}^n f(\bsx_i) w_i = \int_{\cx} f(\bsx) \, \hnu(\D \bsx).
@@ -241,9 +278,11 @@ $i^{\text{th}}$ data site, and lies in the vector space
 \cm_{\textup{S}} := \left \{\sum_{i=1}^n w_i \delta_{\bsx_i} : w_1, \ldots, w_n \in \R,\ \bsx_1, 
 \ldots, \bsx_n \in \calX, \ n \in \N \right \},
 \end{equation}
-where the $\delta_{\bst}$ denotes a Dirac measure concentrated at point $\bst$. 
-For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the 
-weights may be deterministic or random.  Later, we impose some constraints to facilitate 
+where  $\delta_{\bst}$ denotes a Dirac measure concentrated at point $\bst$. 
+
+The data sites, the 
+weights, and the sample size may be deterministic or random.  Later, we impose some 
+constraints to facilitate 
 the analysis.  We are 
 particularly interested in sampling measures that choose the data sites more cleverly 
 than independently and identically distributed (IID).  Such sampling measures are the 
@@ -256,15 +295,15 @@ Specifically, we ask
 \item[\emph{Question 2.}] \emph{\FJHQTwo}
 \item[\emph{Question 3.}] \emph{\FJHQThree}
 \end{list}
-\noindent The aim is to summarize some known---but perhaps not widely 
-known---results.  These results are summarized as lessons interspersed throughout this 
-article and repeated at the end.  We introduce and illustrate these 
-results by examples.
+\noindent We present some known results and highlight fifteen key lessons that are 
+interspersed throughout this 
+article and repeated at the end.
 
 \section{Big Data Survey} \label{FJH:sec:sleep} 
 Did you get enough sleep last night?  Did you get more sleep than the average person?  
 How much sleep did the average person get? The answer to this last question involves a 
-simple sum: $\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ denotes the hours of sleep of 
+simple sum:  $\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ 
+denotes the hours of sleep of 
 individual 
 $j$ in a population of $N$ individuals.  For a large population, such as the $\approx 250$ 
 million adults in the United States, an exhaustive sample is difficult to obtain. So you 
@@ -276,9 +315,8 @@ product of three quantities:
 \begin{align}
 \nonumber
 \mu - \widehat{\mu} 
-&= \frac{1}N \sum_{j=1}^N f(j) -  \frac 1n \sum_{i=1}^n f(x_i)  \\
-\nonumber
-&= - \frac{1}N \sum_{j=1}^N \bigl[ f(j) - \mu \bigr]\left ( \frac Nn \bbone_{\{x_i\}_{i=1}^n}(j) 
+&= \frac{1}N \sum_{j=1}^N f(j) -  \frac 1n \sum_{i=1}^n f(x_i)  = - \frac{1}N \sum_{j=1}^N \bigl[ f(j) 
+- \mu \bigr]\left ( \frac Nn \bbone_{\{x_i\}_{i=1}^n}(j) 
 - 1 \right) \\
 & = \underbrace{-\corr(f, \bbone_{\{x_i\}_{i=1}^n})}_{\algn^\Dt(f,\nu - \hnu)} \,
 \underbrace{\sqrt{\frac{1 - n/N}{n/N}}}_{\disc^\Dt(\nu - \hnu)} \, 
@@ -299,7 +337,7 @@ and direct calculation yields
 The expression of the error as a product of three quantities in 
 \eqref{FJH:eq:surveydettrio} is a case of the \emph{trio identity}, introduced by Meng 
 \cite{Men16a}.  In this example the integral, $\mu$, corresponds to a sum, 
-and the probability measure $\nu$ is the uniform measure over the sample space $\{1, 
+and the probability measure $\nu$ is the uniform measure over $\{1, 
 \ldots, N\}$.  The sampling measure corresponding to the web survey is $\hnu = 
 n^{-1} \sum_{i=1}^n \delta_{x_i}$.  The three factors that comprise the trio identity have 
 the 
@@ -950,6 +988,10 @@ cubature error compared to the average for scrambled Sobol' sampling.
 \FJHLessonThree
 \end{FJHLesson}
 
+\begin{FJHLesson}
+	\FJHLessonSeven
+\end{FJHLesson}
+
 An alternative to the Genz transformation above is an affine transformation to compute 
 the multivariate Gaussian probability:
 \begin{gather}
@@ -1230,6 +1272,10 @@ error versus the probabilistic error bound in \eqref{FJH:eq:MLEBdTwo} (bottom ri
 \label{FJH:fig:MVNcubMLE}}
 \end{figure}
 
+\begin{FJHLesson}
+	\FJHLessonTen
+\end{FJHLesson}
+
 Bayesian cubature offers hope with a dose of caution.  The theory is solid, but as  this 
 example shows, one cannot know if the actual integrand under consideration is a typical 
 instance of the Gaussian process being assumed, even using MLE to determine the 
@@ -1243,6 +1289,7 @@ made by Anitescu, Chen, and Stein \cite{AniCheSte16a}, Parker, Reich and Gotwalt
 \cite{ParEtal17a}, and others.  Probabilistic numerics, 
 \url{http://www.probabilistic-numerics.org}, of which Bayesian cubature is an example, 
 holds promise that deserves further exploration.
+
 
 \section{A Deterministic Interpretation of Bayesian Cubature} 
 \label{FJH:sec:DetBayesInterp}
@@ -1312,8 +1359,12 @@ The volume of this ellipsoid is proportional to $\sqrt{\det(\mathsf{K}_\bstheta)
 	the volume of this ellipsoid is equivalent to the definition of $\bstheta_\MLE$ with 
 	$C_\bstheta$ replaced by $K_\bstheta$.  This provides a determnistic interpretation of 
 	the best choice of the shape parameter.
+	
+\begin{FJHLesson}
+	\FJHLessonNine
+\end{FJHLesson}
 
-\section{A Randomized Trio Identity for Cubature Error}
+\section{A Randomized Bayesian Trio Identity for Cubature Error}
 
 So far, we have presented three versions of the trio identity: a deterministic verion  in 
 Theorem \ref{FJH:thm:dtrio}, a randomzied version in Theorem \ref{FJH:thm:rtrio}, and a 
@@ -1349,6 +1400,10 @@ the integrand be
 	\end{equation}
 	Moreover, $\algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn(0,1)$. 
 \end{theorem}
+
+\begin{FJHLesson}
+	\FJHLessonSix
+\end{FJHLesson}
 
 When the cubature weights are all equal to $1/n$, i.e., $\bsw = \bsone/n$, then it is 
 often possible to compute 
@@ -1478,6 +1533,10 @@ $\fraku$ involving large $k$.  For the cubature error decay to mirror the decay 
 discrepancy shown in Fig.\ \ref{FJH:fig:wtdiscdiffpts}, the integrand must depend only 
 slightly on the coordinates with higher indices, so that the variation will be modest.
 
+\begin{FJHLesson}
+	\FJHLessonEight
+\end{FJHLesson}
+
 \section{Variable Transformations to Reduce Cubature Error}
 
 The same integral $\mu$ can often written in multiple ways by making variable 
@@ -1514,7 +1573,15 @@ control variate coefficientm $\bsbeta$, is subtle for low discrepancy sampling m
 \cite{HicEtal03}, but an effective method has been 
 developed \cite{HicEtal17a}.
 
+\begin{FJHLesson}
+	\FJHLessonTwelve
+\end{FJHLesson}
+
 MDM
+
+\begin{FJHLesson}
+	\FJHLessonThirteen
+\end{FJHLesson}
 
 
 \textbf{Continue here}
@@ -1549,13 +1616,18 @@ author and his collaborators is to decompose the integrand into a Fourier series
 estimate the decay rate of the Fourier coefficients that contribute to the error
 \cite{HicJim16a,HicEtal17a,JimHic16a}.  
 
+\begin{FJHLesson}
+	\FJHLessonEleven
+\end{FJHLesson}
+
 
 \section{Summary}
 To conclude, we repeat the lessons highlighted above in answer to the questions posed 
 in the 
 introduction.  The order may be somewhat different.
 
-\FJHLessonZero \FJHLessonTwoHalf
+\FJHLessonZero \FJHLessonSix  \FJHLessonTwoHalf \FJHLessonSeven \FJHLessonNine
+
 
 
 \begin{list}{}{\setlength\leftmargin{4.2ex}\setlength\labelwidth{3ex}}
@@ -1565,9 +1637,13 @@ introduction.  The order may be somewhat different.
 	
 	\item[\emph{Question 2.}] \emph{\FJHQTwo}
 	
-	\FJHLessonFour 
+	\FJHLessonFour 	\FJHLessonEight \FJHLessonTwelve 	\FJHLessonThirteen
 	
 	\item[\emph{Question 3.}] \emph{\FJHQThree}
+	
+	\FJHLessonTen \FJHLessonEleven
+	
+	
 \end{list}
 
 
