@@ -215,7 +215,7 @@ Monte Carlo methods are used to approximate multivariate integrals that cannot b
 \end{equation}
 where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a 
 \emph{probability} measure.  Here, $\mu$ is the mean of $f(\bsX)$, where the random 
-variable $\bsX$ has probability measure $\nu$.  Monte Carlo methods approximate 
+variable $\bsX$ has probability measure $\nu$.  \marginpar{Changed "Monte Carlo" by "These"}These methods approximate 
 $\mu$ by a weighted average of values of $f$ at a finite number of data sites (points, 
 nodes), $\bsx_1, \ldots, \bsx_n$:
 \begin{equation} \label{AppxINT} \tag{MC}
@@ -227,7 +227,7 @@ $i^{\text{th}}$ data site, and lies in the vector space
 \cm_{\textup{S}} := \left \{\sum_{i=1}^n w_i \delta_{\bsx_i} : w_1, \ldots, w_n \in \R,\ \bsx_1, 
 \ldots, \bsx_n \in \calX, \ n \in \N \right \},
 \end{equation}
-where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$.  
+where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$. \marginpar{Concentrated "at the point" or "at point"?} 
 For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the 
 weights may be deterministic or random.  Later, we impose some constraints to facilitate 
 the analysis.  We are 
@@ -250,7 +250,7 @@ results by examples.
 \section{Big Data Survey} \label{FJH:sec:sleep} 
 Did you get enough sleep last night?  Did you get more sleep than the average person?  
 How much sleep did the average person get? The answer to this last question is simply 
-the sum
+the sum\marginpar{Sum or average?}
 $\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ denotes the hours of sleep of individual 
 $j$ in a population of $N$ individuals.  For a large population, such as the $\approx 250$ 
 million adults in the United States, an exhaustive sample is difficult to obtain. So you 
@@ -341,6 +341,7 @@ error of a sleep survey using a simple random sample without replacement is
 \end{align}
 where $\std_{\hnu}$ means standard deviation with respect to the random sampling 
 measure, and direct calculation yields
+\marginpar{I do not follow this equality. Are you using your definition of $\std(f)$?}
 \begin{equation*}
 \std_{\hnu} \bigl( \corr\bigl(f, \bbone_{\{x_i\}_{i=1}^n}\bigr)\bigr) = \sqrt{\frac{1}{N-1}}.
 \end{equation*}
@@ -359,6 +360,7 @@ but  $\disc^\Rn(\nu - \hnu)$ is $\Order(N^{-1/2})$ the size of $\disc^\Dt(\nu -
 \hnu)$.  Comparing \eqref{FJH:eq:surveyrndtrio} with 
 \eqref{FJH:eq:surveydettrio}, we conclude that for a large population, a web survey with 
 $n_{\textup{web}}$ samples is equivalent to a simple random survey with 
+\marginpar{I am not sure about this derivation but I get something of $\std_{\hnu}^2$ instead of $\corr^2$.}
 \[
 n_{\textup{SRS}} \approx \frac{n_{\textup{web}}/N}{\corr^2\Bigl(f, 
 \bbone_{\{x_i\}_{i=1}^{n_{\textup{web}}}}\Bigr)(1-n_{\textup{web}}/N)}
