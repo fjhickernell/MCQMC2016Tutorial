@@ -82,45 +82,59 @@
 % MVNIIDUSobolSobolWtSobol.eps, MVNSobolWtSobolErrBd.eps, WtL2Disclat.eps,   
 % WtL2Disc.eps
 	
+\newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error as a 
+	product of three factors: the variation of the integrand, the discrepancy of the 
+	sampling measure, and the confounding. This identity shows how the integrand and 
+	the sampling measure each contribute to the cubature error.  }	
+
+	
+	
+	
 \newcommand{\FJHQOne}{How do good sampling measures, $\hnu$, make 
 the error, $\mu - \hmu$, smaller?}
-\newcommand{\FJHQTwo}{How can the error be decreased by re-casting the problem, 
-say with a different $f$ or $\nu$?}
-\newcommand{\FJHQThree}{How many samples, $n$, are required to meet a specified 
-error tolerance?}
-
-
-
-
-\newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error as a 
-product of three factors: the variation of the integrand, the discrepancy of the sampling 
-measure, and the confounding. This identity shows how the integrand and the sampling 
-measure each contribute to the cubature error.  }	
 
 \newcommand{\FJHLessonOne}{The quality of a sampling measure is important, not 
 	merely the sample size.  Systematic sampling, even simple random sampling, may yield 
 	a	much smaller error than haphazard sampling. }	
 
 \newcommand{\FJHLessonTwo}{Quasi-Monte Carlo methods replace IID data sites by 
-low discrepancy data sites, such as
-Sobol' sequences and integration lattice nodeset sequences.  The resulting sampling 
-measures have discrepancies and cubature errors that decay to zero at 
-a faster rate than the case of IID sampling. }
+	low discrepancy data sites, such as
+	Sobol' sequences and integration lattice nodeset sequences.  The resulting sampling 
+	measures have discrepancies and cubature errors that decay to zero at 
+	a faster rate than the case of IID sampling. }
 
 \newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy for reproducing 
-kernel Hilbert spaces has a simple, explict form involving three factors. }	
+	kernel Hilbert spaces has a simple, explict form involving three factors. }	
 
 \newcommand{\FJHLessonThree}{Randomizing your sampling measure, not only may 
-eliminate bias, but it may help you improve accuracy by avoiding the awful minority of 
-possible sampling measures. }
-
-\newcommand{\FJHLessonFour}{Well-chosen variable transformations may reduce 
-cubature error by producing an integrand with a smaller variation than the original. }
+	eliminate bias, but it may help you improve accuracy by avoiding the awful minority of 
+	possible sampling measures. }
 
 \newcommand{\FJHLessonFive}{The benefits of sampling measures with lower 
-discrepancy are limited to those problems where the integrand is well-behaved enough to 
-have 
-finite variation.}
+	discrepancy are limited to those problems where the integrand is well-behaved enough 
+	to have finite variation.}
+
+
+
+
+
+\newcommand{\FJHQTwo}{How can the error be decreased by re-casting the problem, 
+say with a different $f$ or $\nu$?}
+
+\newcommand{\FJHLessonFour}{Well-chosen variable transformations may reduce 
+	cubature error by producing an integrand with a smaller variation than the original. }
+
+
+
+
+
+\newcommand{\FJHQThree}{How many samples, $n$, are required to meet a specified 
+error tolerance?}
+
+
+
+
+
 
 \newcommand{\FJHLessonSix}{??. }
 \newlength{\FJHfigheight}
@@ -1500,10 +1514,34 @@ MDM
 \textbf{Continue here}
 
 
-\section{Adaptive Cubature}
-Via Bayesian approach
+\section{Automatic Stopping Criteria for Cubature}
+The trio identity decomposes the cubature error into three factors.  By improving the 
+sampling scheme, the discrepancy may be made smaller.  By re-writing the integral, the 
+variation of the integrand might be made smaller.  For certain situations, we may find that 
+the confounding is small.  While the trio identity helps us understand what contributes to 
+the cubature error, it does not in itself answer the question of how many samples are 
+required to achieve the desired accuracy.
 
-Via our approach
+Bayesian cubature, as described in Sec.\ \ref{FJH:sec:BayesTrio} and given a 
+deterministic interpretation in Sec.\ \ref{FJH:sec:DetBayesInterp}, provides data-based 
+error bounds.  These can be used to determine how large $n$ must be to make the error 
+small enough.
+
+For IID Monte Carlo the Central Limit Theorem may be used to construct an approximate 
+confidence interval for $\mu$, however, this approach relies on believing that the 
+asymptotic limit has been reached and a reliable upper bound on the standard deviation 
+of 
+the integrand has been computed from the integrand values.  There have been recent 
+attempts to make this approach more robust \cite{BayEtal14a,HicEtal14a,Jia16a}.  An 
+upper bound on the standard deviation may be computed by assuming an upper bound 
+on the kurtosis or estimating the kurtosis from data.  The Central Limit Theorem may be 
+replaced by the  Berry-Esseen inequality, which is valid for finite samples.  
+
+For low discrepancy sampling, independent random replications may be used to estimate 
+the error, but this approach lacks a rigorous justification.  An alternative proposed by the 
+author and his collaborators is to decompose the integrand into a Fourier series and 
+estimate the decay rate of the Fourier coefficients that contribute to the error
+\cite{HicJim16a,HicEtal17a,JimHic16a}.  
 
 
 \section{Summary}
@@ -1526,19 +1564,6 @@ introduction.  The order may be somewhat different.
 	\item[\emph{Question 3.}] \emph{\FJHQThree}
 \end{list}
 
-  
-
-
-
-
-Various ideas
-\begin{itemize}
-\item series spaces
-\item complexity bounds
-\item tractability
-\item multilevel methods
-\item multivariate decomposition method, new Frances paper
-\end{itemize}
 
 \bibliographystyle{spmpsci}
 \bibliography{FJH23,FJHown23}

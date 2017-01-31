@@ -13,10 +13,21 @@ Anitescu, M., Chen, J., Stein, M.: An inversion-free estimating equation
 \newblock J. Comput.\ Graph.\ Statist.  (2016).
 \newblock \doi{10.1080/10618600.2016.1164056}
 
+\bibitem{BayEtal14a}
+Bayer, C., Hoel, H., {von Schwerin}, E., Tempone, R.: On nonasymptotic optimal
+  stopping criteria in {M}onte {C}arlo {S}imulations.
+\newblock SIAM J. Sci.\ Comput. \textbf{36}, A869--A885 (2014)
+
 \bibitem{CafMorOwe97}
 Caflisch, R.E., Morokoff, W., Owen, A.: Valuation of mortgage backed securities
   using {B}rownian bridges to reduce effective dimension.
 \newblock J. Comput.\ Finance \textbf{1}, 27--46 (1997)
+
+\bibitem{CooNuy16a}
+Cools, R., Nuyens, D. (eds.): {M}onte {C}arlo and Quasi-{M}onte {C}arlo
+  Methods: {MCQMC}, {L}euven, {B}elgium, {A}pril 2014, \emph{Springer
+  Proceedings in Mathematics and Statistics}, vol. 163. Springer-Verlag, Berlin
+  (2016)
 
 \bibitem{Dia88a}
 Diaconis, P.: {B}ayesian numerical analysis.
@@ -67,6 +78,20 @@ Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
   for quadrature.
 \newblock Math.\ Comp. \textbf{68}, 767--791 (1999)
 
+\bibitem{HicEtal14a}
+\HickernellFJ, F.J., Jiang, L., Liu, Y., Owen, A.B.: Guaranteed conservative
+  fixed width confidence intervals via {M}onte {C}arlo sampling.
+\newblock In: J.~Dick, F.Y. Kuo, G.W. Peters, I.H. Sloan (eds.) {M}onte {C}arlo
+  and Quasi-{M}onte {C}arlo Methods 2012, \emph{Springer Proceedings in
+  Mathematics and Statistics}, vol.~65, pp. 105--128. Springer-Verlag, Berlin
+  (2013)
+
+\bibitem{HicJim16a}
+\HickernellFJ, F.J., {Jim\'enez Rugama}, {\relax Ll}.A.: Reliable adaptive
+  cubature using digital sequences.
+\newblock In: Cools and Nuyens  \cite{CooNuy16a}, pp. 367--383.
+\newblock ArXiv:1410.8615 [math.NA]
+
 \bibitem{HicEtal17a}
 \HickernellFJ, F.J., {Jim\'enez Rugama}, {\relax Ll}.A., Li, D.: Adaptive
   quasi-{M}onte {C}arlo methods (2016+).
@@ -86,6 +111,17 @@ Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
 Hlawka, E.: Funktionen von beschr{\"a}nkter {V}ariation in der {T}heorie der
   {G}leichverteilung.
 \newblock Ann. Mat. Pura Appl. \textbf{54}, 325--333 (1961)
+
+\bibitem{Jia16a}
+Jiang, L.: Guaranteed adaptive {M}onte {C}arlo methods for estimating means of
+  random variables.
+\newblock Ph.D. thesis, Illinois Institute of Technology (2016)
+
+\bibitem{JimHic16a}
+{Jim\'enez Rugama}, {\relax Ll}.A., \HickernellFJ, F.J.: Adaptive
+  multidimensional integration based on rank-1 lattices.
+\newblock In: Cools and Nuyens  \cite{CooNuy16a}, pp. 407--422.
+\newblock ArXiv:1411.1966
 
 \bibitem{Kok42}
 Koksma, J.F.: Een algemeene stelling uit de theorie der gelijkmatige verdeeling
