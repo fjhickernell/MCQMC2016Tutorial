@@ -1,6 +1,12 @@
 %Manuscript based on tutorial given by Fred J. Hickernell at MCQMC, August 14, 2016
 %Requires graphics files
-%  
+% L2Kernel.eps, LocalDiscrep.eps, IIDPoints.eps, ShiftedLatticePoints.eps, 
+% USobolPoints.eps, SSobolPoints.eps, UnwtL2Disclat.eps, UnwtL2Disc.eps, 
+% MVNIIDUSobolSobol.eps, MVNSobolGenzAff, GenzFun.eps, AffineFun.eps,
+% AsianCallIIDUSobolSobol.eps, AsianCallSobolPCADiff.eps, Matern.eps, 
+% MVNIIDUSobolSobolWtSobol.eps, MVNSobolWtSobolErrBd.eps, WtL2Disclat.eps,   
+% WtL2Disc.eps
+
 
 \documentclass[graybox,footinfo]{svmult}
 
@@ -75,12 +81,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-% Requires L2Kernel.eps, LocalDiscrep.eps, IIDPoints.eps, ShiftedLatticePoints.eps, 
-% USobolPoints.eps, SSobolPoints.eps, UnwtL2Disclat.eps, UnwtL2Disc.eps, 
-% MVNIIDUSobolSobol.eps, MVNSobolGenzAff, GenzFun.eps, AffineFun.eps,
-% AsianCallIIDUSobolSobol.eps, AsianCallSobolPCADiff.eps, Matern.eps, 
-% MVNIIDUSobolSobolWtSobol.eps, MVNSobolWtSobolErrBd.eps, WtL2Disclat.eps,   
-% WtL2Disc.eps
 	
 \newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error as a 
 	product of three factors: the variation of the integrand, the discrepancy of the 
@@ -229,7 +229,7 @@ Monte Carlo methods are used to approximate multivariate integrals that cannot b
 \end{equation}
 where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a 
 \emph{probability} measure.  Here, $\mu$ is the mean of $f(\bsX)$, where the random 
-variable $\bsX$ has probability measure $\nu$.  \marginpar{Changed "Monte Carlo" by "These"}These methods approximate 
+variable $\bsX$ has probability measure $\nu$.  These methods approximate 
 $\mu$ by a weighted average of values of $f$ at a finite number of data sites (points, 
 nodes), $\bsx_1, \ldots, \bsx_n$:
 \begin{equation} \label{AppxINT} \tag{MC}
@@ -241,7 +241,7 @@ $i^{\text{th}}$ data site, and lies in the vector space
 \cm_{\textup{S}} := \left \{\sum_{i=1}^n w_i \delta_{\bsx_i} : w_1, \ldots, w_n \in \R,\ \bsx_1, 
 \ldots, \bsx_n \in \calX, \ n \in \N \right \},
 \end{equation}
-where the $\delta_{\bst}$ denotes a Dirac measure concentrated at the point $\bst$. \marginpar{Concentrated "at the point" or "at point"?} 
+where the $\delta_{\bst}$ denotes a Dirac measure concentrated at point $\bst$. 
 For now our interpretation of ``Monte Carlo'' is quite broad---the data sites and the 
 weights may be deterministic or random.  Later, we impose some constraints to facilitate 
 the analysis.  We are 
@@ -263,9 +263,9 @@ results by examples.
 
 \section{Big Data Survey} \label{FJH:sec:sleep} 
 Did you get enough sleep last night?  Did you get more sleep than the average person?  
-How much sleep did the average person get? The answer to this last question is simply 
-the sum\marginpar{Sum or average?}
-$\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ denotes the hours of sleep of individual 
+How much sleep did the average person get? The answer to this last question involves a 
+simple sum: $\mu = N^{-1} \sum_{j=1}^N f(j)$, where $f(j)$ denotes the hours of sleep of 
+individual 
 $j$ in a population of $N$ individuals.  For a large population, such as the $\approx 250$ 
 million adults in the United States, an exhaustive sample is difficult to obtain. So you 
 might resort to a 
@@ -353,9 +353,10 @@ error of a sleep survey using a simple random sample without replacement is
 \underbrace{\std(f)}_{\Var^\Dt(f)},
 \label{FJH:eq:surveyrndtrio}
 \end{align}
-where $\std_{\hnu}$ means standard deviation with respect to the random sampling 
-measure, and direct calculation yields
-\marginpar{I do not follow this equality. Are you using your definition of $\std(f)$?}
+where $\std_{\hnu}(g(\hnu)) := \sqrt{\Ex_{\hnu}[g(\hnu)]^2 - \{\Ex_{\hnu}[g(\hnu)]\}^2}$ , i.e., 
+the standard deviation with 
+respect to the random sampling 
+measure.  Direct calculation yields
 \begin{equation*}
 \std_{\hnu} \bigl( \corr\bigl(f, \bbone_{\{x_i\}_{i=1}^n}\bigr)\bigr) = \sqrt{\frac{1}{N-1}}.
 \end{equation*}
@@ -371,13 +372,16 @@ the ``awful minority'' of possible sampling measures.
 
 For this example, $\algn^\Rn(f,\nu - \hnu)$ may be larger than $\algn^\Dt(f,\nu - \hnu)$, 
 but  $\disc^\Rn(\nu - \hnu)$ is $\Order(N^{-1/2})$ the size of $\disc^\Dt(\nu - 
-\hnu)$.  Comparing \eqref{FJH:eq:surveyrndtrio} with 
-\eqref{FJH:eq:surveydettrio}, we conclude that for a large population, a web survey with 
+\hnu)$.  For a web survey the absolute cubature error in \eqref{FJH:eq:surveydettrio} is 
+$\corr\bigl(f, 
+\bbone_{\{x_i\}_{i=1}^{n_{\textup{web}}}}\bigr) \disc^\Dt(\nu - \hnu_{\textup{web}}) \std(f)$, 
+whereas for the simple random sampled survey the absolute cubature error from 
+\eqref{FJH:eq:surveyrndtrio} is roughly $\disc^\Rn(\nu - \hnu_{\textup{SRS}}) \std(f)$.  
+Equating these two expressions, we conclude that for a large population, a web survey with 
 $n_{\textup{web}}$ samples is equivalent to a simple random survey with 
-\marginpar{I am not sure about this derivation but I get something of $\std_{\hnu}^2$ instead of $\corr^2$.}
 \[
-n_{\textup{SRS}} \approx \frac{n_{\textup{web}}/N}{\corr^2\Bigl(f, 
-\bbone_{\{x_i\}_{i=1}^{n_{\textup{web}}}}\Bigr)(1-n_{\textup{web}}/N)}
+n_{\textup{SRS}} \approx \frac{n_{\textup{web}}/N}{\corr^2\bigl(f, 
+\bbone_{\{x_i\}_{i=1}^{n_{\textup{web}}}}\bigr)(1-n_{\textup{web}}/N)}
 \]
 samples.  So, an exceedingly successful web survey with $n_{\textup{web}} = 
 1$ million distinct responses from a population of $N = 250$ million 
