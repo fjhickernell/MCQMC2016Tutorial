@@ -72,12 +72,7 @@
 %Fred's additions
 %
 \usepackage{xspace}
-\DeclareMathOperator{\Cov}{cov}
-\DeclareMathOperator{\algn}{CNF}
-\DeclareMathOperator{\disc}{DSC}
-\DeclareMathOperator{\Var}{VAR}
-\DeclareMathOperator{\sign}{sign}
-\DeclareMathOperator{\GP}{\calG\!\!\calP}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -164,16 +159,19 @@ Gaussian process, provides data-based probabilistic error bounds. }
 simulations have been developed for integrands that are not too wild. }
 
 
-
+\newcommand{\Cov}{\textup{cov}}
+\newcommand{\algn}{\textup{CNF}}
+\newcommand{\disc}{\textup{DSC}}
+\newcommand{\Var}{\textup{VAR}}
+%\DeclareMathOperator{\sign}{sign}
+\newcommand{\GP}{\calG\!\!\calP}
 
 
 \newlength{\FJHfigheight}
 \setlength{\FJHfigheight}{4 cm}
-
-
 	
 \newtheorem{FJHLesson}{Lesson}
-\newcommand{\corr}{\mathrm{corr}}
+\newcommand{\corr}{\textup{corr}}
 \newcommand{\std}{\textup{std}}
 \newcommand{\Dt}{\textup{D}}
 \newcommand{\Rn}{\textup{R}}
