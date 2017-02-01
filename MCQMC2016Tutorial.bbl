@@ -13,6 +13,10 @@ Anitescu, M., Chen, J., Stein, M.: An inversion-free estimating equation
 \newblock J. Comput.\ Graph.\ Statist.  (2016).
 \newblock \doi{10.1080/10618600.2016.1164056}
 
+\bibitem{Aro50}
+Aronszajn, N.: Theory of reproducing kernels.
+\newblock Trans.\ Amer.\ Math.\ Soc. \textbf{68}, 337--404 (1950)
+
 \bibitem{BayEtal14a}
 Bayer, C., Hoel, H., {von Schwerin}, E., Tempone, R.: On nonasymptotic optimal
   stopping criteria in {M}onte {C}arlo {S}imulations.
@@ -36,15 +40,37 @@ Diaconis, P.: {B}ayesian numerical analysis.
   {L}afayette, {I}ndiana 1986, vol.~1, pp. 163--175. Springer-Verlag, New York
   (1988)
 
+\bibitem{KuoEtal14a}
+Dick, J., Kuo, F.Y., Peters, G.W., Sloan, I.H. (eds.): {M}onte {C}arlo and
+  Quasi-{M}onte {C}arlo Methods 2012, \emph{Springer Proceedings in Mathematics
+  and Statistics}, vol.~65. Springer-Verlag, Berlin (2013)
+
 \bibitem{DicPil10a}
 Dick, J., Pillichshammer, F.: Digital Nets and Sequences: Discrepancy Theory
   and Quasi-{M}onte {C}arlo Integration.
 \newblock Cambridge University Press, Cambridge (2010)
 
+\bibitem{Fau82}
+Faure, H.: Discr{\'e}pance de suites associ{\'e}es {\`a} un syst{\`e}me de
+  num{\'e}ration (en dimension $s$).
+\newblock Acta Arith. \textbf{41}, 337--351 (1982)
+
 \bibitem{Gen93}
 Genz, A.: Comparison of methods for the computation of multivariate normal
   probabilities.
 \newblock Computing Science and Statistics \textbf{25}, 400--405 (1993)
+
+\bibitem{Gil14a}
+Giles, M.: Multilevel {M}onte {C}arlo methods.
+\newblock In: Dick et~al.  \cite{KuoEtal14a}
+
+\bibitem{Gil15a}
+Giles, M.: Multilevel monte carlo methods.
+\newblock Acta Numer. \textbf{24}(259--328) (2015)
+
+\bibitem{Gil08b}
+Giles, M.B.: Multilevel {M}onte {C}arlo path simulation.
+\newblock Oper.\ Res. \textbf{56}, 607---617 (2008)
 
 \bibitem{GriKuoSlo10}
 Griebel, M., Kuo, F.Y., Sloan, I.H.: The smoothing effect of the {ANOVA}
@@ -57,6 +83,13 @@ Griebel, M., Kuo, F.Y., Sloan, I.H.: The {ANOVA} decomposition of a non-smooth
   function of infinitely many variables can have every term smooth.
 \newblock Math.\ Comp.  (2016+).
 \newblock In press
+
+\bibitem{Hei01a}
+Heinrich, S.: Multilevel {M}onte {C}arlo methods.
+\newblock In: S.~Margenov, J.~Wasniewski, P.Y. Yalamov (eds.) Large-Scale
+  Scientific Computing, {T}hird International Conference, {LSSC} 2001,
+  \emph{Lecture Notes in Computer Science}, vol. 2179, pp. 58--67.
+  Springer-Verlag (2001)
 
 \bibitem{HeiHicYue02a}
 Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
@@ -81,10 +114,7 @@ Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
 \bibitem{HicEtal14a}
 \HickernellFJ, F.J., Jiang, L., Liu, Y., Owen, A.B.: Guaranteed conservative
   fixed width confidence intervals via {M}onte {C}arlo sampling.
-\newblock In: J.~Dick, F.Y. Kuo, G.W. Peters, I.H. Sloan (eds.) {M}onte {C}arlo
-  and Quasi-{M}onte {C}arlo Methods 2012, \emph{Springer Proceedings in
-  Mathematics and Statistics}, vol.~65, pp. 105--128. Springer-Verlag, Berlin
-  (2013)
+\newblock In: Dick et~al.  \cite{KuoEtal14a}, pp. 105--128
 
 \bibitem{HicJim16a}
 \HickernellFJ, F.J., {Jim\'enez Rugama}, {\relax Ll}.A.: Reliable adaptive
@@ -101,6 +131,13 @@ Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
 \HickernellFJ, F.J., Lemieux, C., Owen, A.B.: Control variates for
   quasi-{M}onte {C}arlo.
 \newblock Statist.\ Sci. \textbf{20}, 1--31 (2005)
+
+\bibitem{HicMGRitNiu09a}
+\HickernellFJ, F.J., M\"uller-Gronbach, T., Niu, B., Ritter, K.: Multi-level
+  {M}onte {C}arlo algorithms for infinite-dimensional integration on
+  $\mathbb{R}^\mathbb{N}$.
+\newblock J. Complexity \textbf{26}, 229--254 (2010).
+\newblock \doi{10.1016/j.jco.2010.02.002}
 
 \bibitem{HicYue00}
 \HickernellFJ, F.J., Yue, R.X.: The mean square discrepancy of scrambled
@@ -136,10 +173,27 @@ Liu, R., Owen, A.B.: Estimating mean dimensionality.
 Meng, X.: Statistical paradises and paradoxes in big data (2016+).
 \newblock In preparation
 
+\bibitem{Nie88}
+Niederreiter, H.: Low-discrepancy and low-dispersion sequences.
+\newblock J. Number Theory \textbf{30}, 51--70 (1988)
+
 \bibitem{Nie92}
 Niederreiter, H.: Random Number Generation and Quasi-{M}onte {C}arlo Methods.
 \newblock CBMS-NSF Regional Conference Series in Applied Mathematics. SIAM,
   Philadelphia (1992)
+
+\bibitem{NieXin96}
+Niederreiter, H., Xing, C.: Quasirandom points and global function fields.
+\newblock In: S.~Cohen, H.~Niederreiter (eds.) Finite Fields and Applications,
+  no. 233 in London Math.\ Soc.\ Lecture Note Ser., pp. 269--296. Cambridge
+  University Press (1996)
+
+\bibitem{NiuHic09b}
+Niu, B., \HickernellFJ, F.J., M\"uller-Gronbach, T., Ritter, K.: Deterministic
+  multi-level algorithms for infinite-dimensional integration on
+  {$\mathbb{R}^{\mathbb{N}}$}.
+\newblock J. Complexity \textbf{27}, 331--351 (2011).
+\newblock \doi{10.1016/j.jco.2010.08.001}
 
 \bibitem{NovWoz08a}
 Novak, E., Wo{\'{z}}niakowski, H.: Tractability of Multivariate Problems
@@ -189,6 +243,11 @@ Rasmussen, C.E., Ghahramani, Z.: Bayesian {M}onte {C}arlo.
 \newblock In: S.~Thrun, L.K. Saul, K.~Obermayer (eds.) Advances in {N}eural
   {I}nformation {P}rocessing {S}ystems, vol.~15, pp. 489--496. MIT Press (2003)
 
+\bibitem{RheGly12a}
+Rhee, C., Glynn, P.: A new approach to unbiased estimation for {SDE}'s.
+\newblock In: C.~Laroque, J.~Himmelspach, R.~Pasupathy, O.~Rose, A.M. Uhrmacher
+  (eds.) Proceedings of the 2012 Winter Simulation Conference (2012)
+
 \bibitem{Rit00a}
 Ritter, K.: Average-Case Analysis of Numerical Problems, \emph{Lecture Notes in
   Mathematics}, vol. 1733.
@@ -202,5 +261,15 @@ Sloan, I.H., Joe, S.: Lattice Methods for Multiple Integration.
 Sloan, I.H., Wo\'zniakowski, H.: An intractability result for multiple
   integration.
 \newblock Math.\ Comp. \textbf{66}, 1119--1124 (1997)
+
+\bibitem{Sob67}
+Sobol', I.M.: The distribution of points in a cube and the approximate
+  evaluation of integrals.
+\newblock U.S.S.R. Comput. Math. and Math. Phys. \textbf{7}, 86--112 (1967)
+
+\bibitem{Was13b}
+Wasilkowski, G.W.: On tractability of linear tensor product problems for
+  $\infty$-variate classes of functions.
+\newblock J. Complexity \textbf{29}, 351--369 (2013)
 
 \end{thebibliography}

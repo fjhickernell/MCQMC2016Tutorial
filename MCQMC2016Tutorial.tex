@@ -46,7 +46,7 @@
 % Additionally we throw in the following common used macro's:
 \input{macros}
 
-% Macros below are now inclded in macros.tex from MCQMC 2016 web site
+% Macros below are now included in macros.tex from MCQMC 2016 web site
 % This spot formerly included macros that are now in macros.tex
 
 % indicator boldface 1:
@@ -91,8 +91,15 @@
 integrand is deterministic or Bayesian and whether the sampling measure is deterministic or 
 random.  }
 
-\newcommand{\FJHLessonSeven}{Although it has traditionally been excluded from cubature 
-error analysis, the confounding helps explain why the cubature error may decay to zero 
+\newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy when $\cf$ is an RKHS  
+has 
+a simple, explicit form involving three factors. }	
+
+\newcommand{\FJHLessonFourteen}{The formula for the Bayesian discrepancy mimics that 
+for the deterministic discrepancy when $\cf$ is an RKHS. }	
+
+\newcommand{\FJHLessonSeven}{Although it has traditionally been ignored, the 
+confounding helps explain why the cubature error may decay to zero 
 much faster or more slowly than the discrepancy.  }
 
 \newcommand{\FJHLessonNine}{Bayesian cubature has a purely deterministic alternative 
@@ -113,10 +120,8 @@ the error, $\mu - \hmu$, smaller?}
 	measures have discrepancies and cubature errors that decay to zero at 
 	a faster rate than the case of IID sampling. }
 
-\newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy for reproducing 
-	kernel Hilbert spaces has a simple, explict form involving three factors. }	
 
-\newcommand{\FJHLessonThree}{Randomizing your sampling measure, not only may 
+\newcommand{\FJHLessonThree}{Randomizing your sampling measure may not only 
 	eliminate bias, but it may help you improve accuracy by avoiding the awful minority of 
 	possible sampling measures. }
 
@@ -128,8 +133,8 @@ the error, $\mu - \hmu$, smaller?}
 
 
 
-\newcommand{\FJHQTwo}{How can the error be decreased by re-casting the problem, 
-say with a different $f$ or $\nu$?}
+\newcommand{\FJHQTwo}{How can the error be decreased by re-casting the problem with a 
+different integrand, $f$?}
 
 \newcommand{\FJHLessonFour}{Well-chosen variable transformations may reduce 
 	cubature error by producing an integrand with a smaller variation than the original. }
@@ -261,7 +266,7 @@ integrand may also reduce the cubature error.}
 \section{Introduction}
 Monte Carlo methods are used to approximate multivariate integrals that cannot be evaluated analytically, i.e.,  integrals of the form
 \begin{equation}
-\mu = \int_{\cx} f(\bsx) \, \nu(\D \bsx), \label{INT} \tag{INT}
+\mu = \int_{\cx} f(\bsx) \, \nu(\D \bsx), \label{FJH:eq:INT} \tag{INT}
 \end{equation}
 where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a 
 \emph{probability} measure.  Here, $\mu$ represents the weighted average of the integrand or 
@@ -269,7 +274,7 @@ $\Ex[f(\bsX)]$, where the random variable $\bsX$ has probability measure $\nu$. 
 Carlo methods take the form of a weighted average of values of $f$ at a finite number of data 
 sites (points, 
 nodes), $\bsx_1, \ldots, \bsx_n$:
-\begin{equation} \label{AppxINT} \tag{MC}
+\begin{equation} \label{FJH:eq:AppxINT} \tag{MC}
 \hmu = \sum_{i=1}^n f(\bsx_i) w_i = \int_{\cx} f(\bsx) \, \hnu(\D \bsx).
 \end{equation}
 The sampling measure, $\hnu$, assigns a weight $w_i$ to the function value at the 
@@ -288,7 +293,8 @@ particularly interested in sampling measures that choose the data sites more cle
 than independently and identically distributed (IID).  Such sampling measures are the 
 hallmark of quasi-Monte Carlo methods.
 
-This tutorial describes how to characterize and analyze the error, $\mu - \hmu$.  
+This tutorial describes how to characterize and analyze the \emph{cubature error}, $\mu - 
+\hmu$.  
 Specifically, we ask
 \begin{list}{}{\setlength\leftmargin{7ex}\setlength\labelwidth{5ex}}
 \item[\emph{Question 1.}] \emph{\FJHQOne}
@@ -334,7 +340,7 @@ and direct calculation yields
 \std\left(\frac Nn \bbone_{\{x_i\}_{i=1}^n}\right) = \sqrt{\frac{1 - n/N}{n/N}}.
 \end{equation*}
 
-The expression of the error as a product of three quantities in 
+The expression of the error as a product of three factors in 
 \eqref{FJH:eq:surveydettrio} is a case of the \emph{trio identity}, introduced by Meng 
 \cite{Men16a}.  In this example the integral, $\mu$, corresponds to a sum, 
 and the probability measure $\nu$ is the uniform measure over $\{1, 
@@ -350,7 +356,8 @@ following meanings:
 	\item [$\disc(\nu - \hnu)$] measures the \emph{discrepancy} of the sampling 
 	measure 
 	from the probability measure that defines the integral.  In this case, the discrepancy 
-	depends only on the sample fraction, $n/N$.
+	depends only on the sample fraction, $n/N$, but in other cases it will also depend on the 
+	locations of the data sites.
 	\item [$\algn(f,\nu - \hnu)$] measures the \emph{confounding} between the 
 	integrand and the difference between the measure defining the integral and the 
 	sampling measure.  In this case the confounding lies between plus and minus one.
@@ -391,7 +398,8 @@ error of a sleep survey using a simple random sample without replacement is
 \underbrace{\std(f)}_{\Var^\Dt(f)},
 \label{FJH:eq:surveyrndtrio}
 \end{align}
-where $\std_{\hnu}(g(\hnu)) := \sqrt{\Ex_{\hnu}[g(\hnu)]^2 - \{\Ex_{\hnu}[g(\hnu)]\}^2}$ , i.e., 
+where $\std_{\hnu}(g(\hnu)) := \sqrt{\{\Ex_{\hnu}[g(\hnu)]^2 \}- \{\Ex_{\hnu}[g(\hnu)]\}^2}$ , 
+i.e., 
 the standard deviation with 
 respect to the random sampling 
 measure.  Direct calculation yields
@@ -448,7 +456,7 @@ domain,  $\cx$, is a
 bounded, linear functional.  This means that $\sup_{f \in \cf} \abs{f(\bst)}/\norm{f}_{\cf} < 
 \infty$ for all $\bst \in \cx$ and that $\int_{\cx} f(\bsx) \, \delta_{\bst}(\D\bsx) =f(\bst)$ 
 for all $f \in \cf, \ \bst \in \cx$.  Let $L :\cf \to \R$ be some bounded 
-linear functional.  If $L(f) \ne 0$ for any $f$, then $\cf$ is assumed to contain all 
+linear functional.  If $L(f) \ne 0$ for any $f$, then $\cf$ is assumed to contain  
 constant functions.  The deterministic discrepancy is defined as 
 \begin{equation}  \label{FJH:eq:detvardef}
 \Var^{\Dt}(f) := \norm{f- L(f)}_{\cf} \qquad \forall f \in \cf.
@@ -462,7 +470,7 @@ have finite integrals:
 \end{equation*}
 We assume that our integral of interest is defined, so $\nu \in \cm$.  Since function 
 evaluation is bounded, $\cm$ includes $\cm_{\textup{S}}$ defined in 
-\eqref{FJH:eq:sampmeaset}.  Define the subspace  
+\eqref{FJH:eq:sampmeaset} as well.  Define the subspace  
 \begin{equation} \label{FJH:eq:Mperpdef}
 \cm_\bot : = \left \{\eta \in \cm :  L(f) \eta(\cx) = 0  \ \forall f \in \cf
 \right\}.
@@ -497,13 +505,16 @@ confounding, the following error identity holds for all $f \in \cf$ and $\nu - \
 \end{equation}
 Moreover, $\abs{\algn^\Dt(f,\nu - \hnu)} \le 1$. 
 \end{theorem}
-\begin{proof}  The proof of this identity follows directly from the definitions above, by 
-noting that for all $f \in \cf$ and $\nu - \hnu  \in \cm_\bot$, the error can be written as a 
-single integral via \eqref{INT} and \eqref{AppxINT}:
+\begin{proof}  The proof of this identity follows from the definitions above.  Note that by 
+\eqref{FJH:eq:INT} and \eqref{FJH:eq:AppxINT}, for all $f \in \cf$ and $\nu - \hnu  \in 
+\cm_\bot$, the cubature 
+error 
+can be written as a 
+single integral:
 	\begin{equation} \label{FJH:eq:err_as_int}
 	\mu - \hmu   =  \int_{\cx} f(\bsx) \, (\nu - \hnu)(\D \bsx).
 	\end{equation}
-	If $\Var^{\Dt}(f) = 0$, then $f = L(f)$, and the integral above vanishes due to the 
+	If $\Var^{\Dt}(f) = 0$, then $f = L(f)$, and the integral above vanishes by the 
 	definition of $\cm_{\bot}$.  If $\disc^\Dt(\nu - \hnu) = 0$, then the integral above 
 	vanishes by \eqref{FJH:eq:detdiscdef}.  Thus, for $\Var^{\Dt}(f) \disc^\Dt(\nu - \hnu) = 
 	0$ 
@@ -549,7 +560,7 @@ $\bignorm{\sum_{i=1}^N u_i \delta_{i}}_{\cm_\bot} : =
 
 When $\cf$ is a Hilbert space with reproducing kernel $K$, the discrepancy has an 
 explicit expression in terms of $K$.  The reproducing kernel is the unique function, $K: 
-\cx \times \cx \to \R$ satisfying these two properties:
+\cx \times \cx \to \R$ satisfying these two properties \cite[Sec.\ 1]{Aro50}:
 \begin{equation}
 K(\cdot,\bst) \in \cf \quad \forall \bst \in \cx, \qquad f(\bst) = \ip[\cf]{K(\cdot,\bst)}{f} 
 \quad \forall f \in \cf, \ \bst \in \cx.
@@ -679,17 +690,16 @@ better than IID in a way that lowers the discrepancy significantly.  For
 integration over $\cx = [0,1]^d$ with 
 respect to the uniform measure, these \emph{low discrepancy} data sites may come from
 \begin{itemize} 
-\item a digital sequence \cite{DicPil10a}, such as that proposed by Sobol' \cite{}, Faure 
-\cite{}, 
-Niederreiter \cite{} or Niederreiter and Xing \cite{}, or 
+\item a digital sequence \cite{DicPil10a}, such as that proposed by Sobol' \cite{Sob67}, 
+Faure \cite{Fau82}, Niederreiter \cite{Nie88} or Niederreiter and Xing \cite{NieXin96}, or 
 \item a sequence of node sets of an integration lattice \cite{SloJoe94}.  
 \end{itemize}
 The 
-constructions of such sets are described in the references above and Pierre L'Ecuyer's 
+constructions of such sets are described in the references above and L'Ecuyer's 
 tutorial 
 \cite{}.  The discrepancy defined in \eqref{FJH:eq:L2disc} and its relatives are 
 $\Order(n^{-1+\epsilon})$ as $n \to \infty$ for any positive $\epsilon$ for these low 
-discrepancy data sites \cite{bibid}.  
+discrepancy data sites \cite{Nie92}.  
 
 Fig.\ \ref{FJH:fig:plotsdiffpts} displays examples of IID and low discrepancy data sites.  
 Fig.\ \ref{FJH:fig:unwtdiscdiffpts} the rates of decay for the $L^2$ discrepancy for 
@@ -922,7 +932,7 @@ extending above the marker denotes the worst $90\%$ error.
 	\caption{The error of an example of the multivariate Gaussian probability in 
 	\eqref{FJH:eq:MVN}.  The left side shows the result of Genz's transformation and 
 	different sampling measures.  The right side shows the scrambled Sobol' sampling 
-	using different transforamtions.
+	using different transformations.
 	\label{FJH:fig:MVNfig}}
 \end{figure}
 
@@ -1308,6 +1318,11 @@ and the matrix $\mathsf{K}$ analogously to $c_0$, $\bsc$, and $\mathsf{C}$,
 respectively, as in  \eqref{FJH:eq:Cvecmatdef}.  Let the cubature weights be $\bsw = 
 \mathsf{K}^{-1} \bsk$, analogous to what is done for Bayesian cubature.  This means 
 that $\disc^\Dt(\nu - \hnu)$ is numerically the same as $\disc^\Ba(\nu - \hnu)$.
+
+\begin{FJHLesson}
+	\FJHLessonFourteen
+\end{FJHLesson}
+
 The minimum Hilbert space norm 
 interpolant of $f \in \cf$ given the data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\tf_\bsy(\bsx) = 
 \tbsk(\bsx) \mathsf{K}^{-1} \bsy$, where $\tbsk(\bsx) := 
@@ -1537,7 +1552,7 @@ slightly on the coordinates with higher indices, so that the variation will be m
 	\FJHLessonEight
 \end{FJHLesson}
 
-\section{Variable Transformations to Reduce Cubature Error}
+\section{Rewriting the Integral}
 
 The same integral $\mu$ can often written in multiple ways by making variable 
 transformations.  This can be advantageous if a variable transformation reduces the 
@@ -1550,26 +1565,24 @@ described in the previous section where the discrepancy and cubature error becom
 nearly dimension-independent when the variance defined in terms of decreasing 
 coordinate weights also be comes dimension-independent.
 
-Importance sampling is a method for improving the accuracy of IID Monte Carlo 
+Importance sampling is a way to improve the accuracy of IID Monte Carlo 
 methods, but it can also be useful for quasi-Monte Carlo methods, which are based on 
-low discrepancy sequences.  We describe importance sampling disguised as a variable 
-transformation.  Since such sequences are typically generated to mimic the 
-uniform measure on 
-the unit cube, $[0,1]^d$, we consider the integral $\mu = \int_{[0,1]^{d}} g(\bst) \, 
-\D\bst$.  If $\zeta: [0,1] \to [0,1]$ is a differentiable, increasing, onto function, then $\mu 
-= \int_{[0,1]^{d}} f(\bsx) \, 
-\D\bsx$, where $f(\bsx) = g\bigl(\zeta(x_1), \ldots, \zeta(x_d) \bigr) \zeta'(x_1) \cdots 
-\zeta'(x_d)$.  
-If $\zeta$ can be chosen to make $\Var^\Dt(f) < \Var^\Dt(g)$, then the cubature error 
-for approximating the integral of $f$ will generally be smaller than for approximating the 
-integral of $g$.  The choice of variable 
-transformation is more of an art than a science.
+low discrepancy sequences.  Since low discrepancy sampling measures are essentially 
+always generated to mimic the uniform measure on the unit cube, $[0,1]^d$, the final 
+integral \eqref{FJH:eq:INT} should essentially end up as $\mu = \int_{[0,1]^{d}} f(\bsx) \, 
+\D\bsx$.  Suppose that one starts with $\mu = \int_{\cx} g(\bst) \, 
+\D\bst$ and can identify an onto mapping $\bszeta: [0,1]^d \to \cx$ with finite
+Jacobian $\det\bigl( \partial \bszeta/\partial \bsx\bigr)$.  Then these two expressions for 
+$\mu$ coincide provided that $f(\bsx) = g(\bszeta(\bsx)) \det\bigl( \partial 
+\bszeta/\partial \bsx\bigr)$.  Since the choice of $\bszeta$ is not unique, it should be 
+chosen to make $\Var^\Dt(f)$ as small as possible, which is more of an art than a 
+science.
 
 Control variates can be used to make the variation of the integrand smaller for 
 quasi-Monte Carlo methods as well as for IID Monte Carlo methods.  This involves 
 integrating the function $f - \bsbeta^T \bsg$ instead of $f$, where $\bsg$ is a vector of 
 integrands whose integral is $\bszero$.  The choice of the 
-control variate coefficientm $\bsbeta$, is subtle for low discrepancy sampling measures 
+control variate coefficient $\bsbeta$, is subtle for low discrepancy sampling measures 
 \cite{HicEtal03}, but an effective method has been 
 developed \cite{HicEtal17a}.
 
@@ -1577,38 +1590,88 @@ developed \cite{HicEtal17a}.
 	\FJHLessonTwelve
 \end{FJHLesson}
 
-MDM
+For some integration problems the dimension is infinite and so our problem \eqref{FJH:eq:INT} 
+becomes
+\begin{equation} \label{FJH:eq:InfINT} \tag{$\infty$INT}
+\mu = \lim_{d \to \infty} \mu^{(d)}, \qquad \mu^{(d)} = \int_{\cx_d} f^{(d)}(\bsx) \, \nu^{(d)}(\D 
+\bsx),
+\end{equation} 
+where $\cx^{(d)} = \cx_1 \times \cdots \times \cx_d$, $\nu^{(d)}$ is a measure on $\cx^{(d)} $ 
+with 
+independent marginals $\nu_k$ on $\cx_k$, and $f_1, f_2, \ldots$ are approximations to an 
+infinite-dimensional integrand.  If one approximates $\mu$ by $\hmu^{(d)}$, the 
+approximation 
+to 
+$\mu^{(d)}$, for some large enough $d$, then the computational cost is likely to be high 
+because evaluating $f^{(d)}(\bsx)$ for a single $\bsx$ typically requires $\Order(d)$ 
+operations, 
+and so $\mu^{(d)}$ requires $\Order(nd)$ operations.
+
+The better alternative is often to decompose the $f^{(d)}$ into pieces $f_\fraku$, for $\fraku 
+\subset 
+1 \!\!:\!\! d$, such that $f^{(d)} = \sum_{\fraku \subseteq 1:d} f_{\fraku}$ and the 
+$f_\fraku$ depend on $\fraku$ but not on $d$.  Multi-level Monte Carlo 
+approximates \eqref{FJH:eq:InfINT} by
+\begin{equation*}
+\hmu := \hmu\bigl(f^{(d_1)}\bigr) + \hmu\bigl(f^{(d_2)} - f^{(d_1)}\bigr) + 
+\cdots + \hmu\bigl(f^{(d_L)} - f^{(d_{L-1})}\bigr), 
+\end{equation*}
+for some choice of $d_k$ with $d_1 < \cdots < d_L$.  This works well when $\Var\bigl(f^{(d_k)} 
+- f^{(d_{k-1} )} \bigr)$ decreases as $k$ increases and when $\mu - \mu^{(d_L)}$ is small \cite{
+	Gil14a, Gil15a, Gil08b, Hei01a,  HicMGRitNiu09a, NiuHic09b}.  The computational cost of 
+	$\hmu\bigl(f^{(d_k)} - 
+f^{(d_{k-1})} \bigr)$ is $\Order(n_k d_k)$, and as $d_k$ increases, the sample size, $n_k$, 
+required for sufficient accuracy decreases, thus moderating the cost.   There is bias, since 
+$\mu - 
+	\mu^{(d_L)}$ is not approximated at all, but this can be removed by a clever a randomized 
+	sampling method \cite{RheGly12a}.
+	
+The Multivariate Decomposition Method approximates \eqref{FJH:eq:InfINT} by
+\begin{equation*}
+\hmu = \hmu(f_{\fraku_1}) + \hmu(f_{\fraku_2}) + 
+		\cdots +\hmu(f_{\fraku_L}),
+\end{equation*} 
+where the $\fraku_k$ are the important sets of coordinate indices as judged by 
+$\Var^{\Dt}(f_\fraku)$ to ensure that $\mu - \sum_{\fraku \notin \{\fraku_1,   \ldots, 
+	\fraku_L\}} \mu(f_\fraku)$ is small \cite{Was13b}.  The computational cost of each 
+	$\hmu(f_{\fraku})$ 
+is $\Order(n_\fraku \lvert \fraku \rvert)$.  If the important sets have small cardinality, 
+$\lvert \fraku \rvert$, the computational cost is moderate.  
 
 \begin{FJHLesson}
 	\FJHLessonThirteen
 \end{FJHLesson}
-
-
-\textbf{Continue here}
-
 
 \section{Automatic Stopping Criteria for Cubature}
 The trio identity decomposes the cubature error into three factors.  By improving the 
 sampling scheme, the discrepancy may be made smaller.  By re-writing the integral, the 
 variation of the integrand might be made smaller.  For certain situations, we may find that 
 the confounding is small.  While the trio identity helps us understand what contributes to 
-the cubature error, it does not in itself answer the question of how many samples are 
-required to achieve the desired accuracy.
+the cubature error, it does not answer the question of how many samples are 
+required to achieve the desired accuracy, i.e., how to ensure that 
+\begin{equation} \label{FJH:eq:errcrit} \tag{ErrCrit}
+\lvert \mu - \hmu \rvert \le \varepsilon
+\end{equation}
+for some pre-determined $\varepsilon$.
 
 Bayesian cubature, as described in Sec.\ \ref{FJH:sec:BayesTrio} and given a 
 deterministic interpretation in Sec.\ \ref{FJH:sec:DetBayesInterp}, provides data-based 
-error bounds.  These can be used to determine how large $n$ must be to make the error 
-small enough.
+cubature
+error bounds.  These can be used to determine how large $n$ must be to satisfy 
+\eqref{FJH:eq:errcrit} with high probability.
 
 For IID Monte Carlo the Central Limit Theorem may be used to construct an approximate 
-confidence interval for $\mu$, however, this approach relies on believing that the 
-asymptotic limit has been reached and a reliable upper bound on the standard deviation 
-of 
-the integrand has been computed from the integrand values.  There have been recent 
+confidence interval for $\mu$, however, this approach relies on two conditions: i) believing 
+that the asymptotic limit has been reached, and ii) obtaining a reliable upper bound on the 
+standard deviation of the integrand from integrand values.  There have been recent 
 attempts to make this approach more robust \cite{BayEtal14a,HicEtal14a,Jia16a}.  An 
 upper bound on the standard deviation may be computed by assuming an upper bound 
-on the kurtosis or estimating the kurtosis from data.  The Central Limit Theorem may be 
-replaced by the  Berry-Esseen inequality, which is valid for finite samples.  
+on the kurtosis or estimating the kurtosis from data.  Knowing a bound on the kurtosis of the 
+integrand places the integrand in a cone of well behaved functions for which the standard 
+deviation can be confidently bounded in terms of the sample standard deviation.  A bound on 
+the kurtosis also allows one to use a Berry-Esseen inequality, which is a finite sample version 
+of  the Central Limit Theorem, to determine a sufficient sample size for computing the integral 
+with the desired accuracy.
 
 For low discrepancy sampling, independent random replications may be used to estimate 
 the error, but this approach lacks a rigorous justification.  An alternative proposed by the 
@@ -1626,14 +1689,15 @@ To conclude, we repeat the lessons highlighted above in answer to the questions 
 in the 
 introduction.  The order may be somewhat different.
 
-\FJHLessonZero \FJHLessonSix  \FJHLessonTwoHalf \FJHLessonSeven \FJHLessonNine
+\FJHLessonZero \FJHLessonSix  \FJHLessonTwoHalf \FJHLessonFourteen \FJHLessonSeven 
+\FJHLessonNine
 
 
 
 \begin{list}{}{\setlength\leftmargin{4.2ex}\setlength\labelwidth{3ex}}
 	\item[\emph{Question 1.}] \emph{\FJHQOne}
 	
-	\FJHLessonOne \FJHLessonTwo \FJHLessonThree \FJHLessonFive
+	\FJHLessonOne \FJHLessonTwo \FJHLessonThree   \FJHLessonFive
 	
 	\item[\emph{Question 2.}] \emph{\FJHQTwo}
 	
