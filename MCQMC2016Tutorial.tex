@@ -77,7 +77,7 @@
 \DeclareMathOperator{\disc}{DSC}
 \DeclareMathOperator{\Var}{VAR}
 \DeclareMathOperator{\sign}{sign}
-\DeclareMathOperator{\GP}{\cg\!\!\cp}
+\DeclareMathOperator{\GP}{\calG\!\!\calP}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -87,23 +87,22 @@
 	sampling measure, and the confounding. This identity shows how the integrand and 
 	the sampling measure each contribute to the cubature error.  }	
 
-\newcommand{\FJHLessonSix}{The trio identity has four versions, depending on whether the 
-integrand is deterministic or Bayesian and whether the sampling measure is deterministic or 
-random.  }
+\newcommand{\FJHLessonSix}{The trio identity has four versions, depending on whether 
+the integrand is deterministic or Bayesian and whether the sampling measure is 
+deterministic or random.  }
 
-\newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy when $\cf$ is an RKHS  
-has 
-a simple, explicit form involving three factors. }	
+\newcommand{\FJHLessonTwoHalf}{The deterministic discrepancy when $\calF$ is an 
+RKHS  has a simple, explicit form involving three factors. }	
 
-\newcommand{\FJHLessonFourteen}{The formula for the Bayesian discrepancy mimics that 
-for the deterministic discrepancy when $\cf$ is an RKHS. }	
+\newcommand{\FJHLessonFourteen}{The formula for the Bayesian discrepancy mimics 
+that for the deterministic discrepancy when $\calF$ is an RKHS. }	
 
 \newcommand{\FJHLessonSeven}{Although it has traditionally been ignored, the 
 confounding helps explain why the cubature error may decay to zero 
 much faster or more slowly than the discrepancy.  }
 
-\newcommand{\FJHLessonNine}{Bayesian cubature has a purely deterministic alternative 
-interpretation.  }
+\newcommand{\FJHLessonNine}{Bayesian cubature has a purely deterministic 
+alternative interpretation.  }
 
 
 	
@@ -187,59 +186,20 @@ simulations have been developed for integrands that are not too wild. }
 
 \newcommand{\MLE}{\text{MLE}}
 \newcommand{\mC}{\mathsf{C}}
-\newcommand{\Ex}{\mathbb{E}}
-\newcommand{\Prob}{\mathbb{P}}
-\newcommand{\cf}{\mathcal{F}}
-\newcommand{\cl}{\mathcal{L}}
-\newcommand{\cn}{\mathcal{N}}
-\newcommand{\Order}{\mathcal{O}}
-\newcommand{\cm}{\mathcal{M}}
-\newcommand{\cg}{\mathcal{G}}
-\newcommand{\cp}{\mathcal{P}}
-\newcommand{\cu}{\mathcal{U}}
-\newcommand{\cx}{\mathcal{X}}
-\newcommand{\cy}{\mathcal{Y}}
-\newcommand{\cz}{\mathcal{Z}}
-\newcommand{\natm}{\N_{0,m}}
-\newcommand{\cube}{[0,1)^d}
-\newcommand{\hf}{\hat{f}}
-\newcommand{\rf}{\mathring{f}}
 \newcommand{\tf}{\tilde{f}}
-\newcommand{\hg}{\hat{g}}
 \newcommand{\hmu}{\widehat{\mu}}
-\newcommand{\hI}{\hat{I}}
-\newcommand{\tvk}{\tilde{\bsk}}
-\newcommand{\hS}{\widehat{S}}
-\newcommand{\tS}{\widetilde{S}}
-\newcommand{\wcS}{\widecheck{S}}
-\newcommand{\rnu}{\mathring{\nu}}
-\newcommand{\tnu}{\widetilde{\nu}}
 \newcommand{\hnu}{\widehat{\nu}}
-\newcommand{\homega}{\widehat{\omega}}
-\newcommand{\wcomega}{\mathring{\omega}}
-\newcommand{\fC}{\mathfrak{C}}
-\newcommand{\nodes}{\{\bsz_i\}_{i=0}^{\infty}}
-\newcommand{\nodesn}{\{\bsz_i\}_{i=0}^{n-1}}
 \newcommand{\norm}[1]{\ensuremath{\left \lVert #1 \right \rVert}} 
 \newcommand{\snorm}[1]{\ensuremath{\left \lVert #1 \right \rVert}} 
 \newcommand{\bignorm}[1]{\ensuremath{\bigl \lVert #1 \bigr \rVert}}
 \newcommand{\Bignorm}[1]{\ensuremath{\Bigl \lVert #1 \Bigr \rVert}}
 \newcommand{\abs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
-\newcommand{\bigabs}[1]{\ensuremath{\bigl \lvert #1 \bigr \rvert}}
-\newcommand{\Bigabs}[1]{\ensuremath{\Bigl \lvert #1 \Bigr \rvert}}
 \newcommand{\biggabs}[1]{\ensuremath{\biggl \lvert #1 \biggr \rvert}}
-\newcommand{\Biggabs}[1]{\ensuremath{\Biggl \lvert #1 \Biggr \rvert}}
 \newcommand{\ip}[3][{}]{\ensuremath{\left \langle #2, #3 \right \rangle_{#1}}}
 \newcommand{\err}{\textrm{err}}
-\newcommand{\tbsone}{\tilde{\bsone}}
-\newcommand{\tvarrho}{\tilde{\varrho}}
-\newcommand{\rvarrho}{\mathring{\varrho}}
 \newcommand{\tc}{\tilde{c}}
 \newcommand{\tbsc}{\tilde{\bsc}}
-\newcommand{\tbsy}{\tilde{\bsy}}
 \newcommand{\tmC}{\widetilde{\mC}}
-\newcommand{\tz}{\tilde{z}}
-\newcommand{\tbsz}{\tilde{\bsz}}
 
 \allowdisplaybreaks
 
@@ -266,21 +226,24 @@ integrand may also reduce the cubature error.}
 \section{Introduction}
 Monte Carlo methods are used to approximate multivariate integrals that cannot be evaluated analytically, i.e.,  integrals of the form
 \begin{equation}
-\mu = \int_{\cx} f(\bsx) \, \nu(\D \bsx), \label{FJH:eq:INT} \tag{INT}
+\mu = \int_{\calX} f(\bsx) \, \nu(\D \bsx), \label{FJH:eq:INT} \tag{INT}
 \end{equation}
-where $f:\cx \to \R$ is a measurable function, $\cx$ is a measurable set, and $\nu$ is a 
-\emph{probability} measure.  Here, $\mu$ represents the weighted average of the integrand or 
-$\Ex[f(\bsX)]$, where the random variable $\bsX$ has probability measure $\nu$.  Monte 
+where $f:\calX \to \R$ is a measurable function, $\calX$ is a measurable set, and $\nu$ 
+is a 
+\emph{probability} measure.  Here, $\mu$ is the weighted average of the integrand, and 
+it is also 
+$\bbE[f(\bsX)]$, where the random variable $\bsX$ has probability measure $\nu$.  
+Monte 
 Carlo methods take the form of a weighted average of values of $f$ at a finite number of data 
-sites (points, 
-nodes), $\bsx_1, \ldots, \bsx_n$:
+sites, $\bsx_1, \ldots, \bsx_n$:
 \begin{equation} \label{FJH:eq:AppxINT} \tag{MC}
-\hmu = \sum_{i=1}^n f(\bsx_i) w_i = \int_{\cx} f(\bsx) \, \hnu(\D \bsx).
+\hmu = \sum_{i=1}^n f(\bsx_i) w_i = \int_{\calX} f(\bsx) \, \hnu(\D \bsx).
 \end{equation}
 The sampling measure, $\hnu$, assigns a weight $w_i$ to the function value at the 
 $i^{\text{th}}$ data site, and lies in the vector space
 \begin{equation} \label{FJH:eq:sampmeaset}
-\cm_{\textup{S}} := \left \{\sum_{i=1}^n w_i \delta_{\bsx_i} : w_1, \ldots, w_n \in \R,\ \bsx_1, 
+\calM_{\textup{S}} := \left \{\sum_{i=1}^n w_i \delta_{\bsx_i} : w_1, \ldots, w_n \in \R,\ 
+\bsx_1, 
 \ldots, \bsx_n \in \calX, \ n \in \N \right \},
 \end{equation}
 where  $\delta_{\bst}$ denotes a Dirac measure concentrated at point $\bst$. 
@@ -293,17 +256,16 @@ particularly interested in sampling measures that choose the data sites more cle
 than independently and identically distributed (IID).  Such sampling measures are the 
 hallmark of quasi-Monte Carlo methods.
 
-This tutorial describes how to characterize and analyze the \emph{cubature error}, $\mu - 
-\hmu$.  
+This tutorial describes how to characterize and analyze the \emph{cubature error}, $\mu 
+- \hmu$.  
 Specifically, we ask
 \begin{list}{}{\setlength\leftmargin{7ex}\setlength\labelwidth{5ex}}
 \item[\emph{Question 1.}] \emph{\FJHQOne}
 \item[\emph{Question 2.}] \emph{\FJHQTwo}
 \item[\emph{Question 3.}] \emph{\FJHQThree}
 \end{list}
-\noindent We present some known results and highlight fifteen key lessons that are 
-interspersed throughout this 
-article and repeated at the end.
+\noindent We intersperse sixteen key lessons throughout this 
+article and repeat them at the end.
 
 \section{Big Data Survey} \label{FJH:sec:sleep} 
 Did you get enough sleep last night?  Did you get more sleep than the average person?  
@@ -335,10 +297,8 @@ population means $\mu(f)$ and $\mu(g)$, is defined as
 \Cov(f,g) : = \frac 1N \sum_{j=1} [f(j) - \mu(f)] [g(j) - \mu(g)], \qquad 
 \std(f) : = \sqrt{\Cov(f,f)},
 \end{equation*}
-and direct calculation yields
-\begin{equation*}
-\std\left(\frac Nn \bbone_{\{x_i\}_{i=1}^n}\right) = \sqrt{\frac{1 - n/N}{n/N}}.
-\end{equation*}
+and direct calculation yields $\std\bigl((N/n)\bbone_{\{x_i\}_{i=1}^n}\bigr) = 
+\sqrt{(1 - n/N)/(n/N)}$.
 
 The expression of the error as a product of three factors in 
 \eqref{FJH:eq:surveydettrio} is a case of the \emph{trio identity}, introduced by Meng 
@@ -356,7 +316,7 @@ following meanings:
 	\item [$\disc(\nu - \hnu)$] measures the \emph{discrepancy} of the sampling 
 	measure 
 	from the probability measure that defines the integral.  In this case, the discrepancy 
-	depends only on the sample fraction, $n/N$, but in other cases it will also depend on the 
+	depends only on the sample fraction, $n/N$, but in other cases it depends also on the 
 	locations of the data sites.
 	\item [$\algn(f,\nu - \hnu)$] measures the \emph{confounding} between the 
 	integrand and the difference between the measure defining the integral and the 
@@ -398,27 +358,24 @@ error of a sleep survey using a simple random sample without replacement is
 \underbrace{\std(f)}_{\Var^\Dt(f)},
 \label{FJH:eq:surveyrndtrio}
 \end{align}
-where $\std_{\hnu}(g(\hnu)) := \sqrt{\{\Ex_{\hnu}[g(\hnu)]^2 \}- \{\Ex_{\hnu}[g(\hnu)]\}^2}$ , 
+where $\std_{\hnu}(g(\hnu)) := \sqrt{\{\bbE_{\hnu}[g(\hnu)]^2 \}- 
+\{\bbE_{\hnu}[g(\hnu)]\}^2}$ , 
 i.e., 
 the standard deviation with 
 respect to the random sampling 
-measure.  Direct calculation yields
-\begin{equation*}
-\std_{\hnu} \bigl( \corr\bigl(f, \bbone_{\{x_i\}_{i=1}^n}\bigr)\bigr) = \sqrt{\frac{1}{N-1}}.
-\end{equation*}
+measure.  Here, $\std_{\hnu} \bigl( \corr\bigl(f, 
+\bbone_{\{x_i\}_{i=1}^n}\bigr)\bigr) = \sqrt{1/(N-1)}$.
 
 For the randomized trio identity, the confounding may now be greater than one in 
 magnitude.  However, it  does have zero mean and 
-standard deviation one.  This means that with probability $1-\alpha$, the magnitude of 
+variance one.  This means that with probability $1-\alpha$, the magnitude of 
 the confounding will be no greater than $1/\sqrt{\alpha}$ by Chebyshev's inequality. The 
 sampling measure generated by a web survey is a member of the sample space of the 
 simple random survey.  Unless the 
-web survey has $\corr(f, \bbone_{\{x_i\}_{i=1}^n}) = \Order(N^{-1/2})$, then it is one of 
+web survey has $\corr(f, \bbone_{\{x_i\}_{i=1}^n}) = \calO(N^{-1/2})$, then it is one of 
 the ``awful minority'' of possible sampling measures.
 
-For this example, $\algn^\Rn(f,\nu - \hnu)$ may be larger than $\algn^\Dt(f,\nu - \hnu)$, 
-but  $\disc^\Rn(\nu - \hnu)$ is $\Order(N^{-1/2})$ the size of $\disc^\Dt(\nu - 
-\hnu)$.  For a web survey the absolute cubature error in \eqref{FJH:eq:surveydettrio} is 
+For a web survey the absolute cubature error in \eqref{FJH:eq:surveydettrio} is 
 $\corr\bigl(f, 
 \bbone_{\{x_i\}_{i=1}^{n_{\textup{web}}}}\bigr) \disc^\Dt(\nu - \hnu_{\textup{web}}) \std(f)$, 
 whereas for the simple random sampled survey the absolute cubature error from 
@@ -430,8 +387,8 @@ n_{\textup{SRS}} \approx \frac{n_{\textup{web}}/N}{\corr^2\bigl(f,
 \bbone_{\{x_i\}_{i=1}^{n_{\textup{web}}}}\bigr)(1-n_{\textup{web}}/N)}
 \]
 samples.  So, an exceedingly successful web survey with $n_{\textup{web}} = 
-1$ million distinct responses from a population of $N = 250$ million 
-(approximately the US adult population) with a correlation as small as $0.05$ is about as 
+1$ million distinct responses from a population of $N = 250$ million with a correlation as 
+small as $0.05$ is about as 
 valuable as $n_{\textup{SRS}} = 1.6$ simple random samples.
 
 This example illustrates a danger with treating big data as a cure all. Unless 
@@ -449,44 +406,50 @@ collected data.
 The two versions of the trio identity introduced by example in the previous section may 
 be defined in generality. We begin with the deterministic version.  
 
-Suppose that the integrand lies in some Banach space, $(\cf,\norm{\cdot}_{\cf})$, where 
+Suppose that the integrand lies in some Banach space, $(\calF,\norm{\cdot}_{\calF})$, 
+where 
 function 
 evaluation at any point  in the 
-domain,  $\cx$, is a 
-bounded, linear functional.  This means that $\sup_{f \in \cf} \abs{f(\bst)}/\norm{f}_{\cf} < 
-\infty$ for all $\bst \in \cx$ and that $\int_{\cx} f(\bsx) \, \delta_{\bst}(\D\bsx) =f(\bst)$ 
-for all $f \in \cf, \ \bst \in \cx$.  Let $L :\cf \to \R$ be some bounded 
-linear functional.  If $L(f) \ne 0$ for any $f$, then $\cf$ is assumed to contain  
+domain,  $\calX$, is a 
+bounded, linear functional.  This means that $\sup_{f \in \calF} 
+\abs{f(\bst)}/\norm{f}_{\calF} < 
+\infty$ for all $\bst \in \calX$ and that $\int_{\calX} f(\bsx) \, \delta_{\bst}(\D\bsx) 
+=f(\bst)$ 
+for all $f \in \calF, \ \bst \in \calX$.  Let $L :\calF \to \R$ be some bounded 
+linear functional.  If $L(f) \ne 0$ for any $f$, then $\calF$ is assumed to contain  
 constant functions.  The deterministic discrepancy is defined as 
 \begin{equation}  \label{FJH:eq:detvardef}
-\Var^{\Dt}(f) := \norm{f- L(f)}_{\cf} \qquad \forall f \in \cf.
+\Var^{\Dt}(f) := \norm{f- L(f)}_{\calF} \qquad \forall f \in \calF.
 \end{equation} 
 
-Let $\cm$ denote the vector space of signed measures for which integrands in $\cf$ 
+Let $\calM$ denote the vector space of signed measures for which integrands in 
+$\calF$ 
 have finite integrals:
 \begin{equation*}
-\cm : = \biggl \{\text{signed measures } \eta : \int_{\cx} f(\bsx) \, \eta(\D\bsx) < \infty \ \ 
-\forall f \in \cf \biggr \}.
+\calM : = \biggl \{\text{signed measures } \eta : \int_{\calX} f(\bsx) \, \eta(\D\bsx) < \infty \ 
+\ 
+\forall f \in \calF \biggr \}.
 \end{equation*}
-We assume that our integral of interest is defined, so $\nu \in \cm$.  Since function 
-evaluation is bounded, $\cm$ includes $\cm_{\textup{S}}$ defined in 
+We assume that our integral of interest is defined, so $\nu \in \calM$.  Since function 
+evaluation is bounded, $\calM$ includes $\calM_{\textup{S}}$ defined in 
 \eqref{FJH:eq:sampmeaset} as well.  Define the subspace  
 \begin{equation} \label{FJH:eq:Mperpdef}
-\cm_\bot : = \left \{\eta \in \cm :  L(f) \eta(\cx) = 0  \ \forall f \in \cf
+\calM_\bot : = \left \{\eta \in \calM :  L(f) \eta(\calX) = 0  \ \forall f \in \calF
 \right\}.
 \end{equation} 
-A semi-norm on $\cm_\bot$ is induced by the norm on $\cf$, which provides the 
+A semi-norm on $\calM_\bot$ is induced by the norm on $\calF$, which provides the 
 definition of discrepancy:
 \begin{equation} \label{FJH:eq:detdiscdef}
-\snorm{\eta}_{\cm_\bot}  : =\sup_{f \in \cf : f \ne 0} \frac{\displaystyle \biggabs{\int_{\cx} 
-f(\bsx) \, \eta(\D \bsx)}}{\norm{f}_{\cf}}, \qquad \disc^\Dt(\nu - \hnu) : = \norm{\nu - 
-\hnu}_{\cm_\bot}.
+\norm{\eta}_{\calM_\bot}  : =\sup_{f \in \calF : f \ne 0} \frac{\displaystyle 
+\biggabs{\int_{\calX} 
+f(\bsx) \, \eta(\D \bsx)}}{\norm{f}_{\calF}}, \qquad \disc^\Dt(\nu - \hnu) : = \norm{\nu - 
+\hnu}_{\calM_\bot}.
 \end{equation}
 
 Finally, define the confounding as 
 	\begin{equation} \label{FJH:eq:detconfdef}
 \algn^\Dt(f,\nu - \hnu): =  \begin{cases} \displaystyle 
-\frac{\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D 
+\frac{\displaystyle\int_{\calX} f(\bsx) \, (\nu - \hnu)(\D 
 	\bsx)}{\Var^\Dt(f)\disc^\Dt(\nu - \hnu)},  & 
 \Var^\Dt(f)\disc^\Dt(\nu - \hnu) \ne 0, \\[2ex]
 0, & \text{otherwise}.
@@ -498,24 +461,24 @@ error.
 \begin{theorem}[Deterministic Trio Error Identity]  \label{FJH:thm:dtrio} For the spaces 
 of integrands and 
 measures defined above, and for the above definitions of variation, discrepancy, and 
-confounding, the following error identity holds for all $f \in \cf$ and $\nu - \hnu  \in 
-\cm_\bot$: 
+confounding, the following error identity holds for all $f \in \calF$ and $\nu - \hnu  \in 
+\calM_\bot$: 
 \begin{equation} \tag{DTRIO} \label{FJH:eq:dtrio}
 \mu - \hmu  = \algn^\Dt(f,\nu - \hnu) \, \disc^\Dt(\nu - \hnu) \, \Var^{\Dt}(f).
 \end{equation}
 Moreover, $\abs{\algn^\Dt(f,\nu - \hnu)} \le 1$. 
 \end{theorem}
 \begin{proof}  The proof of this identity follows from the definitions above.  Note that by 
-\eqref{FJH:eq:INT} and \eqref{FJH:eq:AppxINT}, for all $f \in \cf$ and $\nu - \hnu  \in 
-\cm_\bot$, the cubature 
+\eqref{FJH:eq:INT} and \eqref{FJH:eq:AppxINT}, for all $f \in \calF$ and $\nu - \hnu  \in 
+\calM_\bot$, the cubature 
 error 
 can be written as a 
 single integral:
 	\begin{equation} \label{FJH:eq:err_as_int}
-	\mu - \hmu   =  \int_{\cx} f(\bsx) \, (\nu - \hnu)(\D \bsx).
+	\mu - \hmu   =  \int_{\calX} f(\bsx) \, (\nu - \hnu)(\D \bsx).
 	\end{equation}
 	If $\Var^{\Dt}(f) = 0$, then $f = L(f)$, and the integral above vanishes by the 
-	definition of $\cm_{\bot}$.  If $\disc^\Dt(\nu - \hnu) = 0$, then the integral above 
+	definition of $\calM_{\bot}$.  If $\disc^\Dt(\nu - \hnu) = 0$, then the integral above 
 	vanishes by \eqref{FJH:eq:detdiscdef}.  Thus, for $\Var^{\Dt}(f) \disc^\Dt(\nu - \hnu) = 
 	0$ 
 	the trio identity holds. If $\Var^{\Dt}(f) \disc^\Dt(\nu - \hnu) \ne 0$, then the trio 
@@ -525,11 +488,11 @@ single integral:
 	\hnu) \ne 0$: 
 	\begin{align*}
 	\abs{\algn(f,\nu - \hnu)} & = 
-		\frac{\biggl \lvert\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D 
+		\frac{\biggl \lvert\displaystyle\int_{\calX} f(\bsx) \, (\nu - \hnu)(\D 
 			\bsx) \biggr \rvert}{\Var^\Dt(f)\disc^\Dt(\nu - \hnu)} \quad \text{by 
 			\eqref{FJH:eq:detconfdef}}\\
-		& = \frac{\biggl \lvert\displaystyle\int_{\cx} [f(\bsx) - L(f)] \, (\nu - \hnu)(\D 
-			\bsx) \biggr \rvert}{\norm{f-L(f)}_{\cf}\disc^\Dt(\nu - \hnu)} \quad \text{by 
+		& = \frac{\biggl \lvert\displaystyle\int_{\calX} [f(\bsx) - L(f)] \, (\nu - \hnu)(\D 
+			\bsx) \biggr \rvert}{\norm{f-L(f)}_{\calF}\disc^\Dt(\nu - \hnu)} \quad \text{by 
 			\eqref{FJH:eq:detvardef} and \eqref{FJH:eq:Mperpdef}} \\
 		& \le 1 \quad \text{by \eqref{FJH:eq:detdiscdef}},
 \end{align*}
@@ -543,58 +506,61 @@ Cubature error bounds of this form have a long history, dating back to the inequ
 Koksma \cite{Kok42} and Hlawka \cite{Hla61}. See also the monograph of Niederreiter 
 \cite{Nie92}.
 
-For the big data sleep survey in Sec.\ \ref{FJH:sec:sleep}, $\cf$ is the space of all 
-real-valued functions on $\cx := \{1, \ldots, N\}$ with scaled $\ell^2$ norm 
-$\norm{f}_{\cf} 
+For the big data sleep survey in Sec.\ \ref{FJH:sec:sleep}, $\calF$ is the space of all 
+real-valued functions on $\calX := \{1, \ldots, N\}$ with scaled $\ell^2$ norm 
+$\norm{f}_{\calF} 
 := N^{-1/2} \Bignorm{\bigl(f(j)\bigr)_{j=1}^N}_{\ell^2}$, and $L(f) := N^{-1}\sum_{j=1}^N f(j) 
 = 
 \mu $ is the population mean of $f$. It then follows that the variation of 
 the integrand, $f$, is its standard deviation, as is seen in \eqref{FJH:eq:surveydettrio}.
-The corresponding space of measures of interest is $\cm_\bot := \bigl \{ \sum_{i=1}^N u_j 
+The corresponding space of measures of interest is $\calM_\bot := \bigl \{ \sum_{i=1}^N 
+u_j 
 \delta_{j} : (u_1, \ldots, u_N) \in \R^N,\ u_1 + \cdots + u_N= 0 \bigr \}$, and its norm is 
-$\bignorm{\sum_{i=1}^N u_i \delta_{i}}_{\cm_\bot} : = 
+$\bignorm{\sum_{i=1}^N u_i \delta_{i}}_{\calM_\bot} : = 
 	\sqrt{N} \Bignorm{\bigl(u_i\bigr)_{i=1}^N}_{\ell^2}$.   The expressions for the 
 	deterministic 
 	discrepancy and confounding in \eqref{FJH:eq:surveydettrio} follow from these 
 	choices.
 
-When $\cf$ is a Hilbert space with reproducing kernel $K$, the discrepancy has an 
+When $\calF$ is a Hilbert space with reproducing kernel $K$, the discrepancy has an 
 explicit expression in terms of $K$.  The reproducing kernel is the unique function, $K: 
-\cx \times \cx \to \R$ satisfying these two properties \cite[Sec.\ 1]{Aro50}:
+\calX \times \calX \to \R$ satisfying these two properties \cite[Sec.\ 1]{Aro50}:
 \begin{equation}
-K(\cdot,\bst) \in \cf \quad \forall \bst \in \cx, \qquad f(\bst) = \ip[\cf]{K(\cdot,\bst)}{f} 
-\quad \forall f \in \cf, \ \bst \in \cx.
+K(\cdot,\bst) \in \calF \quad \forall \bst \in \calX, \qquad f(\bst) = 
+\ip[\calF]{K(\cdot,\bst)}{f} 
+\quad \forall f \in \calF, \ \bst \in \calX.
 \end{equation}
 The Riesz Representation Theorem implies that the representer of cubature error 
 is 
 \begin{equation}
-\eta_{\err}(\bst) = \ip[\cf]{K(\cdot,\bst)}{\eta_{\err}} = \int_{\cx} K(\bsx,\bst) \, (\nu - 
+\eta_{\err}(\bst) = \ip[\calF]{K(\cdot,\bst)}{\eta_{\err}} = \int_{\calX} K(\bsx,\bst) \, (\nu - 
 \hnu)(\D\bsx).
 \end{equation}
 Thus, the deterministic trio identity for the reproducing kernel Hilbert space (RKHS) case 
 is
 \begin{equation}
-\mu - \widehat{\mu} =  \ip[\cf]{\eta_{\err}}{f} = 
-\underbrace{\frac{\ip[\cf]{\eta_{\err}}{f}}{\norm{f - 
-L(f)}_{\cf} \norm{\eta_{\err}}_{\cf}} }_{\algn^\Dt(f,\nu - \hnu)}\, 
-\underbrace{\norm{\eta_{\err}}_{\cf}}_{\disc^{\Dt}(\nu - \hnu)} \, 
-\underbrace{\norm{f - L(f)}_{\cf}}_{\Var^\Dt(f)}
+\mu - \widehat{\mu} =  \ip[\calF]{\eta_{\err}}{f} = 
+\underbrace{\frac{\ip[\calF]{\eta_{\err}}{f}}{\norm{f - 
+L(f)}_{\calF} \norm{\eta_{\err}}_{\calF}} }_{\algn^\Dt(f,\nu - \hnu)}\, 
+\underbrace{\norm{\eta_{\err}}_{\calF}}_{\disc^{\Dt}(\nu - \hnu)} \, 
+\underbrace{\norm{f - L(f)}_{\calF}}_{\Var^\Dt(f)}
 \end{equation}
 provided that $L(f) (\nu - \hnu)(\calX) = 0$.  The discrepancy  takes the 
 form \cite{Hic99a}
 \begin{align}
 \nonumber
-[\disc^{\Dt}(\nu - \hnu)]^2 & = \norm{\eta_{\err}}_{\cf}^2 = \ip[\cf]{\eta_{\err}}{\eta_{\err}} 
+[\disc^{\Dt}(\nu - \hnu)]^2 & = \norm{\eta_{\err}}_{\calF}^2 = 
+\ip[\calF]{\eta_{\err}}{\eta_{\err}} 
 \\
 \nonumber
-& = \int_{\cx \times \cx} K(\bsx,\bst) \, (\nu - \hnu)(\D \bsx) \, (\nu - \hnu)(\D \bst) \\
+& = \int_{\calX \times \calX} K(\bsx,\bst) \, (\nu - \hnu)(\D \bsx) \, (\nu - \hnu)(\D \bst) \\
 \nonumber
-& = \int_{\cx \times \cx} K(\bsx,\bst) \, \nu(\D \bsx) \, \nu (\D \bst)  \\
+& = \int_{\calX \times \calX} K(\bsx,\bst) \, \nu(\D \bsx) \, \nu (\D \bst)  \\
 & \qquad \qquad - 2 \sum_{i=1}^n w_i 
-\int_{\cx} K(\bsx_i,\bst) \, \nu(\D \bst)+ \sum_{i,j = 1}^n w_iw_jK(\bsx_i,\bsx_j).
+\int_{\calX} K(\bsx_i,\bst) \, \nu(\D \bst)+ \sum_{i,j = 1}^n w_iw_jK(\bsx_i,\bsx_j).
 \end{align}
-The computational cost to evaluate the discrepancy is $\Order(n^2)$ times the cost of 
-evaluating the reproducing kernel at a point in $\cx \times \cx$. 
+The computational cost to evaluate the discrepancy is $\calO(n^2)$ times the cost of 
+evaluating the reproducing kernel at a point in $\calX \times \calX$. 
 
 \begin{FJHLesson} \FJHLessonTwoHalf \end{FJHLesson}
 
@@ -603,7 +569,7 @@ the cosine of the angle between the integrand, $f$, and the cubature error repre
 $\eta_{\err}$.  This cosine is no greater than one in magnitude, as expected.
 
 A particular example of this RKHS setting corresponds to 
-$\nu$ being the uniform probability measure on the $d$-dimensional unit cube, $\cx 
+$\nu$ being the uniform probability measure on the $d$-dimensional unit cube, $\calX 
 = 
 [0,1]^d$, and the reproducing kernel defined by \cite{Hic97a}
 \begin{equation} \label{FJH:eq:L2Kdef}
@@ -612,7 +578,8 @@ K(\bsx,\bst) =\prod_{k = 1}^d [2 - \max(x_k,t_k)],
 which is plotted in Fig.\ \ref{FJH:fig:L2ker}.  In this example, $L(f) = f(\bsone)$, and the 
 variation is 
 \begin{equation*}
-\Var^\Dt(f)  = \norm{f-f(\bsone)}_\cf = \Bigl \lVert \bigl ( \norm{\partial^\fraku f}_{L^2}\bigr 
+\Var^\Dt(f)  = \norm{f-f(\bsone)}_\calF = \Bigl \lVert \bigl ( \norm{\partial^\fraku 
+f}_{L^2}\bigr 
 )_{\emptyset \subsetneq \fraku \subseteq 1:d} \Bigr \rVert_{\ell^2} , \qquad 
 \partial^\fraku f : = \frac{\partial^{\lvert\fraku\rvert} f}{\partial \bsx_\fraku} \biggr 
 \rvert_{\bsx_{\bar{\fraku}} = \bsone}.
@@ -662,10 +629,10 @@ $\nu$, and $w_1 = \cdots = w_n = 1/n$, then
 the mean square discrepancy for 
 the reproducing Hilbert space case is
 \begin{equation*}
-\bbE \bigl\{[\disc^{\Dt}(\nu - \hnu)]^2 \bigr \}  = \frac 1 n \left [ \int_{\cx} K(\bsx,\bsx) \, 
+\bbE \bigl\{[\disc^{\Dt}(\nu - \hnu)]^2 \bigr \}  = \frac 1 n \left [ \int_{\calX} K(\bsx,\bsx) \, 
 \nu(\D 
 \bsx) - 
-\int_{\cx \times \cx} K(\bsx,\bst) \, \nu(\D \bsx) \, \nu (\D \bst) \right ].
+\int_{\calX \times \calX} K(\bsx,\bst) \, \nu(\D \bsx) \, \nu (\D \bst) \right ].
 \end{equation*}
 For the $L^2$ discrepancy in \eqref{FJH:eq:L2disc} this becomes 
 \begin{equation} \label{FJH:eq:IIDL2disc}
@@ -679,7 +646,7 @@ zero as the sample size tends to infinity.  The variation is independent of the 
 size, and the confounding may decrease, increase or oscillate with increasing $n$.  From 
 the formulas above, the convergence of the discrepancy to zero for IID sampling as $n 
 \to 
-\infty$ is  $\Order(n^{-1/2})$, which is consistent with the expected convergence of the 
+\infty$ is  $\calO(n^{-1/2})$, which is consistent with the expected convergence of the 
 cubature error for IID Monte Carlo.  From \eqref{FJH:eq:IIDL2disc} we see that the 
 value of the discrepancy may depend strongly on the dimension, $d$.  We return 
 to this matter in Sec.\  \ref{FJH:sec:Tract}.
@@ -687,7 +654,7 @@ to this matter in Sec.\  \ref{FJH:sec:Tract}.
 Quasi-Monte Carlo methods stick with sampling measures of the form  $\hnu = 
 n^{-1}\sum_{i=1}^n \delta_{\bsx_i}$, but choose the data sites $\{\bsx_i\}_{i=1}^n$ to be 
 better than IID in a way that lowers the discrepancy significantly.  For 
-integration over $\cx = [0,1]^d$ with 
+integration over $\calX = [0,1]^d$ with 
 respect to the uniform measure, these \emph{low discrepancy} data sites may come from
 \begin{itemize} 
 \item a digital sequence \cite{DicPil10a}, such as that proposed by Sobol' \cite{Sob67}, 
@@ -698,7 +665,7 @@ The
 constructions of such sets are described in the references above and L'Ecuyer's 
 tutorial 
 \cite{}.  The discrepancy defined in \eqref{FJH:eq:L2disc} and its relatives are 
-$\Order(n^{-1+\epsilon})$ as $n \to \infty$ for any positive $\epsilon$ for these low 
+$\calO(n^{-1+\epsilon})$ as $n \to \infty$ for any positive $\epsilon$ for these low 
 discrepancy data sites \cite{Nie92}.  
 
 Fig.\ \ref{FJH:fig:plotsdiffpts} displays examples of IID and low discrepancy data sites.  
@@ -708,9 +675,9 @@ empirically for each family of randomized data sites.    For comparison sake the
 discrepancies are scaled by 
 dividing by their values for $n=1$.  Although the 
 decay for the low discrepancy points is 
-$\Order(n^{-1+\epsilon})$ for large enough $n$, the decay in Fig.\ 
+$\calO(n^{-1+\epsilon})$ for large enough $n$, the decay in Fig.\ 
 \ref{FJH:fig:unwtdiscdiffpts} appears to be 
-more like $\Order(n^{-1/2})$ for large dimensions and small $n$.   This dimension 
+more like $\calO(n^{-1/2})$ for large dimensions and small $n$.   This dimension 
 dependence of the convergence rate is addressed later in Sec.\  \ref{FJH:sec:Tract}. 
 
 
@@ -743,34 +710,37 @@ dependence of the convergence rate is addressed later in Sec.\  \ref{FJH:sec:Tra
 
 \section{A Randomized Trio Identity for Cubature Error} \label{FJH:sec:rndtrio}
 For the randomized version of the trio identity, we assume that the integrands lie in 
-a Banach space, $(\cf,\norm{\cdot}_{\cf})$ that contains 
+a Banach space, $(\calF,\norm{\cdot}_{\calF})$ that contains 
 constant functions.  We assume
-that $\int_{\cx} f(\bsx) \, \nu(\D\bsx)$ is defined  for all $f \in \cf$, however, we now do 
+that $\int_{\calX} f(\bsx) \, \nu(\D\bsx)$ is defined  for all $f \in \calF$, however, we now 
+do 
 not require 
-function evaluation to be a bounded linear functional on $\cf$.  The definitions of the 
+function evaluation to be a bounded linear functional on $\calF$.  The definitions of the 
 bounded linear functional $L$ and the variation in the deterministic case in  
 \eqref{FJH:eq:detvardef} apply here as well.
 
-Now endow, $\cm_{\textup{S}}$, the vector space of all sampling measures, with a 
+Now endow, $\calM_{\textup{S}}$, the vector space of all sampling measures, with a 
 probability distribution.  This means that the placement of the data sites, the number of 
 data sites, and the choice of the weights may all be random.  We require  
 the following two conditions:
 \begin{subequations} \label{FJH:eq:randMcond}
 \begin{gather}
-\bbE_{\hnu} \biggabs{\int_{\cx} f(\bsx) \,  \hnu(\D \bsx)}^2 < \infty \qquad \forall f \in \cf, \\
+\bbE_{\hnu} \biggabs{\int_{\calX} f(\bsx) \,  \hnu(\D \bsx)}^2 < \infty \qquad \forall f \in 
+\calF, 
+\\
 \label{FJH:eq:randMcondB}
 L(f) [\nu(\calX) - \hnu(\calX)] = 0  \qquad \text{almost surely}.
 \end{gather}
 \end{subequations}
-The first condition implies that $\int_{\cx} f(\bsx) \,  \hnu(\D \bsx)$ exists 
-almost surely for every $f \in \cf$.  
+The first condition implies that $\int_{\calX} f(\bsx) \,  \hnu(\D \bsx)$ exists 
+almost surely for every $f \in \calF$.  
 
 The randomized discrepancy is  defined as the worst  normalized root mean squared 
 error:
 \begin{equation} \label{FJH:eq:rnddiscdef}
-\disc^\Rn(\nu - \hnu) : =\sup_{f \in \cf : f \ne 0} \frac{\displaystyle \sqrt{\bbE_{\hnu}
-\biggabs{\int_{\cx} 
-		f(\bsx) \, (\nu - \hnu)(\D \bsx)}^2}}{\norm{f}_{\cf}}.
+\disc^\Rn(\nu - \hnu) : =\sup_{f \in \calF : f \ne 0} \frac{\displaystyle \sqrt{\bbE_{\hnu}
+\biggabs{\int_{\calX} 
+		f(\bsx) \, (\nu - \hnu)(\D \bsx)}^2}}{\norm{f}_{\calF}}.
 \end{equation}
 The randomized discrepancy does not depend on the particular instance of the 
 sampling measure but on the distribution of the sampling measure. 
@@ -778,7 +748,7 @@ sampling measure but on the distribution of the sampling measure.
 Finally, define the confounding as 
 \begin{equation} \label{FJH:eq:rndconfdef}
 \algn^\Rn(f,\nu - \hnu): =  \begin{cases} \displaystyle 
-\frac{\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D 
+\frac{\displaystyle\int_{\calX} f(\bsx) \, (\nu - \hnu)(\D 
 	\bsx)}{\Var^\Dt(f)\disc^\Rn(\nu - \hnu)},  & 
 \Var^\Dt(f)\disc^\Rn(\nu - \hnu) \ne 0, \\[2ex]
 0, & \text{otherwise}.
@@ -792,16 +762,16 @@ error.
 \begin{theorem}[Randomized Trio Error Identity]  \label{FJH:thm:rtrio} For the spaces of 
 integrands and 
 	measures defined above, and for the above definitions of variation, discrepancy, and 
-	confounding, the following error identity holds for all $f \in \cf$ and $\hnu  \in 
-	\cm_{\textup{S}}$: 
+	confounding, the following error identity holds for all $f \in \calF$ and $\hnu  \in 
+	\calM_{\textup{S}}$: 
 	\begin{equation} \tag{RTRIO} \label{FJH:eq:rtrio}
 	\mu - \hmu  = \algn^\Rn(f,\nu - \hnu) \, \disc^\Rn(\nu - \hnu) \, \Var^{\Dt}(f) \quad 
 	\text{almost surely}.
 	\end{equation}
-	Moreover, $\Ex_{\hnu} \abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$ for all $f \in 
-	\cf$. 
+	Moreover, $\bbE_{\hnu} \abs{\algn^\Rn(f,\nu - \hnu)}^2  \le 1$ for all $f \in 
+	\calF$. 
 \end{theorem}
-\begin{proof}  For all $f \in \cf$ and $\hnu  \in \cm_{\textup{S}}$, the error can be 
+\begin{proof}  For all $f \in \calF$ and $\hnu  \in \calM_{\textup{S}}$, the error can be 
 written as the single integral in \eqref{FJH:eq:err_as_int} almost surely. 	If $\Var^{\Dt}(f) 
 = 0$, then $f = L(f)$, and $\mu - \hmu$ vanishes almost surely by
 \eqref{FJH:eq:randMcondB}.  If 
@@ -816,11 +786,11 @@ $\disc^\Rn(\nu - \hnu) = 0$, then $\mu - \hmu$
 	\hnu) \ne 0$: 
 	\begin{align*}
 	\bbE \abs{\algn^\Rn(f,\nu - \hnu)}^2 & = 
-	\frac{\bbE \biggl \lvert\displaystyle\int_{\cx} f(\bsx) \, (\nu - \hnu)(\D 
+	\frac{\bbE \biggl \lvert\displaystyle\int_{\calX} f(\bsx) \, (\nu - \hnu)(\D 
 		\bsx) \biggr \rvert^2 }{[\Var^\Dt(f)\disc^\Dt(\nu - \hnu)]^2} \quad \text{by 
 		\eqref{FJH:eq:rndconfdef}}\\
-	& = \frac{\bbE \biggl \lvert\displaystyle\int_{\cx} [f(\bsx) - L(f)] \, (\nu - \hnu)(\D 
-		\bsx) \biggr \rvert^2}{[\norm{f-L(f)}_{\cf}\disc^\Dt(\nu - \hnu)]^2} \quad \text{by 
+	& = \frac{\bbE \biggl \lvert\displaystyle\int_{\calX} [f(\bsx) - L(f)] \, (\nu - \hnu)(\D 
+		\bsx) \biggr \rvert^2}{[\norm{f-L(f)}_{\calF}\disc^\Dt(\nu - \hnu)]^2} \quad \text{by 
 		\eqref{FJH:eq:detvardef} and \eqref{FJH:eq:randMcondB}} \\
 	& \le 1 \quad \text{by \eqref{FJH:eq:rnddiscdef}},
 	\end{align*}
@@ -831,7 +801,7 @@ Consider simple Monte Carlo, where the approximation to the integral is an equal
 weighted average using IID sampling $\bsx_1, \bsx_2, \ldots \sim 
 \nu$ without 
 replacement. Let the sample size be fixed at $n$.
-Let $\cf = L^{2,\nu}$, the space of functions that are square integrable with respect to 
+Let $\calF = L^{2,\nu}$, the space of functions that are square integrable with respect to 
 the measure $\nu$, and let $L(f)$ be the mean of $f$.  Then the variation of $f$ is just 
 its standard 
 deviation, $\std(f)$.  The randomized discrepancy is 
@@ -876,7 +846,7 @@ deterministic and randomized trio identities.  The next example illustrates this
 
 \section{Multivariate Gaussian Probabilities} \label{FJH:sec:Gauss}
 Consider the $d$-variate integral corresponding to the probability of a 
-$\cn(\bszero,\mathsf{\Sigma})$ random variable lying inside the box $[\bsa,\bsb]$:
+$\calN(\bszero,\mathsf{\Sigma})$ random variable lying inside the box $[\bsa,\bsb]$:
 \begin{equation} \label{FJH:eq:MVN}
 \mu = \int_{[\bsa,\bsb]} \frac{\exp\bigl(- \frac 12 \bsz^T \mathsf{\Sigma}^{-1} \bsz 
 \bigr)}{\sqrt{(2 \pi)^d \det(\mathsf{\Sigma})}} \, \D \bsz = \int_{[0,1]^{d-1}} f(\bsx) \, \D 
@@ -941,7 +911,7 @@ corresponding discrepancies.  The IID error tracks the rate of decay of its rand
 discrepancy as noted above.  The cubature  error for  Sobol' 
 sampling decays at the same rate as its deterministic $L^2$ discrepancy defined in 
 \eqref{FJH:eq:L2disc}.  The error for randomly scrambled Sobol' 
-sampling decays at a rate of roughly $\Order(n^{-3/2+\epsilon})$, which corresponds to 
+sampling decays at a rate of roughly $\calO(n^{-3/2+\epsilon})$, which corresponds to 
 the randomized discrepancy for this sampling measure \cite{HeiHicYue02a,Owe97}.  
 Not only do the more evenly spaced Sobol' points improve upon IID sampling, but 
 randomizing the Sobol' points while preserving their even structure provides further 
@@ -950,21 +920,22 @@ improvement to the rate of decay of the error.
 The orders of the confounding in Table \ref{FJH:tab:Conf} help explain the 
 benefits of randomization.  We consider cubature rules based on equally weighted 
 averages of integrand values at $n$ data sites, and we consider two sample spaces of 
-sampling measures, $\cm_{\textup{S}}$.  In both cases $\algn^\Rn(\nu - \hnu)$ is 
-typically $\Order(1)$, but it might be much larger or smaller depending on the particular 
-$\hnu$.  When $\cm_{\textup{S}}$ corresponds to IID random data sites, the 
-randomized, $\disc^\Rn(\nu - \hnu) = \Order(n^{-1/2})$, as noted in Sec.\ 
+sampling measures, $\calM_{\textup{S}}$.  In both cases $\algn^\Rn(\nu - \hnu)$ is 
+typically $\calO(1)$, but it might be much larger or smaller depending on the particular 
+$\hnu$.  When $\calM_{\textup{S}}$ corresponds to IID random data sites, the 
+randomized, $\disc^\Rn(\nu - \hnu) = \calO(n^{-1/2})$, as noted in Sec.\ 
 \ref{FJH:sec:rndtrio}.  A poor 
-arbitrary choice of data sites produces a cubature error of $\Order(1)$ because 
-$\algn^\Rn(\nu - \hnu)$ is an atypically high $\Order(n^{1/2})$.  
+arbitrary choice of data sites produces a cubature error of $\calO(1)$ because 
+$\algn^\Rn(\nu - \hnu)$ is an atypically high $\calO(n^{1/2})$.  
 However, both plain unscrambled Sobol', as well as scrambled Sobol' sampling yield 
 atypically low $\algn^\Rn(\nu - \hnu)$ and correspondingly low cuabure errors.  For 
 scrambled Sobol' sampling, the randomized discrepancy is $\disc^\Rn(\nu - \hnu) 
-=\Order(n^{-3/2 + 
-\epsilon})$, which is also the convergence rate for $\sqrt{\Ex_{\hnu}\bigl[\disc^\Dt(\nu - 
+=\calO(n^{-3/2 + 
+\epsilon})$, which is also the convergence rate for $\sqrt{\bbE_{\hnu}\bigl[\disc^\Dt(\nu - 
 \hnu)\bigr ]^2}$ for scrambled 
 Sobol' sampling under sufficient integrand smoothness \cite{HicHon98a, HicYue00}.
-While $\cm_{\textup{S}}$ for scrambled Sobol' sampling measures includes unscrambled 
+While $\calM_{\textup{S}}$ for scrambled Sobol' sampling measures includes 
+unscrambled 
 Sobol' 
 sampling, $\algn^\Rn(\nu - \hnu)$ for unscrambled Sobol' sampling is atypically high, 
 which then produces an atypically high
@@ -981,14 +952,14 @@ cubature error compared to the average for scrambled Sobol' sampling.
 	&&&&\text{Typical} &&\text{Typical}\\
 	\multicolumn{3}{r@{\quad}}{\hnu} &  \textup{Worst} &  \textup{IID} &
 	\textup{Sobol'}&  \textup{Scr.\ Sobol'}\\
-	\cm_{\textup{S}} & \disc^\Rn & \mu - \hmu & \Order(1) & \Order(n^{-1/2}) & 
-	\Order(n^{-1+\epsilon}) & 
-	\Order(n^{-3/2+\epsilon})\\
+	\calM_{\textup{S}} & \disc^\Rn & \mu - \hmu & \calO(1) & \calO(n^{-1/2}) & 
+	\calO(n^{-1+\epsilon}) & 
+	\calO(n^{-3/2+\epsilon})\\
 	\hline 
-	\textup{IID} & \Order(n^{-1/2}) & \algn^\Rn & \Order(n^{1/2})  & \Order(1) 
-	&\Order(n^{-1/2+\epsilon}) &\Order(n^{-1+\epsilon}) \\
-	\textup{Scr.\ Sobol'} &\Order(n^{-3/2+\epsilon}) & \algn^\Rn 
-	& & &\Order(n^{1/2+\epsilon})&\Order(1) 
+	\textup{IID} & \calO(n^{-1/2}) & \algn^\Rn & \calO(n^{1/2})  & \calO(1) 
+	&\calO(n^{-1/2+\epsilon}) &\calO(n^{-1+\epsilon}) \\
+	\textup{Scr.\ Sobol'} &\calO(n^{-3/2+\epsilon}) & \algn^\Rn 
+	& & &\calO(n^{1/2+\epsilon})&\calO(1) 
 	\end{array}
 	\end{equation*}
 \end{table}
@@ -1043,7 +1014,7 @@ lesson that provides a partial answer to Question 2 in the introduction.
 \section{Option Pricing} \label{FJH:sec:OptPrice}
 The prices of financial derivatives can often be modeled by high dimensional integrals.  If 
 the underlying asset is described in terms of a Brownian motion, $B$, at times $t_1, 
-\ldots, t_d$, then $\bsZ = (B(t_1), \ldots, B(t_d)) \sim \cn(\bszero, \mathsf{\Sigma})$, 
+\ldots, t_d$, then $\bsZ = (B(t_1), \ldots, B(t_d)) \sim \calN(\bszero, \mathsf{\Sigma})$, 
 where $\mathsf{\Sigma}  = \bigl( \min(t_j,t_k) \bigr)_{j,k=1}^d$, and the fair price of the 
 option is
 \begin{equation*}
@@ -1094,9 +1065,9 @@ convergence rate.
 The convergence rate for scrambled Sobol' sampling, $\hnu$,  is poorer than hoped for 
 because 
 $f$ is not smooth enough for $\Var^{\Dt}(f)$ to be finite in the case 
-where $\disc^\Rn(\nu - \hnu) = \Order(n^{-3/2 +\epsilon})$.  Less 
+where $\disc^\Rn(\nu - \hnu) = \calO(n^{-3/2 +\epsilon})$.  Less 
 stringent conditions on $f$ are required for $\disc^\Dt(\nu - \hnu) = 
-\Order(n^{-1 +\epsilon})$.  Even these requirements cannot 
+\calO(n^{-1 +\epsilon})$.  Even these requirements cannot 
 be ensured for option pricing examples like that above except by a rather delicate 
 argument \cite{GriKuoSlo10, GriKuoSlo16}.
 
@@ -1127,26 +1098,28 @@ Diaconis \cite{Dia88a}, O'Hagan \cite{OHa91a}, Ritter \cite{Rit00a}, Rasmussen a
 Ghahramani \cite{RasGha03a}, and others. Specifically, suppose that $f \sim \GP (0, 
 s^2C_{\bstheta})$, a zero mean Gaussian process.  The covariance of 
 this  Gaussian process is $s^2C_{\bstheta}$, where $s$ is a scale parameter, and 
-$C_{\bstheta}:\cx \times \cx \to \R$ is defined by a shape parameter $\bstheta$.  The 
+$C_{\bstheta}:\calX \times \calX \to \R$ is defined by a shape parameter $\bstheta$.  
+The 
 sample space for this Gaussian process, $\calF$, does not enter significantly into the 
 analysis.  Define the vector space of measures 
 \begin{equation*}
-\cm = \left\{\eta :  \int_{\calX^2} C_\bstheta(\bsx,\bst) 
+\calM = \left\{\eta :  \int_{\calX^2} C_\bstheta(\bsx,\bst) 
 \, \eta(\D \bsx) \eta(\D \bst) < \infty, \ \ \int_{\calX^2} C_\bstheta(\bsx,\bst) 
-\, \eta(\D \bsx) < \infty \ \ \forall \bst \in \cx \right \},
+\, \eta(\D \bsx) < \infty \ \ \forall \bst \in \calX \right \},
 \end{equation*}
-and let $C_{\bstheta}$ be such that $\cm$ contains both $\nu$ and the Dirac measures 
-$\delta_{\bst}$ for all $\bst \in \cx$. 
+and let $C_{\bstheta}$ be such that $\calM$ contains both $\nu$ and the Dirac 
+measures 
+$\delta_{\bst}$ for all $\bst \in \calX$. 
 
 For a 
 deterministic sampling measure, $\hnu = \sum_{i=1}^n w_i \delta_{\bsx_i}$, the cubature 
-error, $\mu - \hmu$, is distributed as $\cn \bigl(0 , s^2(c_0 - 
+error, $\mu - \hmu$, is distributed as $\calN \bigl(0 , s^2(c_0 - 
 2 \bsc^T \bsw + \bsw ^T \mC \bsw) \bigr)$ \cite{??}, where 
 \begin{subequations} \label{FJH:eq:Cvecmatdef}
 \begin{gather}
 c_0  = \int_{\calX^2} C_\bstheta(\bsx,\bst) \, \nu(\D \bsx) \nu(\D \bst), \qquad \bsc = 
 \biggl( 
-\int_{\cx} 
+\int_{\calX} 
 C_\bstheta(\bsx_i,\bst) \,\nu(\D \bst) \biggr)_{i=1}^n, \\
 \mC  = \bigl( C_\bstheta(\bsx_i,\bsx_j) \bigr)_{i,j=1}^n, \qquad \bsw = \bigl(w_i 
 \bigr)_{i=1}^n.
@@ -1160,7 +1133,7 @@ define the Bayesian variation and discrepancy as
 \label{FJH:eq:btriodefa}
 \Var^{\Ba}(f)  = s, \qquad \disc^{\Ba}(\nu - \hnu) = \sqrt{c_0 - 
 	2 \bsc^T \bsw + \bsw ^T \mC \bsw},\\
-\algn^{\Ba}(f,\nu - \hnu) :=\frac{ \int_{\cx} 
+\algn^{\Ba}(f,\nu - \hnu) :=\frac{ \int_{\calX} 
 	f(\bsx) \, (\nu - \hnu)(\D\bsx)}{s \sqrt{c_0 - 2 \bsc^T \bsw + \bsw ^T \mC \bsw}}
 \end{gather}
 \end{subequations}
@@ -1174,11 +1147,12 @@ $\calF$.  For the  variation, discrepancy, and
 	\mu - \hmu  = \algn^\Ba(f,\nu - \hnu) \, \disc^\Ba(\nu - \hnu) \, \Var^{\Ba}(f) \quad 
 	\text{almost surely}.
 	\end{equation}
-	Moreover, $\algn^\Ba(f,\nu - \hnu) \sim \cn(0,1)$. 
+	Moreover, $\algn^\Ba(f,\nu - \hnu) \sim \calN(0,1)$. 
 \end{theorem}
-\begin{proof}  Although $\int_{\cx} f(\bsx) \, \nu(\D \bsx)$ and $f(\bst) = \int_{\cx} 
-f(\bsx) \, \delta_\bst (\D \bsx)$ may not exist for all $f \in \cf$, these two quantities exist 
-almost surely because $\bbE_f [\int_{\cx} f(\bsx) \, \nu(\D \bsx)]^2 = c_0$, and 
+\begin{proof}  Although $\int_{\calX} f(\bsx) \, \nu(\D \bsx)$ and $f(\bst) = \int_{\calX} 
+f(\bsx) \, \delta_\bst (\D \bsx)$ may not exist for all $f \in \calF$, these two quantities 
+exist 
+almost surely because $\bbE_f [\int_{\calX} f(\bsx) \, \nu(\D \bsx)]^2 = c_0$, and 
 $\bbE_f [f(\bsx)]^2 = C(\bsx,\bsx)$ are both well defined and finite.
 
 The proof of the Bayesian trio identity follows directly from the definitions above.  The 
@@ -1188,8 +1162,8 @@ distribution of the confounding follows from the distribution of the cubature er
 So far, the cubature weights have been kept arbitrary.  The choice of weights that 
 minimizes the Bayesian discrepancy in \eqref{FJH:eq:btriodefa} is $\bsw = 
 \mathsf{C}^{-1} \bsc$, which results in $\disc^{\Ba}(\nu - \hnu) = \sqrt{c_0 - \bsc ^T 
-\mC^{-1} \bsc}$ and $\mu - \hmu \sim \cn \bigl(0 , s^2(c_0 - \bsc ^T 
-\mC^{-1} \bsc) \bigr)$.  However, computing the weights requires $\Order(n^3)$ 
+\mC^{-1} \bsc}$ and $\mu - \hmu \sim \calN \bigl(0 , s^2(c_0 - \bsc ^T 
+\mC^{-1} \bsc) \bigr)$.  However, computing the weights requires $\calO(n^3)$ 
 operations 
 unless $\mathsf{C}$ has some special structure.  This computational cost is significant 
 and may be a deterrent to the use of optimal weights unless the weights are 
@@ -1197,7 +1171,7 @@ precomputed. For smoother covariance functions, $C_\bstheta$, there is often a
 challenge of $\mathsf{C}$ being ill-conditioned.
 
 The \emph{conditional} distribution of the cubature error, $\mu - \hmu$, given the 
-observed data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\cn \bigl( \bsy^T (\mC^{-1}\bsc - 
+observed data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\calN \bigl( \bsy^T (\mC^{-1}\bsc - 
 \bsw) , s^2(c_0 - \bsc ^T \mC^{-1} \bsc) \bigr)$.  To remove the bias one should again 
 choose $\bsw = \mathsf{C}^{-1} \bsc$.  This also makes the conditional distribution of 
 the cubature error the same as the unconditional distribution of the cubature error.
@@ -1205,7 +1179,7 @@ the cubature error the same as the unconditional distribution of the cubature er
 The fact that the cubature error is a normal random variable allows us to use function 
 values perform useful inference, namely, 
 \begin{equation} \label{FJH:eq:MLEBdOne}
-\Prob_f\bigl[\abs{\mu - \hmu} \le 2.58 
+\bbP_f\bigl[\abs{\mu - \hmu} \le 2.58 
 \disc^{\Ba}(\nu - \hnu) \Var^{\Ba}(f)\bigr] = 99\%.
 \end{equation}
 However, unlike our use of random sampling measures that are drawn using carefully 
@@ -1237,7 +1211,7 @@ Plugging this into the log likelihood leads to the MLE shape parameter:
 Using MLE estimates, the probabilistic error 
 bound in \eqref{FJH:eq:MLEBdOne} becomes
 \begin{multline} \label{FJH:eq:MLEBdTwo}
-\Prob_f\left[\abs{\mu - \hmu} \le 2.58 
+\bbP_f\left[\abs{\mu - \hmu} \le 2.58 
 \sqrt{\frac 1n \left(c_{0,\bstheta_\MLE} - \bsc_{\bstheta_\MLE} ^T 
 	\mC_{\bstheta_\MLE}^{-1} \bsc_{\bstheta_\MLE} \right)  \left(\bsy^T 
 	\mathsf{C}_{\bstheta_\MLE}^{-1} \bsy\right)}\right] \\
@@ -1263,7 +1237,7 @@ cubature weights $\bsw =
 The actual errors are plotted in Fig.\ \ref{FJH:fig:MVNcubMLE}, which also provides a 
 contrast of the actual errors and the probabilistic error bound.  This bound was correct 
 about $83\%$ of the time.  Based on the smoothness of the integrand and the kernel, 
-one might expect $\Order(n^{-2})$ convergence of the answer, but this is not clear from 
+one might expect $\calO(n^{-2})$ convergence of the answer, but this is not clear from 
 the numerical computations.
 
 \begin{figure}
@@ -1293,7 +1267,7 @@ parameters of the distribution.  The success rate of the probabilistic error bou
 example is high, but not as high as the theory would suggest.  One may ask whether a 
 larger family of Gaussian processes needs to be considered, but then this would increase 
 the time required for estimation of the parameters.  Even now, this example was carried 
-out to only a rather modest sample size because of the $\Order(n^3)$ operations 
+out to only a rather modest sample size because of the $\calO(n^3)$ operations 
 required to compute each $\hmu$.  Efforts to reduce this operation count have been 
 made by Anitescu, Chen, and Stein \cite{AniCheSte16a}, Parker, Reich and Gotwalt 
 \cite{ParEtal17a}, and others.  Probabilistic numerics, 
@@ -1310,10 +1284,10 @@ case with $\Var^{\Dt}(f)$.  This raises the question of whether one can interpre
 Bayesian cubature in a deterministic way.  We have not seen such an interpretation in 
 the literature, but we provide one here.
 
-Suppose that integrands lie in Hilbert space,  $\cf$, with reproducing kernel 
+Suppose that integrands lie in Hilbert space,  $\calF$, with reproducing kernel 
 $K_\bstheta$, that is defined identically to the covariance function 
 $C_\bstheta$ used in Bayesian cubature.  Let $L(f)$ be identically zero, 
-so that $\Var^{\Dt}(f) = \norm{f}_{\cf}$.  Define the scalar $k_0$, the vector $\bsk$, 
+so that $\Var^{\Dt}(f) = \norm{f}_{\calF}$.  Define the scalar $k_0$, the vector $\bsk$, 
 and the matrix $\mathsf{K}$ analogously to $c_0$, $\bsc$, and $\mathsf{C}$, 
 respectively, as in  \eqref{FJH:eq:Cvecmatdef}.  Let the cubature weights be $\bsw = 
 \mathsf{K}^{-1} \bsk$, analogous to what is done for Bayesian cubature.  This means 
@@ -1324,9 +1298,10 @@ that $\disc^\Dt(\nu - \hnu)$ is numerically the same as $\disc^\Ba(\nu - \hnu)$.
 \end{FJHLesson}
 
 The minimum Hilbert space norm 
-interpolant of $f \in \cf$ given the data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\tf_\bsy(\bsx) = 
+interpolant of $f \in \calF$ given the data $ \{f(\bsx_i )= y_i\}_{i=1}^n$ is $\tf_\bsy(\bsx) = 
 \tbsk(\bsx) \mathsf{K}^{-1} \bsy$, where $\tbsk(\bsx) := 
-\bigl( K_\bstheta(\bsx_i,\bsx) \bigr)_{i=1}^n$.  Moreover, $\norm{\tf_\bsy}^2_{\cf} = \bsy^T 
+\bigl( K_\bstheta(\bsx_i,\bsx) \bigr)_{i=1}^n$.  Moreover, $\norm{\tf_\bsy}^2_{\calF} = 
+\bsy^T 
 \mathsf{K}^{-1} \bsy$.  Thus, in the deterministic Hilbert space setting, the probabilistic 
 Bayesian cubature error bound \eqref{FJH:eq:MLEBdTwo} is translated as
 \begin{equation} \label{FJH:eq:BaysDetBdOne}
@@ -1338,7 +1313,7 @@ $f$ to lie in a set $\calT$ of \emph{typical} integrands.
 
 To define $\calT$ precisely, we note that the choice of cubature weights $\bsw = 
 \mathsf{K}^{-1} \bsk$ not only minimizes the deterministic discrepancy, it also 
-corresponds to the approximation $\hmu= \int_{\cx} \tf_\bsy(\bsx) \, \nu(\D \bsx)$.  
+corresponds to the approximation $\hmu= \int_{\calX} \tf_\bsy(\bsx) \, \nu(\D \bsx)$.  
 Therefore, the deterministic trio identity, \eqref{FJH:eq:dtrio}, implies that  
 \begin{align*}
 \mu - \hmu & = \mu(f - \tf_\bsy) = \mu(f - \tf_\bsy) - \hmu(f - \tf_\bsy) \\
@@ -1352,7 +1327,7 @@ $\abs{\algn^{\Dt}(f -
 RKHSs, $[\Var^\Dt(f)]^2 = [\Var^\Dt(\tf_\bsy)]^2 + 
 [\Var^\Dt(f - \tf_\bsy)]^2$, which implies that \eqref{FJH:eq:BaysDetBdOne} is true for 
 \begin{equation*}
-\calT := \left \{f \in \cf : \Var^\Dt(f - \tf_\bsy) \le \frac{2.58}{\sqrt{n + 2.58^2}} 
+\calT := \left \{f \in \calF : \Var^\Dt(f - \tf_\bsy) \le \frac{2.58}{\sqrt{n + 2.58^2}} 
 \Var^{\Dt}(f) 
 \right\} .
 \end{equation*}
@@ -1391,10 +1366,10 @@ The randomized Bayesian discrepancy and confounding are defined as follows:
 \begin{subequations} \label{FJH:eq:rbtriodef}
 	\begin{gather}
 	\label{FJH:eq:bbtriodefa}
-\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{\Ex_{\hnu}  \bigl(c_0 - 
+\disc^{\Rn\Ba}(\nu - \hnu) = \sqrt{\bbE_{\hnu}  \bigl(c_0 - 
 		2 \bsc^T \bsw + \bsw ^T \mC \bsw \bigr)},\\
-	\algn^{\Rn\Ba}(f,\nu - \hnu) :=\frac{ \int_{\cx} 
-		f(\bsx) \, (\nu - \hnu)(\D\bsx)}{s  \sqrt{\Ex_{\hnu}  \bigl(c_0 - 
+	\algn^{\Rn\Ba}(f,\nu - \hnu) :=\frac{ \int_{\calX} 
+		f(\bsx) \, (\nu - \hnu)(\D\bsx)}{s  \sqrt{\bbE_{\hnu}  \bigl(c_0 - 
 			2 \bsc^T \bsw + \bsw ^T \mC \bsw \bigr)}}.
 	\end{gather}
 \end{subequations}
@@ -1405,7 +1380,8 @@ other trio identities and is omitted.
 the integrand be 
 	an instance of a zero mean Gaussian process with covariance $s^2C_{\bstheta}$ and 
 	that is drawn from a sample space $\calF$.  Let the sampling measure be drawn 
-	randomly from $\cm_{\textup{S}}$ according to some probability distribution.  For the  
+	randomly from $\calM_{\textup{S}}$ according to some probability distribution.  For 
+	the  
 	variation defined in \eqref{FJH:eq:btriodefa}, and the discrepancy and 
 	confounding defined in \eqref{FJH:eq:rbtriodef}, the following error identity holds: 
 	\begin{equation} \tag{RBTRIO} \label{FJH:eq:rbtrio}
@@ -1413,7 +1389,7 @@ the integrand be
 	\quad 
 	\text{almost surely}.
 	\end{equation}
-	Moreover, $\algn^{\Rn\Ba}(f,\nu - \hnu) \sim \cn(0,1)$. 
+	Moreover, $\algn^{\Rn\Ba}(f,\nu - \hnu) \sim \calN(0,1)$. 
 \end{theorem}
 
 \begin{FJHLesson}
@@ -1425,33 +1401,35 @@ often possible to compute
 $\disc^{\Rn\Ba}(\nu - \hnu)$ in terms of the Bayesian discrepancy for a filtered kernel 
 when the randomized data sites satisfy a natural 
 property.  Suppose that $\bsx_i =\bspsi (\bsz_i)$ for $i = 1 \!:\!n$, where 
-$\{\bsz_i\}_{i=1}^n$ are deterministic data sites, and $\bspsi :\cx \to \cx$ is a random 
-function.  For example, for IID sampling on $\cx$, $\bspsi(\bsx) = \bsDelta_\bsx$, where 
+$\{\bsz_i\}_{i=1}^n$ are deterministic data sites, and $\bspsi :\calX \to \calX$ is a random 
+function.  For example, for IID sampling on $\calX$, $\bspsi(\bsx) = \bsDelta_\bsx$, 
+where 
 $\bsDelta_\bsx$ is a random point distributed according to $\nu$ and depending on 
 $\bsx$.  For uniform random shifts modulo $\bsone$ on the unit cube, 
 which are applied to nodesets of lattices, $\bspsi(\bsx) = \bsx + \bsDelta \bmod \bsone$, 
-where $\bsDelta \sim \cu[0,1]^d$.  For randomly scrambled digital sequences there also 
+where $\bsDelta \sim \calU[0,1]^d$.  For randomly scrambled digital sequences there 
+also 
 exists such a $\bspsi$, but its definition is more complex.  Furthermore, assume that for 
 any IID random variables $\bsX, \bsZ \sim \nu$,  the random variables $\bspsi(\bsX), 
 \bspsi(\bsZ)$ are also IID with probability measure $\nu$.  In addition, for any $(\bsx, 
-\bst) \in \cx \times \cx$ suppose that  $\bigl(\bspsi(\bsx), \bspsi(\bst) \bigr)$ and 
+\bst) \in \calX \times \calX$ suppose that  $\bigl(\bspsi(\bsx), \bspsi(\bst) \bigr)$ and 
 $\bigl(\bspsi(\bspsi(\bsx)), \bspsi(\bspsi(\bst)) \bigr)$ have the same probability measure.
 
-Define a filtered version of the covariance kernel as $\filC(\bsx,\bst) = \Ex_{\bspsi} 
+Define a filtered version of the covariance kernel as $\filC(\bsx,\bst) = \bbE_{\bspsi} 
 C\bigl(\bspsi(\bsx), \bspsi(\bst) \bigr)$.  Here the dependence on $\bstheta$ is 
 suppressed.  Then the terms that comprise randomized 
 Bayesian discrepancy are
 \begin{subequations} \label{FJH:eq:filCvecmatdef}
 	\begin{gather}
-	 \Ex_{\bspsi}(c_0)  = c_0 =  \int_{\calX^2} C(\bsx,\bst) \, \nu(\D \bsx) \nu(\D 
+	 \bbE_{\bspsi}(c_0)  = c_0 =  \int_{\calX^2} C(\bsx,\bst) \, \nu(\D \bsx) \nu(\D 
 	 \bst) = 
 	 \int_{\calX^2} \filC(\bsx,\bst) \, \nu(\D \bsx) \nu(\D \bst) =: \filc_0, \\
-	 \Ex_{\bspsi}(\bsc) = 
-	\biggl( \int_{\cx} 
-	\Ex_{\bspsi}\bigl[C(\bspsi(\bsz_i),\bst)] \,\nu(\D \bst) \biggr)_{i=1}^n = 
-	\biggl( \int_{\cx} 
+	 \bbE_{\bspsi}(\bsc) = 
+	\biggl( \int_{\calX} 
+	\bbE_{\bspsi}\bigl[C(\bspsi(\bsz_i),\bst)] \,\nu(\D \bst) \biggr)_{i=1}^n = 
+	\biggl( \int_{\calX} 
 	\filC(\bsz_i,\bst) \,\nu(\D \bst) \biggr)_{i=1}^n = : \filbsc, \\
-	 \Ex_{\bspsi}(\mC)  = \biggl(  \Ex_{\bspsi} 
+	 \bbE_{\bspsi}(\mC)  = \biggl(  \bbE_{\bspsi} 
 	 C\bigl(\bspsi(\bsz_i), \bspsi(\bsz_j) \bigr) \biggr)_{i,j=1}^n = \Bigl( \filC(\bsz_i,\bsz_j) 
 	 \Bigr)_{i,j=1}^n =: \filmC.
 	\end{gather}
@@ -1474,8 +1452,8 @@ $K$, in the deterministic setting is numerically the same as the covariance kern
 in the Bayesian setting, then $\disc^\Dt(\nu - \hnu)$ is numerically the same as 
 $\disc^\Ba(\nu - \hnu)$.  This equality extends to the randomized setting in that 
 \begin{equation*}
-\bigl[\disc^{\Rn}(\nu - \hnu)\bigr]^2 \le \Ex_{\hnu} \bigl[\disc^\Dt(\nu - \hnu)\bigr]^2 = 
-\Ex_{\hnu} \bigl[\disc^\Ba(\nu - 
+\bigl[\disc^{\Rn}(\nu - \hnu)\bigr]^2 \le \bbE_{\hnu} \bigl[\disc^\Dt(\nu - \hnu)\bigr]^2 = 
+\bbE_{\hnu} \bigl[\disc^\Ba(\nu - 
 \hnu)\bigr]^2 = \bigl[\disc^{\Rn\Ba}(\nu - \hnu)\bigr]^2.
 \end{equation*}
 
@@ -1485,9 +1463,9 @@ The statements about the rates of decay of discrepancy and cubature error as the
 sample size increases have so far ignored the dependence on the dimension of the 
 integration domain.  On the one hand, Fig.\ \ref{FJH:fig:AsianOpt} on the left shows a 
 clear error 
-decay rate of $\Order(n^{-1 + \epsilon})$ for low discrepancy sampling for the option 
+decay rate of $\calO(n^{-1 + \epsilon})$ for low discrepancy sampling for the option 
 pricing problem with dimension $12$.  However, Fig.\ \ref{FJH:fig:unwtdiscdiffpts} shows 
-that the discrepancy for these scrambled Sobol' points does not decay like $\Order(n^{-1 
+that the discrepancy for these scrambled Sobol' points does not decay like $\calO(n^{-1 
 + \epsilon})$ for moderate $n$.  
 
 There has been a tremendous effort to 
@@ -1570,8 +1548,8 @@ methods, but it can also be useful for quasi-Monte Carlo methods, which are base
 low discrepancy sequences.  Since low discrepancy sampling measures are essentially 
 always generated to mimic the uniform measure on the unit cube, $[0,1]^d$, the final 
 integral \eqref{FJH:eq:INT} should essentially end up as $\mu = \int_{[0,1]^{d}} f(\bsx) \, 
-\D\bsx$.  Suppose that one starts with $\mu = \int_{\cx} g(\bst) \, 
-\D\bst$ and can identify an onto mapping $\bszeta: [0,1]^d \to \cx$ with finite
+\D\bsx$.  Suppose that one starts with $\mu = \int_{\calX} g(\bst) \, 
+\D\bst$ and can identify an onto mapping $\bszeta: [0,1]^d \to \calX$ with finite
 Jacobian $\det\bigl( \partial \bszeta/\partial \bsx\bigr)$.  Then these two expressions for 
 $\mu$ coincide provided that $f(\bsx) = g(\bszeta(\bsx)) \det\bigl( \partial 
 \bszeta/\partial \bsx\bigr)$.  Since the choice of $\bszeta$ is not unique, it should be 
@@ -1593,19 +1571,22 @@ developed \cite{HicEtal17a}.
 For some integration problems the dimension is infinite and so our problem \eqref{FJH:eq:INT} 
 becomes
 \begin{equation} \label{FJH:eq:InfINT} \tag{$\infty$INT}
-\mu = \lim_{d \to \infty} \mu^{(d)}, \qquad \mu^{(d)} = \int_{\cx_d} f^{(d)}(\bsx) \, \nu^{(d)}(\D 
+\mu = \lim_{d \to \infty} \mu^{(d)}, \qquad \mu^{(d)} = \int_{\calX_d} f^{(d)}(\bsx) \, 
+\nu^{(d)}(\D 
 \bsx),
 \end{equation} 
-where $\cx^{(d)} = \cx_1 \times \cdots \times \cx_d$, $\nu^{(d)}$ is a measure on $\cx^{(d)} $ 
+where $\calX^{(d)} = \calX_1 \times \cdots \times \calX_d$, $\nu^{(d)}$ is a measure on 
+$\calX^{(d)} $ 
 with 
-independent marginals $\nu_k$ on $\cx_k$, and $f_1, f_2, \ldots$ are approximations to an 
+independent marginals $\nu_k$ on $\calX_k$, and $f_1, f_2, \ldots$ are approximations to 
+an 
 infinite-dimensional integrand.  If one approximates $\mu$ by $\hmu^{(d)}$, the 
 approximation 
 to 
 $\mu^{(d)}$, for some large enough $d$, then the computational cost is likely to be high 
-because evaluating $f^{(d)}(\bsx)$ for a single $\bsx$ typically requires $\Order(d)$ 
+because evaluating $f^{(d)}(\bsx)$ for a single $\bsx$ typically requires $\calO(d)$ 
 operations, 
-and so $\mu^{(d)}$ requires $\Order(nd)$ operations.
+and so $\mu^{(d)}$ requires $\calO(nd)$ operations.
 
 The better alternative is often to decompose the $f^{(d)}$ into pieces $f_\fraku$, for $\fraku 
 \subset 
@@ -1620,7 +1601,7 @@ for some choice of $d_k$ with $d_1 < \cdots < d_L$.  This works well when $\Var\
 - f^{(d_{k-1} )} \bigr)$ decreases as $k$ increases and when $\mu - \mu^{(d_L)}$ is small \cite{
 	Gil14a, Gil15a, Gil08b, Hei01a,  HicMGRitNiu09a, NiuHic09b}.  The computational cost of 
 	$\hmu\bigl(f^{(d_k)} - 
-f^{(d_{k-1})} \bigr)$ is $\Order(n_k d_k)$, and as $d_k$ increases, the sample size, $n_k$, 
+f^{(d_{k-1})} \bigr)$ is $\calO(n_k d_k)$, and as $d_k$ increases, the sample size, $n_k$, 
 required for sufficient accuracy decreases, thus moderating the cost.   There is bias, since 
 $\mu - 
 	\mu^{(d_L)}$ is not approximated at all, but this can be removed by a clever a randomized 
@@ -1635,7 +1616,7 @@ where the $\fraku_k$ are the important sets of coordinate indices as judged by
 $\Var^{\Dt}(f_\fraku)$ to ensure that $\mu - \sum_{\fraku \notin \{\fraku_1,   \ldots, 
 	\fraku_L\}} \mu(f_\fraku)$ is small \cite{Was13b}.  The computational cost of each 
 	$\hmu(f_{\fraku})$ 
-is $\Order(n_\fraku \lvert \fraku \rvert)$.  If the important sets have small cardinality, 
+is $\calO(n_\fraku \lvert \fraku \rvert)$.  If the important sets have small cardinality, 
 $\lvert \fraku \rvert$, the computational cost is moderate.  
 
 \begin{FJHLesson}
@@ -1719,24 +1700,29 @@ introduction.  The order may be somewhat different.
 \appendix
 \section{Appendix}
 \subsection{Gaussian Processes}
-Suppose that $f:\cx \to \R$ is a Gaussian process with mean $m$ and covariance kernel $C(\cdot,\cdot)$, i.e., $f \sim \GP(m,C)$.  For fixed $\{\bsx_i\}_{i=1}^n$, the joint probability density function of $\bigl(f(\bsx_i)\bigr)_{i=1}^n$ is $\varrho$, defined as 
+Suppose that $f:\calX \to \R$ is a Gaussian process with mean $m$ and covariance 
+kernel $C(\cdot,\cdot)$, i.e., $f \sim \GP(m,C)$.  For fixed $\{\bsx_i\}_{i=1}^n$, the joint 
+probability density function of $\bigl(f(\bsx_i)\bigr)_{i=1}^n$ is $\varrho$, defined as 
 \begin{equation*}
 \varrho (\bsy) = \frac{\exp\bigl(-\frac 12 (\bsy - m \bsone)^T \mC^{-1} (\bsy - m \bsone) \bigr)}{\sqrt{(2 \pi)^n \det(\mC)}}, \quad \bsy \in \R^n, \qquad \mC = \bigl(C(\bsx_i,\bsx_j)\bigr)_{i,j=1}^n.
 \end{equation*}
-Furthermore, the joint probability density function of $\bigl(\int_{\cx} f(\bsx) \, (\nu -\hnu)(\D \bsx), f(\bsx_1), \ldots, f(\bsx_n)\bigr)$ is $\tvarrho$, defined as 
+Furthermore, the joint probability density function of $\bigl(\int_{\calX} f(\bsx) \, (\nu 
+-\hnu)(\D \bsx), f(\bsx_1), \ldots, f(\bsx_n)\bigr)$ is $\tvarrho$, defined as 
 \begin{align*}
 \tvarrho (\tbsy) &= \frac{\exp\bigl(-\frac 12 (\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m 
 \tbsone) \bigr)}{\sqrt{(2 \pi)^{n+1} \det(\tmC)}}, \quad \tbsy = (y_i)_{i=0}^n \in \R^{n+1}, \\
  \tmC &= \begin{pmatrix} c_0 & \bsc^T \\ \bsc & \mC \end{pmatrix}, \qquad \tbsone = \bigl(1 - \bsone^T\bsw,  1, \ldots, 1 \bigr)^T, \\
- c_0 &= \int_{\cx^2} C(\bsx,\bst) \, (\nu -\hnu)(\D\bsx)(\nu -\hnu)(\D\bst) \\ 
- & = \int_{\cx^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst) - 2 \sum_{i=1}^n w_i \int_{\cx} C(\bsx_i,\bsx) \, \nu (\D\bsx) +  \sum_{i,j=1}^n w_i w_j C(\bsx_i,\bsx_j)\\
+ c_0 &= \int_{\calX^2} C(\bsx,\bst) \, (\nu -\hnu)(\D\bsx)(\nu -\hnu)(\D\bst) \\ 
+ & = \int_{\calX^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst) - 2 \sum_{i=1}^n w_i \int_{\calX} 
+ C(\bsx_i,\bsx) \, \nu (\D\bsx) +  \sum_{i,j=1}^n w_i w_j C(\bsx_i,\bsx_j)\\
  & = \tc_0 -2 \tbsc^T \bsw + \bsw^T \mC \bsw,\\
- & \qquad \qquad   \tc_0 = \int_{\cx^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst), \qquad 
- \tbsc = \biggl( \int_{\cx} C(\bsx_i,\bsx) \, \nu (\D\bsx)\biggr)_{i=1}^n \\
- \bsc &= \biggl( \int_{\cx} C(\bsx,\bsx_i) \, (\nu -\hnu)(\D \bsx)\biggr)_{i=1}^n 
+ & \qquad \qquad   \tc_0 = \int_{\calX^2} C(\bsx,\bst) \, \nu (\D\bsx)\nu(\D\bst), \qquad 
+ \tbsc = \biggl( \int_{\calX} C(\bsx_i,\bsx) \, \nu (\D\bsx)\biggr)_{i=1}^n \\
+ \bsc &= \biggl( \int_{\calX} C(\bsx,\bsx_i) \, (\nu -\hnu)(\D \bsx)\biggr)_{i=1}^n 
  =  \tbsc - \mC \bsw.
 \end{align*}
-Then the conditional probability density function of $\int_{\cx} f(\bsx) \,  (\nu -\hnu)(\D \bsx)$ given $\{f(\bsx_i )= y_i\}_{i=1}^n$ is $\rvarrho$, given by
+Then the conditional probability density function of $\int_{\calX} f(\bsx) \,  (\nu -\hnu)(\D 
+\bsx)$ given $\{f(\bsx_i )= y_i\}_{i=1}^n$ is $\rvarrho$, given by
 \begin{equation*}
 \rvarrho(y_0)  = \frac{\tvarrho(\tbsy)}{\varrho(\bsy)}  = \frac{\exp\bigl(-\frac 12 (\tbsy - m \tbsone)^T \tmC^{-1} (\tbsy - m \tbsone) + \frac 12 (\bsy - m \bsone)^T \mC^{-1} (\bsy - m \bsone)\bigr)}{\sqrt{2 \pi \det(\tmC)/\det(\mC)}}
 \end{equation*}
@@ -1772,7 +1758,8 @@ c_0 - \bsc^T\mC^{-1} \bsc & = \tc_0 -2 \tbsc^T \bsw + \bsw^T \mC \bsw - (\tbsc -
 
 So we may summarize as follows
 \begin{align*}
-\mu - \hmu \big \vert \{f(\bsx_i )= y_i\}_{i=1}^n &\sim \cn \bigl(m(1 - \mC^{-1}\tbsc) +  \bsy^T (\mC^{-1}\tbsc - \bsw), \tc_0 - \tbsc ^T \mC^{-1} \tbsc \bigr)
+\mu - \hmu \big \vert \{f(\bsx_i )= y_i\}_{i=1}^n &\sim \calN \bigl(m(1 - \mC^{-1}\tbsc) +  
+\bsy^T (\mC^{-1}\tbsc - \bsw), \tc_0 - \tbsc ^T \mC^{-1} \tbsc \bigr)
 \end{align*}
 
 \end{document}
