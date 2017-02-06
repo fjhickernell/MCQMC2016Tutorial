@@ -77,7 +77,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 	
-\newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error as a 
+\newcommand{\FJHLessonZero}{The trio identity decomposes the cubature error into a 
 	product of three factors: the variation of the integrand, the discrepancy of the 
 	sampling measure, and the confounding. This identity shows how the integrand and 
 	the sampling measure each contribute to the cubature error.  }	
@@ -90,7 +90,7 @@ deterministic or random.  }
 RKHS  has a simple, explicit form involving three factors. }	
 
 \newcommand{\FJHLessonFourteen}{The formula for the Bayesian discrepancy mimics 
-that for the deterministic discrepancy when $\calF$ is an RKHS. }	
+that for the deterministic discrepancy with $\calF$ an RKHS. }	
 
 \newcommand{\FJHLessonSeven}{Although it has traditionally been ignored, the 
 confounding helps explain why the cubature error may decay to zero 
@@ -133,10 +133,10 @@ different integrand, $f$?}
 \newcommand{\FJHLessonFour}{Well-chosen variable transformations may reduce 
 	cubature error by producing an integrand with a smaller variation than the original. }
 
-\newcommand{\FJHLessonEight}{The cubature error for high dimensional problems can often 
-be reduced by arranging for 
-the integrand to depend mainly on only several of the coordinates.  Moreover, those should 
-preferably be the lower indexed coordinates. }
+\newcommand{\FJHLessonEight}{The cubature error for high dimensional problems can 
+often be reduced by arranging for 
+the integrand to depend primarily on those coordinates with 
+lower indices. }
 
 \newcommand{\FJHLessonTwelve}{Common variance reduction techniques used for IID 
 Monte Carlo may also be applied for low discrepancy sampling measures. }
@@ -156,7 +156,8 @@ error tolerance?}
 Gaussian process, provides data-based probabilistic error bounds. }
 
 \newcommand{\FJHLessonEleven}{Automatic stopping criteria for (quasi-) Monte Carlo 
-simulations have been developed for integrands that are not too wild. }
+simulations have been developed for integrands that lie in a cone of functions are not too 
+wild. }
 
 
 \newcommand{\Cov}{\textup{cov}}
@@ -169,6 +170,9 @@ simulations have been developed for integrands that are not too wild. }
 
 \newlength{\FJHfigheight}
 \setlength{\FJHfigheight}{4 cm}
+\newcommand{\FJHFigDirectory}{ProgramsImages} %Where are the graphics
+%\newcommand{\FJHFigDirectory}{.}
+
 	
 \newtheorem{FJHLesson}{Lesson}
 \newcommand{\corr}{\textup{corr}}
@@ -220,7 +224,7 @@ on whether  the integrand is deterministic or Bayesian and whether the sampling
 measure is 
 deterministic or random.  Whereas the variation and the discrepancy are common in the 
 literature, the confounding is a factor deserving more attention.   Theory 
-and examples are used to show how the cuabature 
+and examples are used to show how the cubature 
 error may be reduced by employing the low discrepancy sampling that defines 
 quasi-Monte Carlo 
 methods.  The error may also be reduced  by rewriting the integral in terms of a different 
@@ -618,8 +622,8 @@ $\emptyset \subsetneq \fraku
 $L^2$-discrepancy. 
 \begin{figure}
 	\centering
-	\includegraphics[height = \FJHfigheight]{ProgramsImages/L2Kernel.eps}\qquad
-	\includegraphics[height = \FJHfigheight]{ProgramsImages/LocalDiscrep.eps}
+	\includegraphics[height = \FJHfigheight]{\FJHFigDirectory/L2Kernel.eps}\qquad
+	\includegraphics[height = \FJHfigheight]{\FJHFigDirectory/LocalDiscrep.eps}
 	\caption{The left depicts the reproducing kernel in \eqref{FJH:eq:L2Kdef} for the 
 	$L^2$-discrepancy 
 	for $d=1$, and $K(x,0.3)$ is the black piecewise linear curve.  The right depicts the 
@@ -691,19 +695,19 @@ dependence of the convergence rate is addressed later in Sec.\  \ref{FJH:sec:Tra
 
 \begin{figure}
 	\centering
-	\includegraphics[height=\FJHfigheight]{ProgramsImages/IIDPoints.eps} \qquad
-	\includegraphics[height=\FJHfigheight]{ProgramsImages/ShiftedLatticePoints.eps} \\
-	\includegraphics[height=\FJHfigheight]{ProgramsImages/USobolPoints.eps} \qquad
-	\includegraphics[height=\FJHfigheight]{ProgramsImages/SSobolPoints.eps}
+	\includegraphics[height=\FJHfigheight]{\FJHFigDirectory/IIDPoints.eps} \qquad
+	\includegraphics[height=\FJHfigheight]{\FJHFigDirectory/ShiftedLatticePoints.eps} \\
+	\includegraphics[height=\FJHfigheight]{\FJHFigDirectory/USobolPoints.eps} \qquad
+	\includegraphics[height=\FJHfigheight]{\FJHFigDirectory/SSobolPoints.eps}
 	\caption{An illustration of IID points and three examples of low discrepancy points 
 	\label{FJH:fig:plotsdiffpts}}
 \end{figure}
 
 \begin{figure}
 	\centering
-	  \includegraphics[height=\FJHfigheight]{ProgramsImages/UnwtL2Disclat.eps}   
+	  \includegraphics[height=\FJHfigheight]{\FJHFigDirectory/UnwtL2Disclat.eps}   
 	  \qquad 
-	  \includegraphics[height=\FJHfigheight]{ProgramsImages/UnwtL2Disc.eps} 
+	  \includegraphics[height=\FJHfigheight]{\FJHFigDirectory/UnwtL2Disc.eps} 
 	\caption{The root mean square $L^2$ discrepancies given by \eqref{FJH:eq:L2disc} 
 	for randomly shifted 
 	lattice sequence nodesets and randomly scrambled and shifted Sobol' sequences 
@@ -899,9 +903,9 @@ extending above the marker denotes the worst $90\%$ error.
 
 \begin{figure}
 	\centering
-	\includegraphics[height = \FJHfigheight]{ProgramsImages/MVNIIDUSobolSobol.eps} 
+	\includegraphics[height = \FJHfigheight]{\FJHFigDirectory/MVNIIDUSobolSobol.eps} 
 	\qquad 
-	\includegraphics[height = \FJHfigheight]{ProgramsImages/MVNSobolGenzAff.eps}
+	\includegraphics[height = \FJHfigheight]{\FJHFigDirectory/MVNSobolGenzAff.eps}
 	\caption{The error of an example of the multivariate Gaussian probability in 
 	\eqref{FJH:eq:MVN}.  The left side shows the result of Genz's transformation and 
 	different sampling measures.  The right side shows scrambled Sobol' sampling
@@ -931,7 +935,7 @@ randomized, $\disc^\Rn(\nu - \hnu) = \calO(n^{-1/2})$, as noted in Sec.\
 arbitrary choice of data sites produces a cubature error of $\calO(1)$ because 
 $\algn^\Rn(\nu - \hnu)$ is an atypically high $\calO(n^{1/2})$.  
 However, both plain unscrambled Sobol', as well as scrambled Sobol' sampling yield 
-atypically low $\algn^\Rn(\nu - \hnu)$ and correspondingly low cuabure errors.  For 
+atypically low $\algn^\Rn(\nu - \hnu)$ and correspondingly low cubature errors.  For 
 scrambled Sobol' sampling, the randomized discrepancy is $\disc^\Rn(\nu - \hnu) 
 =\calO(n^{-3/2 + 
 \epsilon})$, which is also the convergence rate for $\sqrt{\bbE_{\hnu}\bigl[\disc^\Dt(\nu - 
@@ -999,8 +1003,8 @@ $\Var^{\Dt}(f_{\textup{Genz}})$.
 
 \begin{figure}
 	\centering
-	\includegraphics[height = \FJHfigheight]{ProgramsImages/GenzFun.eps} \qquad 
-	\includegraphics[height = \FJHfigheight]{ProgramsImages/AffineFun.eps}
+	\includegraphics[height = \FJHfigheight]{\FJHFigDirectory/GenzFun.eps} \qquad 
+	\includegraphics[height = \FJHfigheight]{\FJHFigDirectory/AffineFun.eps}
 	\caption{Two different integrands that can be used to compute multivariate normal 
 	probabilities.  The left integrand is defined in \eqref{FJH:eq:Genz}, and the right 
 	integrand is defined in  \eqref{FJH:eq:aff}.
@@ -1055,10 +1059,10 @@ convergence rate.
 \begin{figure}
 	\centering
 		\includegraphics[height = \FJHfigheight] 
-		{ProgramsImages/AsianCallIIDUSobolSobol.eps} 
+		{\FJHFigDirectory/AsianCallIIDUSobolSobol.eps} 
 		\qquad
 		\includegraphics[height = \FJHfigheight] 
-		{ProgramsImages/AsianCallSobolPCADiff.eps}
+		{\FJHFigDirectory/AsianCallSobolPCADiff.eps}
 		\caption{Cubature error for the price of an Asian arithmetic mean option using 
 		different sampling 
 		measures. The left side uses the PCA decomposition and the right side contrasts 
@@ -1249,16 +1253,16 @@ the numerical computations.
 \begin{figure}
 	\centering
 		\includegraphics[height = \FJHfigheight] 
-{ProgramsImages/Matern.eps} 
+{\FJHFigDirectory/Matern.eps} 
 \\[2ex]
 \includegraphics[height = \FJHfigheight] 
-{ProgramsImages/MVNIIDUSobolSobolWtSobol.eps}
+{\FJHFigDirectory/MVNIIDUSobolSobolWtSobol.eps}
 \qquad
 \includegraphics[height = \FJHfigheight] 
-{ProgramsImages/MVNSobolWtSobolErrBd.eps}
+{\FJHFigDirectory/MVNSobolWtSobolErrBd.eps}
 \caption{The Mat\'ern kernel in \eqref{FJH:eq:Matern} (top), the cubature errors for the 
 multivariate normal 
-proabability example using Bayesian cubature (bottom left), and the Bayesian cubature 
+probability example using Bayesian cubature (bottom left), and the Bayesian cubature 
 error versus the probabilistic error bound in \eqref{FJH:eq:MLEBdTwo} (bottom right). 
 \label{FJH:fig:MVNcubMLE}}
 \end{figure}
@@ -1274,7 +1278,7 @@ parameters of the distribution.  The success rate of the probabilistic error bou
 example is high, but not as high as the theory would suggest.  One may ask whether a 
 larger candidate family of Gaussian processes needs to be considered, but then this 
 would increase 
-the time required for estimation of the parameters.  Even now, this example was carried 
+the time required for estimation of the parameters.  Here, this example was carried 
 out to only a rather modest sample size because of the $\calO(n^3)$ operations 
 required to compute each $\hmu$.  Efforts to reduce this operation count have been 
 made by Anitescu, Chen, and Stein \cite{AniCheSte16a}, Parker, Reich and Gotwalt 
@@ -1285,9 +1289,10 @@ holds promise that deserves further exploration.
 
 \section{A Deterministic Interpretation of Bayesian Cubature} 
 \label{FJH:sec:DetBayesInterp}
-The advantage of the Bayesian approach is that there is an upper bound on the cubature 
+The advantage of the Bayesian approach is that it produces an upper bound on the 
+cubature 
 error that depends on the function data obtained in the process of computing $\hmu$ 
-(see \eqref{FJH:eq:MLEBdTwo}), an not on an unknown norm of the integrand as is the 
+(see \eqref{FJH:eq:MLEBdTwo}), and not on an unknown norm of the integrand as is the 
 case with $\Var^{\Dt}(f)$.  This raises the question of whether one can interpret 
 Bayesian cubature in a deterministic way.  We have not seen such an interpretation in 
 the literature, but we provide one here.
@@ -1355,7 +1360,7 @@ which the minimum norm approximation has a smaller norm than that observed:
 The volume of this ellipsoid is proportional to $\sqrt{\det(\mathsf{K}_\bstheta) [ \bsy^T 
 	\mathsf{K}_\bstheta^{-1} \bsy]^n}$.  Choosing the value of $\bstheta$ that minimizes 
 	the volume of this ellipsoid is equivalent to the definition of $\bstheta_\MLE$ with 
-	$C_\bstheta$ replaced by $K_\bstheta$.  This provides a determnistic interpretation of 
+	$C_\bstheta$ replaced by $K_\bstheta$.  This provides a deterministic interpretation of 
 	the best choice of the shape parameter.
 	
 \begin{FJHLesson}
@@ -1364,8 +1369,8 @@ The volume of this ellipsoid is proportional to $\sqrt{\det(\mathsf{K}_\bstheta)
 
 \section{A Randomized Bayesian Trio Identity for Cubature Error}
 
-So far, we have presented three versions of the trio identity: a deterministic verion  in 
-Theorem \ref{FJH:thm:dtrio}, a randomzied version in Theorem \ref{FJH:thm:rtrio}, and a 
+So far, we have presented three versions of the trio identity: a deterministic version  in 
+Theorem \ref{FJH:thm:dtrio}, a randomized version in Theorem \ref{FJH:thm:rtrio}, and a 
 Bayesian 
 version in Theorem \ref{FJH:thm:btrio}.  The fourth and final version is a randomized 
 Bayesian trio identity.  The variation remains unchanged from the Bayesian definition in 
@@ -1414,7 +1419,8 @@ function.  For example, for IID sampling on $\calX$, $\bspsi(\bsx) = \bsDelta_\b
 where 
 $\bsDelta_\bsx$ is a random point distributed according to $\nu$ and depending on 
 $\bsx$.  For uniform random shifts modulo $\bsone$ on the unit cube, 
-which are applied to nodesets of lattices, $\bspsi(\bsx) = \bsx + \bsDelta \bmod \bsone$, 
+which are often applied to nodesets of lattices, $\bspsi(\bsx) = \bsx + \bsDelta \bmod 
+\bsone$, 
 where $\bsDelta \sim \calU[0,1]^d$.  For randomly scrambled digital sequences there 
 also 
 exists such a $\bspsi$, but its definition is more complex.  Furthermore, assume that for 
@@ -1425,7 +1431,7 @@ $\bigl(\bspsi(\bspsi(\bsx)), \bspsi(\bspsi(\bst)) \bigr)$ have the same probabil
 
 Define a filtered version of the covariance kernel as $\filC(\bsx,\bst) = \bbE_{\bspsi} 
 C\bigl(\bspsi(\bsx), \bspsi(\bst) \bigr)$.  Here the dependence on $\bstheta$ is 
-suppressed.  Then the terms that comprise randomized 
+suppressed.  Then the terms that comprise the randomized 
 Bayesian discrepancy are
 %\begin{subequations} \label{FJH:eq:filCvecmatdef}
 	\begin{gather*}
@@ -1470,7 +1476,7 @@ $\disc^\Ba(\nu - \hnu)$.  This equality extends to the randomized setting in tha
 \label{FJH:sec:Tract}
 The statements about the rates of decay of discrepancy and cubature error as the 
 sample size increases have so far ignored the dependence on the dimension of the 
-integration domain.  On the one hand, Fig.\ \ref{FJH:fig:AsianOpt} on the left shows a 
+integration domain.  Fig.\ \ref{FJH:fig:AsianOpt} on the left shows a 
 clear error 
 decay rate of $\calO(n^{-1 + \epsilon})$ for low discrepancy sampling for the option 
 pricing problem with dimension $12$.  However, Fig.\ \ref{FJH:fig:unwtdiscdiffpts} shows 
@@ -1487,15 +1493,16 @@ settings where the sample size required to attain achieve a desired error tolera
 grows polynomially with dimension (\emph{tractable} problems) or is independent of the 
 dimension (\emph{strongly tractable} problems). The three volume masterpiece by Novak 
 and Wo\'zniakowski \cite{NovWoz08a,NovWoz10a,NovWoz12a} and the references cited 
-therein contain necessary and sufficient conditions for tractability.  A parallel idea is that 
-of \emph{effective dimension}, introduced by Caflisch, Morokoff, 
+therein contain necessary and sufficient conditions for tractability.  The parallel idea
+of \emph{effective dimension} was introduced by Caflisch, Morokoff, 
 and Owen \cite{CafMorOwe97} and developed further in \cite{LiuOwe04a}.
 
 Here we provide a glimpse into those situations where the dimension of the problem does 
 not have an adverse effect on the convergence rate of the cubature error and the 
 discrepancy.  Let's generalize the reproducing kernel used to define the 
 $L^2$ discrepancy in \eqref{FJH:eq:L2Kdef}, as well as the corresponding 
-variation and the discrepancy for equi-weighted sampling measures:
+variation and the discrepancy for equi-weighted sampling measures by introducing 
+\emph{coordinate weights} $\gamma_1, \gamma_2, \ldots$:
 \begin{gather*} \label{FJH:eq:wtL2Kdef}
 K(\bsx,\bst) =\prod_{k = 1}^d [1 + \gamma_k^2\{1 - \max(x_k,t_k)\}], \\
 \Var^\Dt(f) = \Bigl \lVert \bigl (\gamma_{\fraku}^{-1}
@@ -1509,7 +1516,7 @@ x_{ik}^2)}{2} \right) \\ + \frac{1}{n^2}\sum_{i,j=1}^n \prod_{k = 1}^d [1 +
 \gamma_k^2( 1 - \max(x_{ik},x_{jk}))]
 \end{multline}
 For $\gamma_1 = \cdots = \gamma_d = 1$, we recover the situation in Sec.\ 
-\ref{FJH:sec:dettrio}, where the decay rate of the discrepancy was dimension dependent 
+\ref{FJH:sec:dettrio}, where the decay rate of the discrepancy is dimension dependent 
 for moderate sample sizes.  However if $\gamma_k^2 = 
 k^{-3}$, then the discrepancies for randomly shifted lattice nodesets and scrambled   
 Sobol' sequences show only a slight dimension dependence, as shown in Fig.\ 
@@ -1517,10 +1524,11 @@ Sobol' sequences show only a slight dimension dependence, as shown in Fig.\
 
 \begin{figure}
 	\centering
-	\includegraphics[height=\FJHfigheight]{ProgramsImages/WtL2Disclat.eps}   \qquad 
-	\includegraphics[height=\FJHfigheight]{ProgramsImages/WtL2Disc.eps} 
+	\includegraphics[height=\FJHfigheight]{\FJHFigDirectory/WtL2Disclat.eps}   \qquad 
+	\includegraphics[height=\FJHfigheight]{\FJHFigDirectory/WtL2Disc.eps} 
 	\caption{The root mean square weighted $L^2$ discrepancies given by 
-	\eqref{FJH:eq:wtL2disc} 
+	\eqref{FJH:eq:wtL2disc} with $\gamma_k^2 = 
+	k^{-3}$
 		for randomly shifted 
 		lattice sequence nodesets and randomly scrambled and shifted Sobol' sequences 
 		points.  A variety of dimensions are shown.
@@ -1528,29 +1536,29 @@ Sobol' sequences show only a slight dimension dependence, as shown in Fig.\
 \end{figure}
 
 When the weights $\gamma_k$ decay with $k$, the discrepancy depends \emph{less} 
-on how evenly the data sites appear in projections involving the higher coordinates.  On 
+on how evenly the data sites appear in projections involving the higher numbered 
+coordinates.  On 
 the other hand, the variation in this case gives 
 \emph{heavier} weight to the $\partial^{\fraku} f$ with 
-$\fraku$ involving large $k$.  For the cubature error decay to mirror the decay of the 
+$\fraku$ containing large $k$.  For the cubature error decay to mirror the decay of the 
 discrepancy shown in Fig.\ \ref{FJH:fig:wtdiscdiffpts}, the integrand must depend only 
 slightly on the coordinates with higher indices, so that the variation will be modest.
 
-\begin{FJHLesson}
+\begin{FJHLesson} \label{FJH:lesson:eight}
 	\FJHLessonEight
 \end{FJHLesson}
 
 \section{Rewriting the Integral}
 
-The same integral $\mu$ can often written in multiple ways by making variable 
+The same integral $\mu$ can usually be written in multiple ways by making variable 
 transformations.  This can be advantageous if a variable transformation reduces the 
 variation of the integrand.  An example of this is shown in Fig.\ \ref{FJH:fig:GenzAff} for 
 computing the multivariate normal probability in Sec.\ \ref{FJH:sec:Gauss}.  Another 
 example is shown in Fig.\ \ref{FJH:fig:AsianOpt} for computing option prices  in Sec.\ 
-\ref{FJH:sec:OptPrice}.  In that example, the preferred variable transformation causes 
-the integrand to depend less on the higher numbered coordinates, which fits the situation 
-described in the previous section where the discrepancy and cubature error become 
-nearly dimension-independent when the variance defined in terms of decreasing 
-coordinate weights also be comes dimension-independent.
+\ref{FJH:sec:OptPrice}.  In the option pricing example, the preferred variable 
+transformation causes 
+the integrand to depend less on the higher numbered coordinates, which fits the 
+recommendation in  Lesson \ref{FJH:lesson:eight}.
 
 Importance sampling is a way to improve the accuracy of IID Monte Carlo 
 methods, but it can also be useful for quasi-Monte Carlo methods, which are based on 
@@ -1558,12 +1566,12 @@ low discrepancy sequences.  Since low discrepancy sampling measures are essentia
 always generated to mimic the uniform measure on the unit cube, $[0,1]^d$, the final 
 integral \eqref{FJH:eq:INT} should essentially end up as $\mu = \int_{[0,1]^{d}} f(\bsx) \, 
 \D\bsx$.  Suppose that one starts with $\mu = \int_{\calX} g(\bst) \, 
-\D\bst$ and can identify an onto mapping $\bszeta: [0,1]^d \to \calX$ with finite
+\D\bst$ and can identify an onto mapping $\bszeta: [0,1]^d \to \calX$ with
 Jacobian $\det\bigl( \partial \bszeta/\partial \bsx\bigr)$.  Then these two expressions for 
 $\mu$ coincide provided that $f(\bsx) = g(\bszeta(\bsx)) \det\bigl( \partial 
 \bszeta/\partial \bsx\bigr)$.  Since the choice of $\bszeta$ is not unique, it should be 
-chosen to make $\Var^\Dt(f)$ as small as possible, which is more of an art than a 
-science.
+chosen to make $\Var^\Dt(f)$ as small as possible.  This is more of an art than a 
+science.  See \cite[Chap.\ 9]{Owe13a} for some recommendations.
 
 Control variates can be used to make the variation of the integrand smaller for 
 quasi-Monte Carlo methods as well as for IID Monte Carlo methods.  This involves 
@@ -1589,29 +1597,30 @@ $\calX^{(d)} $
 with 
 independent marginals $\nu_k$ on $\calX_k$, and $f_1, f_2, \ldots$ are approximations to 
 an 
-infinite-dimensional integrand.  If one approximates $\mu$ by $\hmu^{(d)}$, the 
+infinite-dimensional integrand.  One could approximate $\mu$ by $\hmu^{(d)}$, the 
 approximation 
 to 
-$\mu^{(d)}$, for some large enough $d$, then the computational cost is likely to be high 
+$\mu^{(d)}$, for some large $d$.  However, this would  require a high computational cost 
 because evaluating $f^{(d)}(\bsx)$ for a single $\bsx$ typically requires $\calO(d)$ 
-operations, 
-and so $\mu^{(d)}$ requires $\calO(nd)$ operations.
+operations.  So, $\mu^{(d)}$ would require $\calO(nd)$ operations.
 
 The better alternative is often to decompose the $f^{(d)}$ into pieces $f_\fraku$, for $\fraku 
 \subset 
 1 \!\!:\!\! d$, such that $f^{(d)} = \sum_{\fraku \subseteq 1:d} f_{\fraku}$ and the 
-$f_\fraku$ depend on $\fraku$ but not on $d$.  Multi-level Monte Carlo 
+$f_\fraku$ depend on $\fraku$ but \emph{not on $d$}.  Multi-level Monte Carlo 
 approximates \eqref{FJH:eq:InfINT} by
 \begin{equation*}
 \hmu := \hmu\bigl(f^{(d_1)}\bigr) + \hmu\bigl(f^{(d_2)} - f^{(d_1)}\bigr) + 
 \cdots + \hmu\bigl(f^{(d_L)} - f^{(d_{L-1})}\bigr), 
 \end{equation*}
-for some choice of $d_k$ with $d_1 < \cdots < d_L$.  This works well when $\Var\bigl(f^{(d_k)} 
-- f^{(d_{k-1} )} \bigr)$ decreases as $k$ increases and when $\mu - \mu^{(d_L)}$ is small \cite{
+for some choice of $d_l$ with $d_1 < \cdots < d_L$.  This works well when 
+$\Var\bigl(f^{(d_l)} 
+- f^{(d_{l-1} )} \bigr)$ decreases as $l$ increases and when $\mu - \mu^{(d_L)}$ is small 
+\cite{
 	Gil14a, Gil15a, Gil08b, Hei01a,  HicMGRitNiu09a, NiuHic09b}.  The computational cost of 
-	$\hmu\bigl(f^{(d_k)} - 
-f^{(d_{k-1})} \bigr)$ is $\calO(n_k d_k)$, and as $d_k$ increases, the sample size, $n_k$, 
-required for sufficient accuracy decreases, thus moderating the cost.   There is bias, since 
+	$\hmu\bigl(f^{(d_l)} - 
+f^{(d_{l-1})} \bigr)$ is $\calO(n_l d_l)$, and as $d_l$ increases, $n_l$ decreases, thus 
+moderating the cost.   There is bias, since 
 $\mu - 
 	\mu^{(d_L)}$ is not approximated at all, but this can be removed by a clever a randomized 
 	sampling method \cite{RheGly12a}.
@@ -1621,12 +1630,12 @@ The Multivariate Decomposition Method approximates \eqref{FJH:eq:InfINT} by
 \hmu = \hmu(f_{\fraku_1}) + \hmu(f_{\fraku_2}) + 
 		\cdots +\hmu(f_{\fraku_L}),
 \end{equation*} 
-where the $\fraku_k$ are the important sets of coordinate indices as judged by 
+where the $\fraku_l$ are the important sets of coordinate indices as judged by 
 $\Var^{\Dt}(f_\fraku)$ to ensure that $\mu - \sum_{\fraku \notin \{\fraku_1,   \ldots, 
 	\fraku_L\}} \mu(f_\fraku)$ is small \cite{Was13b}.  The computational cost of each 
-	$\hmu(f_{\fraku})$ 
-is $\calO(n_\fraku \lvert \fraku \rvert)$.  If the important sets have small cardinality, 
-$\lvert \fraku \rvert$, the computational cost is moderate.  
+	$\hmu(f_{\fraku_l})$ 
+is $\calO(n_l \lvert \fraku_l \rvert)$.  If the important sets have small cardinality, 
+$\lvert \fraku_l \rvert$, the computational cost is moderate.  
 
 \begin{FJHLesson}
 	\FJHLessonThirteen
@@ -1651,14 +1660,16 @@ error bounds.  These can be used to determine how large $n$ must be to satisfy
 \eqref{FJH:eq:errcrit} with high probability.
 
 For IID Monte Carlo the Central Limit Theorem may be used to construct an approximate 
-confidence interval for $\mu$, however, this approach relies on two conditions: i) believing 
-that the asymptotic limit has been reached, and ii) obtaining a reliable upper bound on the 
-standard deviation of the integrand from integrand values.  There have been recent 
-attempts to make this approach more robust \cite{BayEtal14a,HicEtal14a,Jia16a}.  An 
+confidence interval for $\mu$, however, this approach relies on believing that $n$ is 
+large enough to have i) reached the asymptotic limit, and ii) obtained a reliable upper 
+bound on the standard deviation in terms of a sample standard deviation.  There have 
+been recent to develop a approach more robust to fixed width confidence intervals 
+\cite{BayEtal14a,HicEtal14a,Jia16a}.  An 
 upper bound on the standard deviation may be computed by assuming an upper bound 
-on the kurtosis or estimating the kurtosis from data.  Knowing a bound on the kurtosis of the 
-integrand places the integrand in a cone of well behaved functions for which the standard 
-deviation can be confidently bounded in terms of the sample standard deviation.  A bound on 
+on the kurtosis or estimating the kurtosis from data.  The standard 
+deviation of an integrand can be confidently bounded in terms of the sample standard 
+deviation if it lies in the cone of functions for with a known bound on their kurtosis.
+A bound on 
 the kurtosis also allows one to use a Berry-Esseen inequality, which is a finite sample version 
 of  the Central Limit Theorem, to determine a sufficient sample size for computing the integral 
 with the desired accuracy.
@@ -1667,7 +1678,10 @@ For low discrepancy sampling, independent random replications may be used to est
 the error, but this approach lacks a rigorous justification.  An alternative proposed by the 
 author and his collaborators is to decompose the integrand into a Fourier series and 
 estimate the decay rate of the Fourier coefficients that contribute to the error
-\cite{HicJim16a,HicEtal17a,JimHic16a}.  
+\cite{HicJim16a,HicEtal17a,JimHic16a}.  This approach may also be used to satisfy 
+relative error criteria or error criteria involving a function of several integrals  
+\cite{HicEtal17a}.  Our automatic stopping criteria have been 
+implemented in the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.
 
 \begin{FJHLesson}
 	\FJHLessonEleven

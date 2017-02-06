@@ -27,6 +27,13 @@ Caflisch, R.E., Morokoff, W., Owen, A.: Valuation of mortgage backed securities
   using {B}rownian bridges to reduce effective dimension.
 \newblock J. Comput.\ Finance \textbf{1}, 27--46 (1997)
 
+\bibitem{ChoEtal15a}
+Choi, S.C.T., Ding, Y., \HickernellFJ, F.J., Jiang, L., {Jim\'enez Rugama},
+  {\relax Ll}.A., Tong, X., Zhang, Y., Zhou, X.: {GAIL}: {G}uaranteed
+  {A}utomatic {I}ntegration {L}ibrary (versions 1.0--2.1).
+\newblock MATLAB software ({2013--2015}).
+\newblock \urlprefix\url{http://gailgithub.github.io/GAIL_Dev/}
+
 \bibitem{CooNuy16a}
 Cools, R., Nuyens, D. (eds.): {M}onte {C}arlo and Quasi-{M}onte {C}arlo
   Methods: {MCQMC}, {L}euven, {B}elgium, {A}pril 2014, \emph{Springer
@@ -124,8 +131,8 @@ Heinrich, S., \HickernellFJ, F.J., Yue, R.X.: Optimal quadrature for {H}aar
 
 \bibitem{HicEtal17a}
 \HickernellFJ, F.J., {Jim\'enez Rugama}, {\relax Ll}.A., Li, D.: Adaptive
-  quasi-{M}onte {C}arlo methods (2016+).
-\newblock In preparation
+  quasi-{M}onte {C}arlo methods (2017+).
+\newblock Submitted for publication
 
 \bibitem{HicEtal03}
 \HickernellFJ, F.J., Lemieux, C., Owen, A.B.: Control variates for
@@ -236,6 +243,11 @@ Owen, A.B.: Scrambled net variance for integrals of smooth functions.
 Owen, A.B.: {M}onte {C}arlo extension of quasi-{M}onte {C}arlo.
 \newblock In: Winter Simulation Conference Proceedings, vol.~1, pp. 571--577
   (1998)
+
+\bibitem{Owe13a}
+Owen, A.B.: {M}onte {C}arlo theory, methods and examples.
+\newblock self (2016+).
+\newblock In preparation, http://statweb.stanford.edu/~owen/mc/
 
 \bibitem{ParEtal17a}
 Parker, R.J., Reigh, B.J., Gotwalt, C.M.: Approximate likelihood methods for
