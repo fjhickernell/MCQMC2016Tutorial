@@ -1,7 +1,7 @@
 classdef multivarGauss < handle
    %MULTIVARGAUSS is a class that computes the probability of a
    %mulitivariate Gaussian distribution over a hyperbox
-   
+
    properties
       a = -1.96 %left/lower endpoint vector of the hyperbox
       b = 1.96 %right/upper endpoint vector of the hyperbox
@@ -14,13 +14,17 @@ classdef multivarGauss < handle
       cubMeth = 'Sobol' %cubature method for calculating the integral
       transMeth = 'none' %transformation method
       errMeth = 'n' %method for determining that the error is met
+      bernPolyOrder = 2 %Bernoulli polynomial order for Gaussian cubature
+      ptransform = 'C1sin'; %Periodization transform for Bayesian cubature
+      fName = '' %function name for plot title
+      figSavePath  = '' % path to save the figure
    end
-   
+
    properties (SetAccess = private)
       CovProp %square root and determinant of covariance matrix
       f
    end
-   
+
    methods
       function obj = multivarGauss(varargin)
          if nargin > 0
@@ -52,37 +56,46 @@ classdef multivarGauss < handle
                if ~isempty(wh), obj.transMeth = varargin{wh+iStart}; end
                wh = find(strcmp(varargin(iStart:end),'errMeth'));
                if ~isempty(wh), obj.errMeth = varargin{wh+iStart}; end
-           end            
+
+               wh = find(strcmp(varargin(iStart:end),'BernPolyOrder'));
+               if ~isempty(wh), obj.bernPolyOrder = varargin{wh+iStart}; end
+               wh = find(strcmp(varargin(iStart:end),'ptransform'));
+               if ~isempty(wh), obj.ptransform = varargin{wh+iStart}; end
+               wh = find(strcmp(varargin(iStart:end),'fName'));
+               if ~isempty(wh), obj.fName = varargin{wh+iStart}; end
+               wh = find(strcmp(varargin(iStart:end),'figSavePath'));
+               if ~isempty(wh), obj.figSavePath = varargin{wh+iStart}; end
+           end
          end
          updateCovProp(obj)
       end
-      
+
       function set.Cov(obj,val)
          obj.Cov = val;
          updateCovProp(obj);
          updateInteg(obj);
       end
-      
+
        function set.a(obj,val)
          obj.a = val;
          updateInteg(obj);
        end
-       
+
        function set.b(obj,val)
          obj.b = val;
          updateInteg(obj);
        end
-       
+
        function set.mu(obj,val)
          obj.mu = val;
          updateInteg(obj);
        end
-       
+
        function set.intMeth(obj,val)
          obj.intMeth = val;
          updateInteg(obj);
        end
-             
+
         function set.transMeth(obj,val)
          obj.transMeth = val;
          updateInteg(obj);
@@ -92,7 +105,7 @@ classdef multivarGauss < handle
          obj.CovProp.detSig = det(obj.Cov);
          obj.CovProp.invSig = inv(obj.Cov);
       end
-      
+
       function updateInteg(obj)
          if strcmp(obj.intMeth,'aff')
             stretch = @(t) bsxfun(@plus,obj.a,bsxfun(@times,obj.b-obj.a,t));
@@ -115,15 +128,15 @@ classdef multivarGauss < handle
             error ('transMeth not recognized')
          end
       end
-      
+
       function fval = Genz(w,obj)
          dim = numel(obj.a);
          nn = size(w,1);
          am = obj.a - obj.mu;
          bm = obj.b - obj.mu;
-         a1 = am(1)/obj.CovProp.C(1,1); 
-         b1 = bm(1)/obj.CovProp.C(1,1); 
-         d = gail.stdnormcdf(a1); 
+         a1 = am(1)/obj.CovProp.C(1,1);
+         b1 = bm(1)/obj.CovProp.C(1,1);
+         d = gail.stdnormcdf(a1);
          e = gail.stdnormcdf(b1);
          fval = (e-d)*ones(nn,1);
          y = zeros(nn,dim-1);
@@ -137,7 +150,7 @@ classdef multivarGauss < handle
             fval = fval .* (e-d);
          end
       end
-      
+
       function [prob,out] = compProb(obj)
          redDim = strcmp(obj.intMeth,'Genz');
          if strcmp(obj.errMeth,'n')
@@ -185,7 +198,7 @@ classdef multivarGauss < handle
 %                     [K,kvec] = kernelFun(acosx(1:nii,:));
                      w = pinv(K)*kvec;
                      prob(ii) = w'*temp(1:nii);
-                  end               
+                  end
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end
@@ -198,7 +211,8 @@ classdef multivarGauss < handle
             elseif strcmp(obj.cubMeth,'LatticeMLE')
                if realDim >= 1
                   [prob,out] = cubMLE(obj.f,obj.n,[zeros(1,realDim); ones(1,realDim)],...
-                      'Lattice1','Fourier','Thompson');
+                      'Lattice1','Fourier','Thompson',obj.bernPolyOrder,obj.ptransform,...
+                      obj.fName,obj.figSavePath);
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end
@@ -223,7 +237,7 @@ classdef multivarGauss < handle
             end
           end
       end
-      
+
       function val = sameProblem(obj1,obj2)
          val = all(obj1.a == obj2.a) && ...
             all(obj1.b == obj2.b) && ...
@@ -235,10 +249,10 @@ classdef multivarGauss < handle
             strcmp(obj1.intMeth,obj2.intMeth) && ...
             strcmp(obj1.cubMeth,obj2.cubMeth) && ...
             strcmp(obj1.transMeth,obj2.transMeth) && ...
-            strcmp(obj1.errMeth,obj2.errMeth); 
+            strcmp(obj1.errMeth,obj2.errMeth);
    end
- 
-               
+
+
    end
-   
+
 end
