@@ -170,10 +170,20 @@ if compMLESobol
 end
 
 %% Try MLE Bayseian cubature with Fourier kernel and Rank1 Lattice points
-nvecMLE = 2.^(7:11)';
+d=2; BernPolyOrder=2; ptransform='C1sin';
+fName='MVN';
+figSavePath='/home/jagadees/Dropbox/writeup/figures/jan3rdweek/';
+fullPath = strcat(figSavePath,'/',fName,'/',ptransform,'/');
+if exist(fullPath,'dir')==false
+    mkdir(fullPath);
+end
+
+nvecMLE = 2.^(8:20)';
 nnMLE = numel(nvecMLE);
 MVNProbMLELatticeGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
-   'errMeth','n','cubMeth','LatticeMLE','intMeth','Genz');
+   'errMeth','n','cubMeth','LatticeMLE','intMeth','Genz', ...
+    'BernPolyOrder',BernPolyOrder,'ptransform',ptransform, ...
+    'fName',fName,'figSavePath',fullPath);
 compMLELattice = true;
 if exist('MVNProbExampleData.mat','file') % force to compute all the time
    if sameProblem(MVNProbMLELatticeGn,MVNProbMLELatticeGnArch)
@@ -186,6 +196,7 @@ if compMLELattice
    tic
    muMVNProbMLELatticeGn = zeros(nnMLE,nRep);
    errbdvecMBVProbMLELatticeGn(nnMLE,nRep) = 0;
+   nRep = 1; % Lattice points - deterministic, no need to repeat
    parfor i = 1:nRep
       if i/1 == floor(i/1), i, end
       tic
