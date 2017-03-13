@@ -37,10 +37,20 @@ elseif strcmp(whKer,'Fourier')
 	theta = shape;
 	kvec = ones(nx,1);
 	k0 = 1.0;
-	constMult = -theta^r*(-1)^(r/2)*(2*pi)^r/factorial(r);
-    bernX = BernPolynX*constMult;
+	%constMult = -theta.^r*(-1)^(r/2)*(2*pi)^r/factorial(r);
+	constMult = -(-1)^(r/2)*(2*pi)^r/factorial(r);
+    bernX = theta.^(r)*BernPolynX;
 
-    cvec = prod((1.0+bernX),2);
+    cvec = prod((1.0+constMult.*bernX),2);
+    %cvec = (1.0+constMult.*sqrt(sum(bernX.*bernX, 2)));
+    
+    if false %d==3
+        cvec = 1.0 + constMult*sum(bernX,2) + ...
+            constMult^2*(prod(bernX(:,[1 2]),2) + prod(bernX(:,[1 3]),2) + prod(bernX(:,[2 3]),2)) + ...
+            constMult^3*prod(bernX,2);
+    end
+    %cvec = exp(sum(log(1.0+bernX),2));
+    
     % no need to explicitly create the matrix
     % circulant matrix can be recovered with just one vector
     K = cvec';

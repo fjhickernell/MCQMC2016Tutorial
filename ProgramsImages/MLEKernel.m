@@ -1,4 +1,4 @@
-function [val] = MLEKernel(shape,x,y,whKer,domain,BernPolynX,BernPolynOrder)
+function [val,eigval,ffy] = MLEKernel(shape,x,y,whKer,domain,BernPolynX,BernPolynOrder)
 % The function MLEKERNEL is the loss function to be minimized to obtain the
 % shape parameter |shape| that defines the kernel.  It uses data |(x,y)|
 % and the function |kernelFun|.
@@ -21,7 +21,7 @@ if strcmp(whKer,'Fourier')
     
     ffy = abs(fft(y-1))'/(nx);   % this is done to improve accuracy, to reduce zero values
     ffy(1) = 1;
-    temp = ((ffy(eigval~=0).^2)./abs(eigval(eigval~=0)));
+    temp = (ffy(eigval~=0).^2)./abs(eigval(eigval~=0));
     val2 = log(sum(temp));
     
     val = val1 + val2;
