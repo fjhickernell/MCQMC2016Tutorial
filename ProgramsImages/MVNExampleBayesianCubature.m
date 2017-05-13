@@ -1,6 +1,6 @@
 %% Generate Examples of Multivariate Normal Probabilities
 
-function [muhat,aMLE,err,out] = MVNExampleBayesianCubature(d,BernPolyOrder,ptransform)
+function [muhat,aMLE,err,out] = MVNExampleBayesianCubature(d,BernPolyOrder,ptransform,figSavePath)
 
 %gail.InitializeWorkspaceDisplay %clean up
 %format long
@@ -41,7 +41,11 @@ if exist('MVNProbExampleAllData.mat','file')
 end
 
 fName = 'MVN' ;
-figSavePath = '/home/jagadees/MyWriteup/Apr1stweek/';
+%figSavePath = '/home/jagadees/MyWriteup/Apr1stweek/';
+fullPath = strcat(figSavePath,'/',fName,'/',ptransform,'/');
+if exist(fullPath,'dir')==false
+    mkdir(fullPath);
+end
 
 %% First compute a high accuracy answer
 nGold = 2^27;
@@ -71,17 +75,53 @@ if compGold
 end
 disp(['mu  = ' num2str(muBest,15) ' +/- ' num2str(2*std(muBestvec),10)])
 
+if 0
+    %% Try MLE Bayseian cubature with Fourier kernel and Rank1 Lattice points
+    %BernPolyOrder = 2;
+    %ptransform = 'C1sin';
+    figSavePath = '/home/jagadees/MyWriteup/May1stweek/';
+    MVNProbMLELatticeGg = multivarGauss('a',a,'b',b,'Cov',Cov, ...
+       'errMeth','g','absTol',absTol,'relTol',relTol,...
+       'cubMeth','MLELattice','intMeth','Genz',...
+       'BernPolyOrder',BernPolyOrder,'ptransform',ptransform, ...
+        'fName',fName,'figSavePath',figSavePath);
+    compMLELattice = true;
+    if exist(dataFileName,'file') % force to compute all the time
+       if sameProblem(MVNProbMLELatticeGg,MVNProbMLELatticeGgArch)
+          disp('Already have MLE Fourier Lattice answer')
+          compMLELattice = false;
+       end
+    end
 
-%% Try MLE Bayseian cubature with Fourier kernel and Rank1 Lattice points
-fullPath = strcat(figSavePath,'/',fName,'/',ptransform,'/');
-if exist(fullPath,'dir')==false
-    mkdir(fullPath);
+    if true
+       %datetime
+       tic
+       muMVNProbMLELatticeGg = zeros(nRep,1);
+       MLELatticeGgNrequired = zeros(nRep,1);
+       MLELatticeGgTime = zeros(nRep,1);
+       errbdvecMBVProbMLELatticeGg(nnMLE,nRep) = 0;
+       for i = 1:nRep
+          gail.TakeNote(i,10)
+          [muMVNProbMLELatticeGg(:,i), out] = compProb(MVNProbMLELatticeGg); 
+          errbdvecMBVProbMLELatticeGg(:,i) = out.ErrBd;
+          MLELatticeGgNrequired(i) = out.n;
+          MLELatticeGgTime(i) = out.time;
+       end
+       errvecMVNProbMLELatticeGg = abs(muBest - muMVNProbMLELatticeGg); % error
+       errmedMVNProbMLELatticeGg = median(errvecMVNProbMLELatticeGg);
+       errtopMVNProbMLELatticeGg = quantile(errvecMVNProbMLELatticeGg,1-alpha);
+       errSucceedMLELatticeGg = mean(errvecMVNProbSobolGg <= max(absTol,relTol*abs(muBest)));
+       topNMLELatticeGg = quantile(MLELatticeGgNrequired,1-alpha);
+       topTimeMLELatticeGg = quantile(MLELatticeGgTime,1-alpha);
+       toc
+       datetime
+    end
 end
-
-nvecMLE = 2.^(8:20)';
+%% Try MLE Bayseian cubature with Fourier kernel and Rank1 Lattice points
+nvecMLE = 2.^(10:23)';
 nnMLE = numel(nvecMLE);
 MVNProbMLELatticeGn = multivarGauss('a',a,'b',b,'Cov',Cov,'n',nvecMLE, ...
-    'errMeth','n','cubMeth','LatticeMLE','intMeth','Genz', ...
+    'errMeth','n','cubMeth','MLELattice','intMeth','Genz', ...
     'BernPolyOrder',BernPolyOrder,'ptransform',ptransform, ...
     'fName',fName,'figSavePath',fullPath);
 compMLELattice = true;
@@ -89,24 +129,28 @@ compMLELattice = true;
 if compMLELattice
     datetime
     tic
-    nRep = 1; % Lattice points - deterministic, no need to repeat
+    nRep = 20; % reduced it
     muMVNProbMLELatticeGn = zeros(nnMLE,nRep);
     errbdvecMBVProbMLELatticeGn(nnMLE,nRep) = 0;
     for i = 1:nRep
         if i/1 == floor(i/1), i, end
         tic
-        [muMVNProbMLELatticeGn(:,i), out] = compProb(MVNProbMLELatticeGn);
+        [~, out] = compProb(MVNProbMLELatticeGn);
+        muMVNProbMLELatticeGn(:,i) = out.muhatAll;
         toc
-        errbdvecMBVProbMLELatticeGn(:,i) = out.ErrBd;
+        errbdvecMBVProbMLELatticeGn(:,i) = out.ErrBdAll;
     end
+    
+    % loglog(2.^(out.mvec) , (abs(muBest - muMVNProbMLELatticeGn(:,1:i))), 2.^(out.mvec) , (abs(errbdvecMBVProbMLELatticeGn(:,1:i)))); axis tight
+    
     errvecMVNProbMLELatticeGn = abs(muBest - muMVNProbMLELatticeGn);
-    errCubMLE = errvecMVNProbMLELatticeGn;
-    errmedMVNProbMLELatticeGn = median(errvecMVNProbMLELatticeGn,2);
+    errCubMLE = median(errvecMVNProbMLELatticeGn,2);
     errtopMVNProbMLELatticeGn = quantile(errvecMVNProbMLELatticeGn,1-alpha,2);
+    ErrBd = quantile(errbdvecMBVProbMLELatticeGn,1-alpha,2);
     toc
     datetime
     
-    plotCubatureError(d, nvecMLE, errCubMLE, out.ErrBd, fName, BernPolyOrder, out.ptransform, fullPath)
+    plotCubatureError(d, nvecMLE, errCubMLE, ErrBd, fName, BernPolyOrder, ptransform, fullPath)
     fprintf('done');
 end
 

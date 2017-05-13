@@ -8,7 +8,7 @@
 % \exp(-\lVert \boldsymbol{x} \rVert^2) \, \mathrm{d} \boldsymbol{x},
 % \qquad d = 1, 2, \ldots. \]
 
-function [muhat,aMLE,err,out] = KeisterCubatureExampleBayesian(dim,BernPolyOrder,ptransform)
+function [muhat,aMLE,err,out] = KeisterCubatureExampleBayesian(dim,BernPolyOrder,ptransform,figSavePath)
 
 normsqd = @(t) sum(t.*t,2); %squared l_2 norm of t
 
@@ -17,12 +17,12 @@ nvec = 2.^(10:20);
 
 replaceZeros = @(t) (t+(t==0)*eps); % to avoid getting infinity, NaN
 yinv = @(t)(erfcinv( replaceZeros(abs(t)) ));  %using erfcinv is more accurate than erfinv with -1
-fKeister = @(t,dim) cos( sqrt( normsqd(yinv(t)) )) *(sqrt(pi)/2)^dim;
+fKeister = @(t,dim) cos( sqrt( normsqd(yinv(t)) )) *(sqrt(pi))^dim;
 
 
 %% Bayesian Cubature
 fName='Keister';
-figSavePath = '/home/jagadees/MyWriteup/Apr1stweek/';
+%figSavePath = '/home/jagadees/MyWriteup/Apr1stweek/';
 whSample = 'Lattice1';
 %whKer = 'Mat1';
 whKer = 'Fourier';
@@ -34,14 +34,27 @@ if exist(fullPath,'dir')==false
     mkdir(fullPath);
 end
 
-[muhat,out] = cubMLE(f1,nvec,domain, whSample,whKer,powerFuncMethod,BernPolyOrder,ptransform,fName,fullPath);
+if 0
+    [muhat,out] = cubMLE(f1,nvec,domain, whSample,whKer,powerFuncMethod,BernPolyOrder,ptransform,fName,fullPath);
+else
+    absTol = 1E-15;
+    relTol = 0;
+    order = BernPolyOrder;
+    regression = true;
+    tic
+    [muhatFinal,out]=cubMLELattice(f1,dim,absTol,relTol,order,ptransform,regression,figSavePath,fName);
+    toc
+    nvec = 2.^out.mvec;
+    muhat = out.muhatAll;
+    ErrBd = out.ErrBdAll;
+end
 
 
 %% plot error
 exactInteg = Keistertrue(dim);
 errCubMLE = abs(exactInteg - muhat)
 
-plotCubatureError(dim, nvec, errCubMLE, out.ErrBd, fName, BernPolyOrder, out.ptransform, fullPath)
+plotCubatureError(dim, nvec, errCubMLE, ErrBd, fName, BernPolyOrder, ptransform, fullPath)
 
 
 fprintf('Done')

@@ -1,6 +1,7 @@
 
 function plotCubatureError(dim, nvec, errCubMLE, ErrBound, fName, BernPolyOrder, ptransform, fullPath)
-    hFigErr = figure(21); MATLABYellow = [0.9290, 0.6940, 0.1250];
+    hFigErr = figure(); %21
+    MATLABYellow = [0.9290, 0.6940, 0.1250];
     set(hFigErr, 'units', 'inches', 'Position', [4 4 5.5 5.5])
     %set(gca,'position',[0 0 1 1],'units','normalized')
     
@@ -63,7 +64,16 @@ function plotCubatureError(dim, nvec, errCubMLE, ErrBound, fName, BernPolyOrder,
         ylabel('Error, \(|\mu - \hat{\mu}|\)')
     end
     
-    axis tight
+    ylim([1E-18, 1E-1])
+    yticks(10.^[-18:5:-2])
+    xlim([2^10, 2^23])
+    xticks([2^10 2^15 2^20 2^23])
+    ytickangle(90)
+    
+    
+    %set(gca, 'xscale', 'log') % scale x-axis logarithmic
+    xticklabels({'\(2^{10}\)','\(2^{15}\)','\(2^{20}\)','\(2^{23}\)'})
+    
     set(gca,'LooseInset',get(gca,'TightInset'));
     saveas(hFigErr, sprintf('%s%s Error d_%d bernoulli_%d Period_%s.png', ...
         fullPath, fName, dim, BernPolyOrder, ptransform))

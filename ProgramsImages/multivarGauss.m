@@ -153,10 +153,10 @@ classdef multivarGauss < handle
 
       function [prob,out] = compProb(obj)
          redDim = strcmp(obj.intMeth,'Genz');
+         dim = numel(obj.a);
+         realDim = dim - redDim;
+         out = [];
          if strcmp(obj.errMeth,'n')
-            out = [];
-            dim = numel(obj.a);
-            realDim = dim - redDim;
             nmax = max(obj.n);
             if strcmp(obj.cubMeth,'IID')
                if realDim >= 1
@@ -208,11 +208,15 @@ classdef multivarGauss < handle
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end
-            elseif strcmp(obj.cubMeth,'LatticeMLE')
+            elseif strcmp(obj.cubMeth,'MLELattice')
                if realDim >= 1
-                  [prob,out] = cubMLE(obj.f,obj.n,[zeros(1,realDim); ones(1,realDim)],...
-                      'Lattice1','Fourier','Thompson',obj.bernPolyOrder,obj.ptransform,...
-                      obj.fName,obj.figSavePath);
+                  %[prob,out] = cubMLE(obj.f,obj.n,[zeros(1,realDim); ones(1,realDim)],...
+                  %    'Lattice1','Fourier','Thompson',obj.bernPolyOrder,obj.ptransform,...
+                  %    obj.fName,obj.figSavePath);
+                  testAll=true;
+                  [prob, out] = cubMLELattice(obj.f, ...
+                  realDim,obj.absTol,obj.relTol,obj.bernPolyOrder,obj.ptransform, ...
+                  testAll,obj.figSavePath,obj.fName);
                else
                   prob = obj.f(0)*ones(size(obj.n));
                end
@@ -228,12 +232,17 @@ classdef multivarGauss < handle
             end
          elseif strcmp(obj.errMeth,'g')
             if strcmp(obj.cubMeth,'IID')
-               [prob, out] = meanMC_g(@(m) obj.f(rand(m,1)), ...
+               [prob, out] = meanMC_g(@(m) obj.f(rand(m,realDim)), ...
                   obj.absTol,obj.relTol);
             elseif strcmp(obj.cubMeth,'Sobol')
-               dim = numel(obj.a);
-               [prob, out] = cubSobol_g(obj.f,[zeros(1,dim); ones(1,dim)], ...
+               [prob, out] = cubSobol_g(obj.f, ...
+                  [zeros(1,realDim); ones(1,realDim)], ...
                   'uniform',obj.absTol,obj.relTol);
+            elseif strcmp(obj.cubMeth,'MLELattice')
+               testAll=false;
+               [prob, out] = cubMLELattice(obj.f, ...
+                  realDim,obj.absTol,obj.relTol,obj.bernPolyOrder,obj.ptransform, ...
+                  testAll,obj.figSavePath,obj.fName);
             end
           end
       end
